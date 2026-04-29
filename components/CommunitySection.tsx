@@ -56,7 +56,9 @@ export default function CommunitySection() {
           Was hilft dir, fokussiert zu bleiben? Schreib einen kurzen Erfahrungsbericht, er erscheint sofort oben in der Liste.
         </p>
 
+
         <div className="mt-10 grid grid-cols-[1fr_1.4fr] items-start gap-8">
+
           <form onSubmit={send} className="rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB] p-6">
             <label className="mb-2 block font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
               Dein Beitrag
