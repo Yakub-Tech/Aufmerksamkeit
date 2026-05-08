@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Quiz from "./Quiz";
-import AttentionMechanics from "./AttentionMechanics";
+import DistractionPopup from "./DistractionPopup";
 
 type TestResult = {
   answered: number;
@@ -14,123 +14,140 @@ type AttentionTestSectionProps = {
   onResultChange: (r: TestResult) => void;
 };
 
+type PopupStyle = {
+  bottom: string;
+  right: string;
+};
+
+type PopupItem = {
+  id: string;
+  question: string;
+  answer: string;
+  style: PopupStyle;
+};
+
 const QUESTIONS = [
   {
-    text: "Wie oft greifst du pro Stunde unbewusst zum Handy?",
+    text: "Stell dir vor, du sitzt gerade konzentriert an einer Aufgabe. Kein Klingeln, keine Benachrichtigung. Trotzdem hast du das Gefühl, dass irgendwas auf dich wartet. Wie oft greifst du in so einer Stunde einfach so zum Handy?",
     options: ["Seltener als einmal", "Zwei- bis fünfmal", "Ich habe längst aufgehört zu zählen"],
-    funFacts: [
+    popups: [
       {
-        title: "Fun Fact 1",
-        body: "Die durchschnittliche Person entsperrt ihr Handy über 58-mal pro Tag, meist ohne konkreten Anlass.",
+        question: "Wie oft entsperrt jemand sein Handy im Schnitt täglich?",
+        answer: "Mehr als 58 Mal. Meistens ohne konkreten Anlass.",
       },
       {
-        title: "Fun Fact 2",
-        body: "Schon das reine Sichtbarsein des Handys auf dem Tisch senkt messbar die Konzentration.",
+        question: "Sinkt die Konzentration, wenn das Handy auf dem Tisch liegt, selbst wenn es stumm ist?",
+        answer: "Ja. Allein seine Anwesenheit reicht aus, um die Denkleistung messbar zu senken.",
       },
     ],
   },
   {
-    text: "Wie lange kannst du am Stück lesen, ohne auf dein Handy zu schauen?",
+    text: "Du nimmst dir vor, in Ruhe zu lesen. Kein Social Media, kein Multitasking, einfach nur Text und du. Wie lange schaffst du es wirklich am Stück, bevor dein Blick zum Handy wandert?",
     options: ["Über 30 Minuten", "10 bis 20 Minuten", "Keine 5 Minuten"],
-    funFacts: [
+    popups: [
       {
-        title: "Fun Fact 1",
-        body: "Nach einer Unterbrechung braucht das Gehirn rund 23 Minuten, um zurück in den vorherigen Fokus zu finden.",
+        question: "Wie lange braucht das Gehirn nach einer Unterbrechung, um wieder richtig fokussiert zu sein?",
+        answer: "Durchschnittlich 23 Minuten, zeigt eine Studie der University of California.",
       },
       {
-        title: "Fun Fact 2",
-        body: "Seit dem Jahr 2000 ist die durchschnittliche Aufmerksamkeitsspanne bei Bildschirmarbeit deutlich gesunken.",
+        question: "Hat sich die Fähigkeit, sich längere Zeit zu konzentrieren, in den letzten Jahren verändert?",
+        answer: "Bei vielen Menschen schon. Besonders bei Bildschirmarbeit fällt es schwerer, wirklich dranzubleiben.",
       },
     ],
   },
   {
-    text: "Was machst du, wenn dir beim Arbeiten langweilig wird?",
+    text: "Du sitzt an etwas, das du erledigen musst, aber es macht dir gerade keinen Spaß. Die Aufgabe liegt vor dir, du kommst nicht richtig rein. Was passiert in diesem Moment bei dir?",
     options: ["Ich bleibe dran und atme durch", "Ich mache eine kurze, bewusste Pause", "Ich öffne sofort eine App"],
-    funFacts: [
+    popups: [
       {
-        title: "Fun Fact 1",
-        body: "Langeweile ist ein wichtiger Zustand für kreatives Denken. Sie wird aber oft sofort weggescrollt.",
+        question: "Was macht das Gehirn, wenn man Langeweile aushält, anstatt sofort wegzuschalten?",
+        answer: "Es aktiviert kreative Netzwerke. Wer kurz aushält, kommt danach oft freier weiter.",
       },
       {
-        title: "Fun Fact 2",
-        body: "Kurzer Fokus-Wechsel wirkt wie eine Belohnung im Gehirn, ähnlich wie Zucker oder Koffein.",
+        question: "Warum fühlt sich das schnelle Wechseln zu einer anderen App so befriedigend an?",
+        answer: "Das Gehirn wertet es als kleine Belohnung. Ähnlich wie ein Snack, der aber nicht wirklich satt macht.",
       },
     ],
   },
   {
-    text: "Wie fühlst du dich nach längerem Scrollen?",
+    text: "Du scrollst. Nicht weil du etwas Bestimmtes suchst, sondern weil du einfach scrollst. Reels, Posts, Stories, immer weiter. Irgendwann hörst du auf. Wie geht es dir dann?",
     options: ["Entspannt und informiert", "Neutral, weder gut noch schlecht", "Leer, gereizt oder unzufrieden"],
-    funFacts: [
+    popups: [
       {
-        title: "Fun Fact 1",
-        body: "Endloses Scrollen löst im Gehirn einen ähnlichen Mechanismus aus wie ein Spielautomat.",
+        question: "Warum ist endloses Scrollen so schwer zu stoppen?",
+        answer: "Der Mechanismus ähnelt einem Spielautomaten. Man weiß nie, was als Nächstes kommt, und genau das hält einen beim Scrollen.",
       },
       {
-        title: "Fun Fact 2",
-        body: "Viele Menschen berichten nach längerer Social-Media-Nutzung von leichter Gereiztheit, ohne den Grund zu kennen.",
-      },
-    ],
-  },
-  {
-    text: "Wie oft schaust du direkt nach dem Aufwachen aufs Handy?",
-    options: ["Fast nie", "Manchmal, nach dem Frühstück", "Als Erstes, noch im Bett"],
-    funFacts: [
-      {
-        title: "Fun Fact 1",
-        body: "Die ersten Minuten nach dem Aufwachen prägen den Ton des ganzen Tages, auch digital.",
-      },
-      {
-        title: "Fun Fact 2",
-        body: "Wer morgens sofort Social Media öffnet, berichtet häufiger von innerer Unruhe im Tagesverlauf.",
+        question: "Wie viele Menschen berichten nach längerem Scrollen von schlechter Stimmung?",
+        answer: "Ein großer Teil. Viele sind danach gereizt oder fühlen sich leer, ohne genau zu wissen warum.",
       },
     ],
   },
   {
-    text: "Wie gut kannst du ein Gespräch führen, ohne ans Handy zu denken?",
-    options: ["Problemlos, ich vergesse es komplett", "Manchmal schweifen meine Gedanken ab", "Ich checke es zwischendurch"],
-    funFacts: [
+    text: "Der Wecker klingelt. Die Augen gehen auf, der Tag beginnt. Du liegst noch im Bett und der Morgen ist noch völlig offen. Was machst du als Erstes?",
+    options: ["Fast nie aufs Handy", "Manchmal, nach dem Frühstück", "Als Erstes, noch im Bett"],
+    popups: [
       {
-        title: "Fun Fact 1",
-        body: "Ein stummgeschaltetes Handy auf dem Tisch reicht, damit Gespräche als weniger verbunden empfunden werden.",
+        question: "Warum ist der Morgen eine besonders empfindliche Zeit für digitale Gewohnheiten?",
+        answer: "Die ersten Minuten nach dem Aufwachen beeinflussen, wie das Gehirn den Rest des Tages wahrnimmt.",
       },
       {
-        title: "Fun Fact 2",
-        body: "Der Begriff Phubbing beschreibt das Ignorieren von Menschen zugunsten des Handys.",
+        question: "Was berichten Menschen häufiger, die morgens als Erstes Social Media öffnen?",
+        answer: "Sie fühlen sich im Tagesverlauf öfter unruhig und haben mehr Schwierigkeiten, sich zu konzentrieren.",
       },
     ],
   },
   {
-    text: "Wie oft öffnest du eine App, obwohl eine andere gerade offen ist?",
+    text: "Du sitzt mit jemandem zusammen, ein Gespräch läuft, es gibt Dinge zu erzählen. Dein Handy liegt dabei irgendwo in der Nähe. Wie präsent bist du wirklich in diesem Gespräch?",
+    options: ["Voll dabei, ich vergesse es komplett", "Manchmal schweifen meine Gedanken ab", "Ich checke es zwischendurch"],
+    popups: [
+      {
+        question: "Was verändert sich in einem Gespräch, wenn das Handy nur auf dem Tisch liegt?",
+        answer: "Das Gespräch wird von beiden Seiten als weniger verbunden erlebt, selbst wenn niemand draufschaut.",
+      },
+      {
+        question: "Wie nennt man das Phänomen, Menschen im Gespräch zugunsten des Handys zu ignorieren?",
+        answer: "Phubbing, aus phone und snubbing. Der Begriff ist in der Forschung inzwischen fest etabliert.",
+      },
+    ],
+  },
+  {
+    text: "Du arbeitest an etwas, aber dann öffnest du einfach eine andere App. Nicht weil du müsstest, sondern weil es einfach passiert. Kurz danach bist du schon woanders. Wie oft passiert dir das in einer normalen Arbeitsstunde?",
     options: ["Kaum, ich bleibe bei einer Sache", "Gelegentlich, wenn mich etwas stört", "Dauernd, ich wechsle ständig"],
-    funFacts: [
+    popups: [
       {
-        title: "Fun Fact 1",
-        body: "Echtes Multitasking existiert nicht. Das Gehirn wechselt, statt parallel zu arbeiten.",
+        question: "Kann das Gehirn wirklich mehrere Dinge gleichzeitig tun?",
+        answer: "Nein. Was wie Multitasking aussieht, ist schnelles Umschalten. Das Gehirn arbeitet nie wirklich parallel.",
       },
       {
-        title: "Fun Fact 2",
-        body: "Jeder Task-Wechsel verbraucht kognitive Energie und erhöht die Fehlerquote messbar.",
+        question: "Was kostet jeder Wechsel zwischen Aufgaben?",
+        answer: "Kognitive Energie und Zeit. Nach jedem Wechsel steigt die Fehlerquote messbar an.",
       },
     ],
   },
   {
-    text: "Was passiert, wenn du dein Handy zwei Stunden weglegst?",
+    text: "Jemand sagt dir, du sollst dein Handy für zwei Stunden weglegen. Kein Notfall steht bevor, du verpasst nichts Wichtiges. Einfach zwei Stunden ohne. Wie reagierst du innerlich auf diese Vorstellung?",
     options: ["Ich merke es kaum", "Ich werde leicht unruhig", "Ich halte es nicht aus"],
-    funFacts: [
+    popups: [
       {
-        title: "Fun Fact 1",
-        body: "Das Gefühl, etwas zu verpassen (FOMO), ist ein antrainierter Reflex, kein echter Notfall.",
+        question: "Was steckt hinter dem Gefühl, etwas zu verpassen, wenn man das Handy weglegt?",
+        answer: "FOMO nennt man das. Es ist ein antrainierter Reflex, kein echter Notfall.",
       },
       {
-        title: "Fun Fact 2",
-        body: "Schon kurze handyfreie Phasen senken den Puls und verbessern die subjektive Stimmung.",
+        question: "Was passiert körperlich, wenn man das Handy für eine Weile weglegt?",
+        answer: "Der Puls sinkt, die Stimmung verbessert sich. Schon kurze handyfreie Phasen haben messbare Effekte.",
       },
     ],
   },
 ];
 
 const TOTAL = QUESTIONS.length;
-const TOTAL_FACTS = TOTAL * 2;
+
+function randomPosition(): PopupStyle {
+  const bottom = 60 + Math.floor(Math.random() * 120);
+  const right = 20 + Math.floor(Math.random() * 60);
+  return { bottom: `${bottom}px`, right: `${right}px` };
+}
 
 export default function AttentionTestSection({ onResultChange }: AttentionTestSectionProps) {
   const [current, setCurrent] = useState(0);
@@ -138,12 +155,54 @@ export default function AttentionTestSection({ onResultChange }: AttentionTestSe
   const [opened, setOpened] = useState<string[]>([]);
   const [elapsed, setElapsed] = useState(0);
   const [running, setRunning] = useState(false);
+  const [visiblePopups, setVisiblePopups] = useState<PopupItem[]>([]);
 
   useEffect(() => {
     if (!running) return;
     const id = setInterval(() => setElapsed((s) => s + 1), 1000);
     return () => clearInterval(id);
   }, [running]);
+
+  useEffect(() => {
+    setVisiblePopups([]);
+    const timeouts: ReturnType<typeof setTimeout>[] = [];
+    const q = QUESTIONS[current];
+    const delay1 = 4000 + Math.floor(Math.random() * 2000);
+
+    const t1 = setTimeout(() => {
+      setVisiblePopups((prev) => [
+        ...prev,
+        {
+          id: `${current}-0`,
+          question: q.popups[0].question,
+          answer: q.popups[0].answer,
+          style: randomPosition(),
+        },
+      ]);
+
+      if (Math.random() > 0.5) {
+        const t2 = setTimeout(() => {
+          setVisiblePopups((prev) => [
+            ...prev,
+            {
+              id: `${current}-1`,
+              question: q.popups[1].question,
+              answer: q.popups[1].answer,
+              style: randomPosition(),
+            },
+          ]);
+        }, 8000);
+        timeouts.push(t2);
+      }
+    }, delay1);
+
+    timeouts.push(t1);
+
+    return () => {
+      timeouts.forEach(clearTimeout);
+      setVisiblePopups([]);
+    };
+  }, [current]);
 
   const answeredCount = answers.filter((a) => a !== null).length;
 
@@ -176,8 +235,12 @@ export default function AttentionTestSection({ onResultChange }: AttentionTestSe
     if (current > 0) setCurrent(current - 1);
   }
 
-  function openFact(key: string) {
-    if (!opened.includes(key)) setOpened([...opened, key]);
+  function openFact(id: string) {
+    if (!opened.includes(id)) setOpened([...opened, id]);
+  }
+
+  function dismissPopup(id: string) {
+    setVisiblePopups((prev) => prev.filter((p) => p.id !== id));
   }
 
   const question = QUESTIONS[current];
@@ -196,7 +259,7 @@ export default function AttentionTestSection({ onResultChange }: AttentionTestSe
           Teste, wie gut du dich auf eine Aufgabe konzentrieren kannst, während dich digitale Ablenkungen unterbrechen. Das dauert nur wenige Minuten.
         </p>
 
-        <div className="mt-10 grid grid-cols-[2fr_1fr] items-start gap-6">
+        <div className="relative mt-10">
           <Quiz
             current={current}
             total={TOTAL}
@@ -208,14 +271,16 @@ export default function AttentionTestSection({ onResultChange }: AttentionTestSe
             onBack={goBack}
             onNext={goNext}
           />
-          <AttentionMechanics
-            key={current}
-            questionIndex={current}
-            facts={question.funFacts}
-            openedCount={opened.length}
-            totalFacts={TOTAL_FACTS}
-            onOpen={openFact}
-          />
+          {visiblePopups.map((popup) => (
+            <DistractionPopup
+              key={popup.id}
+              question={popup.question}
+              answer={popup.answer}
+              style={popup.style}
+              onReveal={() => openFact(popup.id)}
+              onClose={() => dismissPopup(popup.id)}
+            />
+          ))}
         </div>
       </div>
     </section>
