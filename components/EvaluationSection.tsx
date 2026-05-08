@@ -2,8 +2,7 @@
 
 import Button from "./Button";
 
-// Simulierte Durchschnittswerte anderer Nutzerinnen und Nutzer
-// Können später durch echte Werte aus der Datenbank ersetzt werden
+
 const AVG_TIME_SECONDS = 45;
 const AVG_DISTRACTIONS = 4;
 

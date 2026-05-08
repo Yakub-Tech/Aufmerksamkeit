@@ -5,7 +5,7 @@ import { useState } from "react";
 type DistractionPopupProps = {
   question: string;
   answer: string;
-  style: { bottom: string; right: string };
+  style: { top?: string; bottom?: string; left?: string; right?: string };
   onReveal: () => void;
   onClose: () => void;
 };
@@ -26,7 +26,7 @@ export default function DistractionPopup({
 
   return (
     <div
-      className="animate-popup-in absolute z-10 w-72 rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB]"
+      className="animate-popup-in absolute z-10 w-80 rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB]"
       style={style}
     >
       <div className="flex items-center justify-between px-5 pt-4 pb-1">

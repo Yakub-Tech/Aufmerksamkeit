@@ -15,8 +15,10 @@ type AttentionTestSectionProps = {
 };
 
 type PopupStyle = {
-  bottom: string;
-  right: string;
+  top?: string;
+  bottom?: string;
+  left?: string;
+  right?: string;
 };
 
 type PopupItem = {
@@ -144,9 +146,14 @@ const QUESTIONS = [
 const TOTAL = QUESTIONS.length;
 
 function randomPosition(): PopupStyle {
-  const bottom = 60 + Math.floor(Math.random() * 120);
-  const right = 20 + Math.floor(Math.random() * 60);
-  return { bottom: `${bottom}px`, right: `${right}px` };
+  const useTop = Math.random() > 0.5;
+  const useLeft = Math.random() > 0.5;
+  const vert = 20 + Math.floor(Math.random() * 120);
+  const horiz = 20 + Math.floor(Math.random() * 150);
+  return {
+    ...(useTop ? { top: `${vert}px` } : { bottom: `${vert}px` }),
+    ...(useLeft ? { left: `${horiz}px` } : { right: `${horiz}px` }),
+  };
 }
 
 export default function AttentionTestSection({ onResultChange }: AttentionTestSectionProps) {

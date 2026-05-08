@@ -161,13 +161,6 @@ abgerundete Ecken (16 Pixel), Hintergrund entweder das normale Beige
 oder das etwas dunklere. Kein Schatten und auch keine bunte Fläche.
 
 
-Kleine Info Boxen:
-
-An manchen Stellen will ich so kleine Boxen zeigen mit Texten wie
-"03:42 SCROLL" oder "FOCUS BROKEN". Da kommt ein dünner schwarzer
-Rand drum und der Text ist in JetBrains Mono in Grossbuchstaben,
-ungefähr 10 oder 11 Pixel.
-
 
 Breite der Seite:
 
@@ -175,5 +168,6 @@ Auf dem Computer soll die Seite nicht die ganze Bildschirmbreite
 nutzen sondern in der Mitte bleiben damit man es noch gut lesen kann.
 Ich nehme dafür max-w-7xl mx-auto von Tailwind. Oben und unten bei
 jeder Section soll ordentlich Platz sein.
+
 
 
