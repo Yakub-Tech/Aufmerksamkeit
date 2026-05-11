@@ -33,7 +33,7 @@ export default function Quiz({
   const last = current === total - 1;
 
   return (
-    <div className="rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB] p-10">
+    <div className="rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB] p-6">
       <div className="flex items-baseline justify-between">
         <span className="font-mono text-[11px] uppercase tracking-widest text-[#D64D1E]">
           Frage {current + 1} von {total}
@@ -43,18 +43,18 @@ export default function Quiz({
         </span>
       </div>
 
-      <div className="mt-4 h-px w-full bg-[#D9D2C3]">
+      <div className="mt-3 h-px w-full bg-[#D9D2C3]">
         <div
           className="h-full bg-[#D64D1E] transition-all duration-500"
           style={{ width: `${percent}%` }}
         />
       </div>
 
-      <h3 className="mt-8 font-serif text-4xl leading-tight tracking-tight">
+      <h3 className="mt-5 font-serif text-3xl leading-tight tracking-tight">
         {text}
       </h3>
 
-      <div className="mt-8 flex flex-col gap-3">
+      <div className="mt-5 flex flex-col gap-2">
         {options.map((option, idx) => {
           const active = selected === idx;
           return (
@@ -80,7 +80,7 @@ export default function Quiz({
         })}
       </div>
 
-      <div className="mt-8 flex justify-between gap-3">
+      <div className="mt-5 flex justify-between gap-3">
         <button
           onClick={onBack}
           disabled={current === 0}

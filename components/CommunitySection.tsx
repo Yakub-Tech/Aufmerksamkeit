@@ -46,9 +46,6 @@ export default function CommunitySection() {
   return (
     <section id="community" className="border-t border-[#D9D2C3]">
       <div className="mx-auto max-w-7xl px-12 py-24">
-        <div className="mb-6 font-mono text-[11px] uppercase tracking-widest text-[#6B6860]">
-          Community
-        </div>
         <h2 className="font-serif text-6xl leading-tight tracking-tight">
           Teile deinen <span className="italic text-[#D64D1E]">Hack</span>.
         </h2>

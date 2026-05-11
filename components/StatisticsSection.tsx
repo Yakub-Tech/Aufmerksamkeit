@@ -46,9 +46,6 @@ export default function StatisticsSection() {
   return (
     <section id="statistiken" className="border-t border-[#D9D2C3]">
       <div className="mx-auto max-w-7xl px-12 py-24">
-        <div className="mb-6 font-mono text-[11px] uppercase tracking-widest text-[#6B6860]">
-          Statistiken &amp; Fakten
-        </div>
         <h2 className="font-serif text-6xl leading-tight tracking-tight">
           Die Zahlen hinter dem <span className="italic">Gefühl</span>.
         </h2>

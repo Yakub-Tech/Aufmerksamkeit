@@ -71,9 +71,6 @@ export default function LearningSection() {
   return (
     <section id="tipps" className="border-t border-[#D9D2C3]">
       <div className="mx-auto max-w-7xl px-12 py-24">
-        <div className="mb-6 font-mono text-[11px] uppercase tracking-widest text-[#6B6860]">
-          Tipps &amp; Tricks
-        </div>
         <h2 className="font-serif text-6xl leading-tight tracking-tight">
           Möchtest du deine <span className="italic">Aufmerksamkeit</span> verbessern?
         </h2>
@@ -105,9 +102,6 @@ export default function LearningSection() {
         </div>
 
         <div id="faq" className="mt-20">
-          <div className="mb-6 font-mono text-[11px] uppercase tracking-widest text-[#6B6860]">
-            FAQ der Community
-          </div>
           <h3 className="font-serif text-5xl leading-tight tracking-tight">
             Fragen aus der <span className="italic">Community</span>.
           </h3>
