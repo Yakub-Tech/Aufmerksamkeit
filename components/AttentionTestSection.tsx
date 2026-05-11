@@ -253,7 +253,7 @@ export default function AttentionTestSection({ onResultChange }: AttentionTestSe
   const question = QUESTIONS[current];
 
   return (
-    <section id="test" className="scroll-mt-[60px] border-t border-[#D9D2C3]">
+    <section id="test" className="scroll-mt-[60px]">
       <div className="mx-auto max-w-7xl px-12 py-10">
         <h2 className="font-serif text-5xl leading-tight tracking-tight">
           Bist du bereit, deine{" "}

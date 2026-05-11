@@ -44,7 +44,7 @@ const stats = [
 
 export default function StatisticsSection() {
   return (
-    <section id="statistiken" className="border-t border-[#D9D2C3]">
+    <section id="statistiken">
       <div className="mx-auto max-w-7xl px-12 py-24">
         <h2 className="font-serif text-6xl leading-tight tracking-tight">
           Die Zahlen hinter dem <span className="italic">Gefühl</span>.

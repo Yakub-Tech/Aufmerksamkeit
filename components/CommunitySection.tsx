@@ -44,7 +44,7 @@ export default function CommunitySection() {
   }
 
   return (
-    <section id="community" className="border-t border-[#D9D2C3]">
+    <section id="community">
       <div className="mx-auto max-w-7xl px-12 py-24">
         <h2 className="font-serif text-6xl leading-tight tracking-tight">
           Teile deinen <span className="italic text-[#D64D1E]">Hack</span>.

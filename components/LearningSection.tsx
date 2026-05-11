@@ -69,7 +69,7 @@ export default function LearningSection() {
   }
 
   return (
-    <section id="tipps" className="border-t border-[#D9D2C3]">
+    <section id="tipps">
       <div className="mx-auto max-w-7xl px-12 py-24">
         <h2 className="font-serif text-6xl leading-tight tracking-tight">
           Möchtest du deine <span className="italic">Aufmerksamkeit</span> verbessern?

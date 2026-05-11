@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-[#D9D2C3]">
+    <footer>
       <div className="mx-auto max-w-7xl px-12 py-14">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="flex flex-col gap-2">

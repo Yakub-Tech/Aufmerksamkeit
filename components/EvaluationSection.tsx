@@ -137,7 +137,7 @@ export default function EvaluationSection({
   ];
 
   return (
-    <section id="auswertung" className="border-t border-[#D9D2C3]">
+    <section id="auswertung">
       <div className="mx-auto max-w-7xl px-12 py-24">
         <h2 className="font-serif text-6xl leading-tight tracking-tight">
           Deine <span className="italic text-[#D64D1E]">Auswertung</span>

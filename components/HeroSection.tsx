@@ -11,7 +11,7 @@ export default function HeroSection() {
   return (
     <section
       id="home"
-      className="relative min-h-[calc(100vh-60px)] border-b border-[#D9D2C3]"
+      className="relative min-h-[calc(100vh-60px)]"
       style={{
         backgroundImage: "url('/images/hero.jpeg')",
         backgroundSize: "cover",
