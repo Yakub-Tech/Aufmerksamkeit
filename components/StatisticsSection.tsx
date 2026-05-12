@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const ageGroups = ["16–24", "25–34", "35–44", "45–54", "55+"];
 
@@ -45,6 +45,14 @@ export default function StatisticsSection() {
   const [hours, setHours] = useState(3);
   const [selectedEffect, setSelectedEffect] = useState("");
   const [selectedMorning, setSelectedMorning] = useState("");
+
+  const [duAnimated, setDuAnimated] = useState(false);
+
+  useEffect(() => {
+    if (!submitted) return;
+    const id = requestAnimationFrame(() => setDuAnimated(true));
+    return () => cancelAnimationFrame(id);
+  }, [submitted]);
 
   const userBarWidth = Math.min(Math.round((hours / MAX_AVG_HOURS) * 100), 100);
 
@@ -211,7 +219,7 @@ export default function StatisticsSection() {
                       <span className="block h-2 overflow-hidden rounded-full bg-[#D9D2C3]">
                         <span
                           className="block h-full rounded-full bg-[#0F0F0E]"
-                          style={{ width: `${barWidth}%` }}
+                          style={{ width: submitted ? `${barWidth}%` : "0%", transition: "width 0.8s ease-out" }}
                         />
                       </span>
                       <span className="text-right font-medium text-[#0F0F0E]">{row.avgLabel}</span>
@@ -229,7 +237,7 @@ export default function StatisticsSection() {
                         <span className="block h-2 overflow-hidden rounded-full bg-[#D9D2C3]">
                           <span
                             className="block h-full rounded-full bg-[#D64D1E]"
-                            style={{ width: `${userBarWidth}%` }}
+                            style={{ width: duAnimated ? `${userBarWidth}%` : "0%", transition: "width 0.8s ease-out" }}
                           />
                         </span>
                         <span className="text-right font-medium text-[#D64D1E]">{hoursToLabel(hours)}</span>
@@ -264,7 +272,7 @@ export default function StatisticsSection() {
                       <span className="block h-2 overflow-hidden rounded-full bg-[#D9D2C3]">
                         <span
                           className={"block h-full rounded-full " + (isSelected ? "bg-[#D64D1E]" : "bg-[#0F0F0E]")}
-                          style={{ width: `${effect.value}%` }}
+                          style={{ width: submitted ? `${effect.value}%` : "0%", transition: "width 0.8s ease-out" }}
                         />
                       </span>
                       <span className={"text-right font-medium " + (isSelected ? "text-[#D64D1E]" : "text-[#0F0F0E]")}>
@@ -297,7 +305,7 @@ export default function StatisticsSection() {
                       <span className="block h-2 overflow-hidden rounded-full bg-[#D9D2C3]">
                         <span
                           className={"block h-full rounded-full " + (isSelected ? "bg-[#D64D1E]" : "bg-[#0F0F0E]")}
-                          style={{ width: `${m.value}%` }}
+                          style={{ width: submitted ? `${m.value}%` : "0%", transition: "width 0.8s ease-out" }}
                         />
                       </span>
                       <span className={"text-right font-medium " + (isSelected ? "text-[#D64D1E]" : "text-[#0F0F0E]")}>
