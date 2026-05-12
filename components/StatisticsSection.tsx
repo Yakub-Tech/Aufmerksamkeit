@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const ageGroups = ["16–24", "25–34", "35–44", "45–54", "55+"];
 
@@ -47,6 +47,7 @@ export default function StatisticsSection() {
   const [selectedMorning, setSelectedMorning] = useState("");
 
   const [duAnimated, setDuAnimated] = useState(false);
+  const statsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!submitted) return;
@@ -178,7 +179,12 @@ export default function StatisticsSection() {
 
             <div className="mt-8">
               <button
-                onClick={() => setSubmitted(true)}
+                onClick={() => {
+                  setSubmitted(true);
+                  setTimeout(() => {
+                    statsRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }, 800);
+                }}
                 className="rounded-full bg-[#0F0F0E] px-6 py-3 text-sm text-white transition-colors hover:bg-[#D64D1E]"
               >
                 Einschätzung absenden
@@ -189,6 +195,7 @@ export default function StatisticsSection() {
 
         {/* Statistiken */}
         <div
+          ref={statsRef}
           className="mt-12"
           style={{
             filter: submitted ? "none" : "blur(4px)",
