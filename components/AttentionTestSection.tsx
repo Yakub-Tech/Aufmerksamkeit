@@ -12,6 +12,7 @@ type TestResult = {
 
 type AttentionTestSectionProps = {
   onResultChange: (r: TestResult) => void;
+  onQuizComplete: () => void;
 };
 
 type PopupStyle = {
@@ -156,7 +157,7 @@ function randomPosition(): PopupStyle {
   };
 }
 
-export default function AttentionTestSection({ onResultChange }: AttentionTestSectionProps) {
+export default function AttentionTestSection({ onResultChange, onQuizComplete }: AttentionTestSectionProps) {
   const [current, setCurrent] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(Array(TOTAL).fill(null));
   const [opened, setOpened] = useState<string[]>([]);
@@ -233,6 +234,7 @@ export default function AttentionTestSection({ onResultChange }: AttentionTestSe
       setCurrent(current + 1);
     } else {
       setRunning(false);
+      onQuizComplete();
       const el = document.getElementById("auswertung");
       if (el) el.scrollIntoView({ behavior: "smooth" });
     }
