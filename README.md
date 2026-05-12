@@ -54,3 +54,11 @@ docker compose down
 
 
 Die Webseite läuft dann auch unter http://localhost:3000.
+
+
+
+Bildmaterial
+
+Hero-Illustration (public/hero.jpg). Beschreibung der Illustration:
+
+Minimalistische editoriale Hero-Illustration zum Thema Aufmerksamkeitsökonomie im Stil eines modernen Zeitungsmagazins. Warme Beige- und Sandtöne, ruhige cineastische Lichtstimmung, viel negativer Raum auf der linken Seite für große Typografie und CTA-Elemente. Unten rechts liegt ein schwarzes Smartphone auf einer neutralen Oberfläche. Aus dem Smartphone entsteht ein abstrakter Wirbel aus schwebenden Social-Media-Fragmenten, Benachrichtigungen, UI-Elementen und digitalen Partikeln, die wie ein endloser Scroll-Sog nach oben ziehen. Sehr reduzierte, elegante Komposition, keine Menschen, keine grellen Farben, hochwertige Art-Direction, subtiler Orange-Akzent passend zu Editorial-Webdesign, atmosphärisch, modern, clean, sophisticated, magazine aesthetic, shallow depth of field, soft shadows, cinematic minimalism
