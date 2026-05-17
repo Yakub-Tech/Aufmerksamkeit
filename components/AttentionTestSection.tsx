@@ -8,6 +8,10 @@ type TestResult = {
   answered: number;
   distractions: number;
   elapsed: number;
+  selectedAge: string;
+  hours: number;
+  selectedEffect: string;
+  selectedMorning: string;
 };
 
 type AttentionTestSectionProps = {
@@ -27,6 +31,7 @@ type PopupItem = {
   question: string;
   answer: string;
   style: PopupStyle;
+  dark: boolean;
 };
 
 const QUESTIONS = [
@@ -144,7 +149,90 @@ const QUESTIONS = [
   },
 ];
 
-const TOTAL = QUESTIONS.length;
+const SELF_QUESTIONS = [
+  {
+    text: "Wie alt bist du?",
+    options: ["16–24", "25–34", "35–44", "45–54", "55+"],
+    popups: [
+      {
+        question: "Welche Altersgruppe verbringt die meiste Zeit auf Social Media?",
+        answer: "16 bis 24-Jährige sind mit durchschnittlich über 3 Stunden täglich die aktivste Gruppe. Mit dem Alter sinkt die Nutzung deutlich.",
+      },
+      {
+        question: "Ändern sich digitale Gewohnheiten mit dem Alter?",
+        answer: "Ja, aber langsamer als gedacht. Muster, die in jungen Jahren entstehen, sind schwer zu durchbrechen.",
+      },
+    ],
+  },
+  {
+    text: "Wie viele Stunden verbringst du täglich auf Social Media?",
+    options: [
+      "Selten oder gar nicht",
+      "Weniger als 1 Stunde",
+      "1 bis 2 Stunden",
+      "2 bis 4 Stunden",
+      "Mehr als 4 Stunden",
+    ],
+    popups: [
+      {
+        question: "Wie gut schätzen Menschen ihre eigene Nutzungszeit ein?",
+        answer: "Die meisten unterschätzen sie um bis zu 40 Prozent. Das Handy trackt ehrlicher als das Gedächtnis.",
+      },
+      {
+        question: "Ab wie vielen Stunden spricht man von problematischer Nutzung?",
+        answer: "Für Jugendliche nennen Studien bereits 3 Stunden täglich als kritische Schwelle für negative Auswirkungen auf Schlaf und Konzentration.",
+      },
+    ],
+  },
+  {
+    text: "Welche Auswirkung kennst du am stärksten von dir selbst?",
+    options: [
+      "Schlafprobleme",
+      "Konzentrationsschwäche",
+      "Vergleichsdruck",
+      "Stimmungstief",
+      "Soziale Isolation",
+    ],
+    popups: [
+      {
+        question: "Welche Folge von Social Media wird am häufigsten unterschätzt?",
+        answer: "Konzentrationsverlust. Er kommt schleichend und wird selten direkt mit der Bildschirmzeit in Verbindung gebracht.",
+      },
+      {
+        question: "Wissen Menschen, dass Social Media ihren Schlaf beeinflusst?",
+        answer: "58 Prozent der regelmäßigen Nutzer berichten von Einschlafschwierigkeiten. Die Verbindung ist bekannt, das Verhalten ändert sich trotzdem kaum.",
+      },
+    ],
+  },
+  {
+    text: "Wann schaust du morgens zum ersten Mal auf Social Media?",
+    options: [
+      "Direkt beim Aufwachen",
+      "Innerhalb der ersten Stunde",
+      "Nach 1 bis 2 Stunden",
+      "Erst ab Mittag",
+      "Eigentlich gar nicht",
+    ],
+    popups: [
+      {
+        question: "Was macht der Griff zum Handy direkt nach dem Aufwachen mit dem Gehirn?",
+        answer: "Wer morgens sofort scrollt, startet mit erhöhtem Cortisolspiegel in den Tag. Das Stresssystem läuft von Minute eins auf Hochtouren.",
+      },
+      {
+        question: "Wie viele Menschen greifen innerhalb der ersten Minute nach dem Aufwachen zum Handy?",
+        answer: "Mehr als jeder Dritte. Die meisten beschreiben es als Reflex, nicht als bewusste Entscheidung.",
+      },
+    ],
+  },
+];
+
+const ALL_QUESTIONS = [...QUESTIONS, ...SELF_QUESTIONS];
+const TOTAL = ALL_QUESTIONS.length;
+
+const AGE_MAP = ["16–24", "25–34", "35–44", "45–54", "55+"];
+const HOURS_MAP = [0.25, 0.75, 1.5, 3, 5];
+const EFFECT_MAP = ["Schlaf", "Konzentration", "Vergleich", "Stimmung", "Isolation"];
+const MORNING_MAP = ["sofort", "erstestunde", "zweistunden", "mittag", "nie"];
 
 function randomPosition(): PopupStyle {
   const useTop = Math.random() > 0.5;
@@ -174,7 +262,8 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
   useEffect(() => {
     setVisiblePopups([]);
     const timeouts: ReturnType<typeof setTimeout>[] = [];
-    const q = QUESTIONS[current];
+    const q = ALL_QUESTIONS[current];
+    const isDark = current >= QUESTIONS.length;
     const delay1 = 4000 + Math.floor(Math.random() * 2000);
 
     const t1 = setTimeout(() => {
@@ -185,6 +274,7 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
           question: q.popups[0].question,
           answer: q.popups[0].answer,
           style: randomPosition(),
+          dark: isDark,
         },
       ]);
 
@@ -197,6 +287,7 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
               question: q.popups[1].question,
               answer: q.popups[1].answer,
               style: randomPosition(),
+              dark: isDark,
             },
           ]);
         }, 8000);
@@ -215,12 +306,21 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
   const answeredCount = answers.filter((a) => a !== null).length;
 
   useEffect(() => {
+    const a8 = answers[QUESTIONS.length];
+    const a9 = answers[QUESTIONS.length + 1];
+    const a10 = answers[QUESTIONS.length + 2];
+    const a11 = answers[QUESTIONS.length + 3];
+
     onResultChange({
       answered: answeredCount,
       distractions: opened.length,
       elapsed,
+      selectedAge: a8 !== null ? AGE_MAP[a8] : "",
+      hours: a9 !== null ? HOURS_MAP[a9] : 0,
+      selectedEffect: a10 !== null ? EFFECT_MAP[a10] : "",
+      selectedMorning: a11 !== null ? MORNING_MAP[a11] : "",
     });
-  }, [answeredCount, opened.length, elapsed, onResultChange]);
+  }, [answeredCount, opened.length, elapsed, onResultChange, answers]);
 
   function pick(idx: number) {
     if (!running && answeredCount === 0) setRunning(true);
@@ -252,7 +352,7 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
     setVisiblePopups((prev) => prev.filter((p) => p.id !== id));
   }
 
-  const question = QUESTIONS[current];
+  const question = ALL_QUESTIONS[current];
 
   return (
     <section id="test" className="scroll-mt-[60px]">
@@ -283,6 +383,7 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
               question={popup.question}
               answer={popup.answer}
               style={popup.style}
+              dark={popup.dark}
               onReveal={() => openFact(popup.id)}
               onClose={() => dismissPopup(popup.id)}
             />
