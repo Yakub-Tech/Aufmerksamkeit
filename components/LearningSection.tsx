@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 
 const TIPPS = [
@@ -57,15 +56,11 @@ export default function LearningSection() {
   const [openFaq, setOpenFaq] = useState<boolean[]>(FAQS.map(() => false));
 
   function toggleTip(idx: number) {
-    const next = [...openTip];
-    next[idx] = !next[idx];
-    setOpenTip(next);
+    setOpenTip((prev) => prev.map((v, i) => (i === idx ? !v : v)));
   }
 
   function toggleFaq(idx: number) {
-    const next = [...openFaq];
-    next[idx] = !next[idx];
-    setOpenFaq(next);
+    setOpenFaq((prev) => prev.map((v, i) => (i === idx ? !v : v)));
   }
 
   return (
@@ -88,14 +83,31 @@ export default function LearningSection() {
                 className="flex flex-col gap-3 bg-[#F5F1EA] p-6 text-left transition-colors hover:bg-[#EEE7DB]"
               >
                 <div className="flex items-start justify-between gap-4">
-                  <h5 className="font-serif text-xl leading-tight">{tipp.title}</h5>
-                  <span className={"text-lg leading-none transition-transform " + (open ? "rotate-45 text-[#D64D1E]" : "text-[#6B6860]")}>
+                  <div className="flex flex-col gap-1">
+                    <span className="font-mono text-[10px] tracking-widest text-[#D64D1E]">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    <h5 className="font-serif text-xl leading-tight">{tipp.title}</h5>
+                  </div>
+                  <span
+                    className="flex-none text-lg leading-none transition-transform duration-300"
+                    style={{
+                      transform: open ? "rotate(45deg)" : "rotate(0deg)",
+                      color: open ? "#D64D1E" : "#6B6860",
+                    }}
+                  >
                     +
                   </span>
                 </div>
-                {open && (
-                  <p className="text-sm leading-relaxed text-[#2A2A28]">{tipp.body}</p>
-                )}
+                <div
+                  style={{
+                    maxHeight: open ? "200px" : "0px",
+                    overflow: "hidden",
+                    transition: "max-height 0.3s ease",
+                  }}
+                >
+                  <p className="pb-1 text-sm leading-relaxed text-[#2A2A28]">{tipp.body}</p>
+                </div>
               </button>
             );
           })}
@@ -113,21 +125,29 @@ export default function LearningSection() {
                 <div key={idx} className="border-b border-[#D9D2C3]">
                   <button
                     onClick={() => toggleFaq(idx)}
-                    className="flex w-full items-center justify-between gap-6 py-6 text-left font-serif text-2xl leading-snug tracking-tight transition-colors hover:text-[#D64D1E]"
+                    className="flex w-full items-center justify-between gap-6 py-6 text-left font-serif text-2xl leading-snug tracking-tight transition-colors duration-200 hover:text-[#D64D1E]"
                   >
                     <span>{faq.q}</span>
                     <span
-                      className={
-                        "flex h-7 w-7 flex-none items-center justify-center rounded-full border text-base transition-transform " +
-                        (open ? "rotate-45 border-[#D64D1E] text-[#D64D1E]" : "border-[#D9D2C3] text-[#2A2A28]")
-                      }
+                      className="flex h-7 w-7 flex-none items-center justify-center rounded-full border text-base transition-all duration-300"
+                      style={{
+                        transform: open ? "rotate(45deg)" : "rotate(0deg)",
+                        borderColor: open ? "#D64D1E" : "#D9D2C3",
+                        color: open ? "#D64D1E" : "#2A2A28",
+                      }}
                     >
                       +
                     </span>
                   </button>
-                  {open && (
+                  <div
+                    style={{
+                      maxHeight: open ? "200px" : "0px",
+                      overflow: "hidden",
+                      transition: "max-height 0.35s ease",
+                    }}
+                  >
                     <p className="pb-6 text-base leading-relaxed text-[#2A2A28]">{faq.a}</p>
-                  )}
+                  </div>
                 </div>
               );
             })}
