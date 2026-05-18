@@ -9,6 +9,18 @@ type Post = {
   text: string;
 };
 
+function Avatar({ name }: { name: string }) {
+  const initial = name.trim().charAt(0).toUpperCase() || "?";
+  return (
+    <div className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-[#0F0F0E]">
+      <span className="font-mono text-xs font-medium text-[#F5F1EA]">{initial}</span>
+    </div>
+  );
+}
+
+const inputClass =
+  "w-full rounded-xl border border-[#D9D2C3] bg-[#F5F1EA] p-3 text-sm text-[#0F0F0E] outline-none transition-all duration-150 focus:border-[#0F0F0E] focus:ring-1 focus:ring-[#D64D1E]";
+
 export default function CommunitySection() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [name, setName] = useState("");
@@ -37,7 +49,7 @@ export default function CommunitySection() {
     if (!res.ok) return;
 
     const newPost: Post = await res.json();
-    setPosts([newPost, ...posts]);
+    setPosts((prev) => [newPost, ...prev]);
     setName("");
     setText("");
     setAge(18);
@@ -53,9 +65,7 @@ export default function CommunitySection() {
           Was hilft dir, fokussiert zu bleiben? Schreib einen kurzen Erfahrungsbericht, er erscheint sofort oben in der Liste.
         </p>
 
-
         <div className="mt-10 grid grid-cols-[1fr_1.4fr] items-start gap-8">
-
           <form onSubmit={send} className="rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB] p-6">
             <label className="mb-2 block font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
               Dein Beitrag
@@ -66,7 +76,7 @@ export default function CommunitySection() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Dein Name"
-              className="mb-3 w-full rounded-xl border border-[#D9D2C3] bg-[#F5F1EA] p-3 text-sm text-[#0F0F0E] outline-none focus:border-[#0F0F0E]"
+              className={`mb-3 ${inputClass}`}
             />
             <div className="mb-3 rounded-xl border border-[#D9D2C3] bg-[#F5F1EA] px-3 py-3">
               <div className="mb-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
@@ -92,12 +102,12 @@ export default function CommunitySection() {
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="Was hat dir geholfen, weniger abgelenkt zu sein?"
-              className="min-h-[120px] w-full resize-y rounded-xl border border-[#D9D2C3] bg-[#F5F1EA] p-3 text-sm leading-relaxed text-[#0F0F0E] outline-none focus:border-[#0F0F0E]"
+              className={`min-h-[140px] resize-y ${inputClass}`}
             />
             <div className="mt-4 flex justify-end">
               <button
                 type="submit"
-                className="rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F5F1EA] transition-colors hover:bg-[#D64D1E]"
+                className="rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F5F1EA] transition-colors duration-200 hover:bg-[#D64D1E]"
               >
                 Beitrag absenden
               </button>
@@ -105,18 +115,31 @@ export default function CommunitySection() {
           </form>
 
           <div className="relative">
-            <div className="flex h-[540px] flex-col gap-4 overflow-y-scroll pr-3">
-              {posts.map((post) => (
-                <div
-                  key={post.id}
-                  className="rounded-2xl border border-[#D9D2C3] bg-[#F5F1EA] p-5"
-                >
-                  <div className="font-mono text-[10px] uppercase tracking-widest text-[#D64D1E]">
-                    {post.name.toUpperCase()}, {post.age}
-                  </div>
-                  <p className="mt-2 text-sm leading-relaxed text-[#2A2A28] break-words">{post.text}</p>
+            <div className="flex h-[540px] flex-col gap-4 overflow-y-auto pr-3">
+              {posts.length === 0 ? (
+                <div className="flex h-full items-center justify-center rounded-2xl border border-[#D9D2C3] bg-[#F5F1EA] p-8">
+                  <p className="font-serif italic text-[#6B6860]">
+                    Noch keine Beiträge. Sei der Erste.
+                  </p>
                 </div>
-              ))}
+              ) : (
+                posts.map((post) => (
+                  <div
+                    key={post.id}
+                    className="rounded-2xl border border-[#D9D2C3] bg-[#F5F1EA] p-5"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Avatar name={post.name} />
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-[#D64D1E]">
+                        {post.name.toUpperCase()}, {post.age}
+                      </span>
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-[#2A2A28] break-words">
+                      {post.text}
+                    </p>
+                  </div>
+                ))
+              )}
             </div>
             <div className="pointer-events-none absolute bottom-0 left-0 right-3 h-10 rounded-b-2xl bg-gradient-to-t from-[#F5F1EA] to-transparent" />
           </div>
