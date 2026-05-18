@@ -8,6 +8,8 @@ import EvaluationSection from "@/components/EvaluationSection";
 import LearningSection from "@/components/LearningSection";
 import CommunitySection from "@/components/CommunitySection";
 import Footer from "@/components/Footer";
+import ScrollGuide from "@/components/ScrollGuide";
+import SectionReveal from "@/components/SectionReveal";
 
 export default function Home() {
   const [result, setResult] = useState({
@@ -40,21 +42,28 @@ export default function Home() {
   return (
     <>
       <Navbar quizDone={quizDone} />
+      <ScrollGuide />
       <HeroSection />
       <AttentionTestSection onResultChange={setResult} onQuizComplete={() => setQuizDone(true)} />
-      <EvaluationSection
-        answered={result.answered}
-        distractions={result.distractions}
-        elapsed={result.elapsed}
-        totalQuestions={12}
-        totalFacts={24}
-        selectedAge={result.selectedAge}
-        hours={result.hours}
-        selectedEffect={result.selectedEffect}
-        selectedMorning={result.selectedMorning}
-      />
-      <LearningSection />
-      <CommunitySection />
+      <SectionReveal>
+        <EvaluationSection
+          answered={result.answered}
+          distractions={result.distractions}
+          elapsed={result.elapsed}
+          totalQuestions={12}
+          totalFacts={24}
+          selectedAge={result.selectedAge}
+          hours={result.hours}
+          selectedEffect={result.selectedEffect}
+          selectedMorning={result.selectedMorning}
+        />
+      </SectionReveal>
+      <SectionReveal>
+        <LearningSection />
+      </SectionReveal>
+      <SectionReveal>
+        <CommunitySection />
+      </SectionReveal>
       <Footer />
     </>
   );
