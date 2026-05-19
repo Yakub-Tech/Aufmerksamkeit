@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import SectionReveal from "./SectionReveal";
 
 const TIPPS = [
   {
@@ -73,6 +74,7 @@ export default function LearningSection() {
           Hier findest du Tipps und Tricks.
         </p>
 
+        <SectionReveal>
         <div className="mt-10 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-[#D9D2C3] bg-[#D9D2C3]">
           {TIPPS.map((tipp, idx) => {
             const open = openTip[idx];
@@ -112,7 +114,9 @@ export default function LearningSection() {
             );
           })}
         </div>
+        </SectionReveal>
 
+        <SectionReveal>
         <div id="faq" className="mt-20">
           <h3 className="font-serif text-5xl leading-tight tracking-tight">
             Fragen aus der <span className="italic">Community</span>.
@@ -153,6 +157,7 @@ export default function LearningSection() {
             })}
           </div>
         </div>
+        </SectionReveal>
       </div>
     </section>
   );

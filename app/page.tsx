@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AttentionTestSection from "@/components/AttentionTestSection";
@@ -23,29 +23,22 @@ export default function Home() {
   });
   const [quizDone, setQuizDone] = useState(false);
 
-  useEffect(() => {
-    if (quizDone) return;
-
-    function onScroll() {
-      const section = document.getElementById("test");
-      if (!section) return;
-      const maxY = section.offsetTop + section.offsetHeight - window.innerHeight;
-      if (window.scrollY > maxY) {
-        window.scrollTo(0, Math.max(0, maxY));
-      }
-    }
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [quizDone]);
-
   return (
     <>
-      <Navbar quizDone={quizDone} />
+      <Navbar />
       <ScrollGuide />
       <HeroSection />
-      <AttentionTestSection onResultChange={setResult} onQuizComplete={() => setQuizDone(true)} />
       <SectionReveal>
+        <AttentionTestSection onResultChange={setResult} onQuizComplete={() => setQuizDone(true)} />
+      </SectionReveal>
+      <SectionReveal>
+        <div
+          style={{
+            filter: quizDone ? "blur(0)" : "blur(8px)",
+            transition: "filter 1s ease",
+            pointerEvents: quizDone ? "auto" : "none",
+          }}
+        >
         <EvaluationSection
           answered={result.answered}
           distractions={result.distractions}
@@ -57,6 +50,7 @@ export default function Home() {
           selectedEffect={result.selectedEffect}
           selectedMorning={result.selectedMorning}
         />
+        </div>
       </SectionReveal>
       <SectionReveal>
         <LearningSection />
@@ -64,7 +58,9 @@ export default function Home() {
       <SectionReveal>
         <CommunitySection />
       </SectionReveal>
-      <Footer />
+      <SectionReveal>
+        <Footer />
+      </SectionReveal>
     </>
   );
 }

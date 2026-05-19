@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import SectionReveal from "./SectionReveal";
 
 const effectOptions = [
   { key: "Schlaf", label: "Schlafprobleme", value: 58 },
@@ -193,6 +194,7 @@ export default function EvaluationSection({
           Werte basieren ausschließlich auf deinem Verhalten in diesem Test.
         </p>
 
+        <SectionReveal>
         <div className="mt-10 grid grid-cols-4 gap-px overflow-hidden rounded-2xl border border-[#D9D2C3] bg-[#D9D2C3]">
           {stats.map((s, i) => (
             <div
@@ -217,7 +219,9 @@ export default function EvaluationSection({
             </div>
           </div>
         </div>
+        </SectionReveal>
 
+        <SectionReveal>
         <div className="mt-8 rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB] p-10">
           <p className="font-serif text-2xl leading-snug tracking-tight">
             {isTestDone
@@ -230,7 +234,9 @@ export default function EvaluationSection({
               : "Je weniger Fun Facts du anklickst, desto fokussierter warst du. Je mehr, desto stärker hat dich die Umgebung gezogen."}
           </p>
         </div>
+        </SectionReveal>
 
+        <SectionReveal>
         <div className="mt-20">
           <h2 className="font-serif text-5xl leading-tight tracking-tight">
             Die Zahlen hinter dem <span className="italic">Gefühl</span>.
@@ -358,6 +364,7 @@ export default function EvaluationSection({
 
           </div>
         </div>
+        </SectionReveal>
       </div>
     </section>
   );

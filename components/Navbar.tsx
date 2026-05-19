@@ -2,16 +2,12 @@
 import { useState, useEffect } from "react";
 
 const menuItems = [
-  { label: "Home", href: "#home", locked: false },
-  { label: "Tipps & Tricks", href: "#tipps", locked: true },
-  { label: "FAQ", href: "#faq", locked: true },
+  { label: "Home", href: "#home" },
+  { label: "Tipps & Tricks", href: "#tipps" },
+  { label: "FAQ", href: "#faq" },
 ];
 
-type NavbarProps = {
-  quizDone: boolean;
-};
-
-export default function Navbar({ quizDone }: NavbarProps) {
+export default function Navbar() {
   const [scrollPct, setScrollPct] = useState(0);
 
   useEffect(() => {
@@ -36,24 +32,16 @@ export default function Navbar({ quizDone }: NavbarProps) {
         </a>
 
         <ul className="flex gap-7">
-          {menuItems.map((item) => {
-            const isLocked = item.locked && !quizDone;
-            return (
-              <li key={item.href}>
-                <a
-                  href={isLocked ? undefined : item.href}
-                  title={isLocked ? "Erst den Test abschließen" : undefined}
-                  className={`text-sm font-medium transition-colors duration-200 ${
-                    isLocked
-                      ? "cursor-not-allowed text-[#6B6860] opacity-40"
-                      : "text-[#2A2A28] hover:text-[#D64D1E]"
-                  }`}
-                >
-                  {item.label}
-                </a>
-              </li>
-            );
-          })}
+          {menuItems.map((item) => (
+            <li key={item.href}>
+              <a
+                href={item.href}
+                className="text-sm font-medium text-[#2A2A28] transition-colors duration-200 hover:text-[#D64D1E]"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
+import SectionReveal from "./SectionReveal";
 
 type Post = {
   id: number;
@@ -58,13 +59,16 @@ export default function CommunitySection() {
   return (
     <section id="community">
       <div className="mx-auto max-w-7xl px-12 py-24">
+        <SectionReveal>
         <h2 className="font-serif text-6xl leading-tight tracking-tight">
           Teile deinen <span className="italic text-[#D64D1E]">Hack</span>.
         </h2>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#2A2A28]">
           Was hilft dir, fokussiert zu bleiben? Schreib einen kurzen Erfahrungsbericht, er erscheint sofort oben in der Liste.
         </p>
+        </SectionReveal>
 
+        <SectionReveal>
         <div className="mt-10 grid grid-cols-[1fr_1.4fr] items-start gap-8">
           <form onSubmit={send} className="rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB] p-6">
             <label className="mb-2 block font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
@@ -144,6 +148,7 @@ export default function CommunitySection() {
             <div className="pointer-events-none absolute bottom-0 left-0 right-3 h-10 rounded-b-2xl bg-gradient-to-t from-[#F5F1EA] to-transparent" />
           </div>
         </div>
+        </SectionReveal>
       </div>
     </section>
   );
