@@ -78,13 +78,21 @@ export default function HeroSection() {
         </div>
 
         <div className="mt-8 max-w-2xl">
-          <h1
-            className="font-serif text-[5.5rem] leading-[0.98] tracking-tight"
-            style={fadeIn(150)}
-          >
-            Die{" "}
-            <span className="italic text-[#D64D1E]">Aufmerksamkeit</span>{" "}
-            ist die wichtigste Ressource des Internets.
+          <h1 className="font-serif text-[5.5rem] leading-[0.98] tracking-tight">
+            {[
+              { text: "Die", italic: false, delay: 150 },
+              { text: "Aufmerksamkeit", italic: true, delay: 230 },
+              { text: "ist die wichtigste", italic: false, delay: 310 },
+              { text: "Ressource des Internets.", italic: false, delay: 390 },
+            ].map((chunk, i) => (
+              <span
+                key={i}
+                className={chunk.italic ? "italic text-[#D64D1E]" : ""}
+                style={fadeIn(chunk.delay)}
+              >
+                {chunk.text}{" "}
+              </span>
+            ))}
           </h1>
 
           <p
@@ -96,7 +104,9 @@ export default function HeroSection() {
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-8" style={fadeIn(500)}>
-            <Button label="Jetzt loslegen" onClick={scrollToTest} />
+            <div className="animate-cta-pulse rounded-full">
+              <Button label="Jetzt loslegen" onClick={scrollToTest} />
+            </div>
             <p className="font-mono text-[11px] uppercase tracking-widest text-[#6B6860]">
               Bereits{" "}
               <span className="text-[#D64D1E]">
