@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
 import Quiz from "./Quiz";
 import DistractionPopup from "./DistractionPopup";
 
@@ -377,17 +378,19 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
             onBack={goBack}
             onNext={goNext}
           />
-          {visiblePopups.map((popup) => (
-            <DistractionPopup
-              key={popup.id}
-              question={popup.question}
-              answer={popup.answer}
-              style={popup.style}
-              dark={popup.dark}
-              onReveal={() => openFact(popup.id)}
-              onClose={() => dismissPopup(popup.id)}
-            />
-          ))}
+          <AnimatePresence>
+            {visiblePopups.map((popup) => (
+              <DistractionPopup
+                key={popup.id}
+                question={popup.question}
+                answer={popup.answer}
+                style={popup.style}
+                dark={popup.dark}
+                onReveal={() => openFact(popup.id)}
+                onClose={() => dismissPopup(popup.id)}
+              />
+            ))}
+          </AnimatePresence>
         </div>
       </div>
     </section>

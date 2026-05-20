@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 type DistractionPopupProps = {
   question: string;
@@ -21,18 +22,24 @@ export default function DistractionPopup({
 }: DistractionPopupProps) {
   const [revealed, setRevealed] = useState(false);
 
+  const isFromLeft = style.left !== undefined;
+
   function handleReveal() {
     setRevealed(true);
     onReveal();
   }
 
   return (
-    <div
+    <motion.div
       className={
-        "animate-popup-in absolute z-10 w-80 rounded-2xl border " +
+        "absolute z-10 w-80 animate-wobble rounded-2xl border " +
         (dark ? "border-[#0F0F0E] bg-[#0F0F0E]" : "border-[#D9D2C3] bg-[#EEE7DB]")
       }
       style={style}
+      initial={{ opacity: 0, x: isFromLeft ? -24 : 24 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, y: 8, transition: { duration: 0.2 } }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
     >
       <div className="flex items-center justify-between px-5 pt-4 pb-1">
         <span className="font-mono text-[10px] uppercase tracking-widest text-[#D64D1E]">
@@ -75,6 +82,6 @@ export default function DistractionPopup({
           </button>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
