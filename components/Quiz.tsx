@@ -1,5 +1,7 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
+
 type QuizProps = {
   current: number;
   total: number;
@@ -50,35 +52,45 @@ export default function Quiz({
         />
       </div>
 
-      <h3 className="mt-5 font-serif text-3xl leading-tight tracking-tight">
-        {text}
-      </h3>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={current}
+          initial={{ opacity: 0, x: 16 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -16 }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
+        >
+          <h3 className="mt-5 font-serif text-3xl leading-tight tracking-tight">
+            {text}
+          </h3>
 
-      <div className="mt-5 flex flex-col gap-2">
-        {options.map((option, idx) => {
-          const active = selected === idx;
-          return (
-            <button
-              key={idx}
-              onClick={() => onPick(idx)}
-              className={
-                "flex items-center gap-4 rounded-xl border px-5 py-4 text-left text-sm transition-colors " +
-                (active
-                  ? "border-[#D64D1E] bg-[#F9EEE6]"
-                  : "border-[#D9D2C3] bg-[#F5F1EA] hover:border-[#0F0F0E]")
-              }
-            >
-              <span
-                className={
-                  "h-4 w-4 flex-none rounded-full border-2 " +
-                  (active ? "border-[#D64D1E] bg-[#D64D1E]" : "border-[#D9D2C3]")
-                }
-              />
-              <span className="text-[#0F0F0E]">{option}</span>
-            </button>
-          );
-        })}
-      </div>
+          <div className="mt-5 flex flex-col gap-2">
+            {options.map((option, idx) => {
+              const active = selected === idx;
+              return (
+                <button
+                  key={idx}
+                  onClick={() => onPick(idx)}
+                  className={
+                    "flex items-center gap-4 rounded-xl border px-5 py-4 text-left text-sm active:scale-[0.98] " +
+                    (active
+                      ? "border-[#D64D1E] bg-[#F9EEE6] transition-all duration-150"
+                      : "border-[#D9D2C3] bg-[#F5F1EA] transition-all duration-150 hover:border-[#D64D1E]")
+                  }
+                >
+                  <span
+                    className={
+                      "h-4 w-4 flex-none rounded-full border-2 " +
+                      (active ? "border-[#D64D1E] bg-[#D64D1E]" : "border-[#D9D2C3]")
+                    }
+                  />
+                  <span className="text-[#0F0F0E]">{option}</span>
+                </button>
+              );
+            })}
+          </div>
+        </motion.div>
+      </AnimatePresence>
 
       <div className="mt-5 flex justify-between gap-3">
         <button
