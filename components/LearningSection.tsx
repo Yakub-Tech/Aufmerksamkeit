@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import SectionReveal from "./SectionReveal";
 
 const TIPPS = [
@@ -52,9 +53,22 @@ const FAQS = [
   },
 ];
 
+const gridVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+};
+
 export default function LearningSection() {
   const [openTip, setOpenTip] = useState<boolean[]>(TIPPS.map(() => false));
   const [openFaq, setOpenFaq] = useState<boolean[]>(FAQS.map(() => false));
+
+  const tipsRef = useRef<HTMLDivElement>(null);
+  const tipsInView = useInView(tipsRef, { once: true, margin: "-50px" });
 
   function toggleTip(idx: number) {
     setOpenTip((prev) => prev.map((v, i) => (i === idx ? !v : v)));
@@ -75,45 +89,52 @@ export default function LearningSection() {
         </p>
 
         <SectionReveal>
-        <div className="mt-10 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-[#D9D2C3] bg-[#D9D2C3]">
+        <motion.div
+          ref={tipsRef}
+          className="mt-10 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-[#D9D2C3] bg-[#D9D2C3]"
+          variants={gridVariants}
+          initial="hidden"
+          animate={tipsInView ? "visible" : "hidden"}
+        >
           {TIPPS.map((tipp, idx) => {
             const open = openTip[idx];
             return (
-              <button
-                key={idx}
-                onClick={() => toggleTip(idx)}
-                className="flex flex-col gap-3 bg-[#F5F1EA] p-6 text-left transition-colors hover:bg-[#EEE7DB]"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex flex-col gap-1">
-                    <span className="font-mono text-[10px] tracking-widest text-[#D64D1E]">
-                      {String(idx + 1).padStart(2, "0")}
+              <motion.div key={idx} variants={itemVariants}>
+                <button
+                  onClick={() => toggleTip(idx)}
+                  className="flex w-full flex-col gap-3 bg-[#F5F1EA] p-6 text-left transition-colors hover:bg-[#EEE7DB]"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex flex-col gap-1">
+                      <span className="font-mono text-[10px] tracking-widest text-[#D64D1E]">
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
+                      <h5 className="font-serif text-xl leading-tight">{tipp.title}</h5>
+                    </div>
+                    <span
+                      className="flex-none text-lg leading-none transition-transform duration-300"
+                      style={{
+                        transform: open ? "rotate(45deg)" : "rotate(0deg)",
+                        color: open ? "#D64D1E" : "#6B6860",
+                      }}
+                    >
+                      +
                     </span>
-                    <h5 className="font-serif text-xl leading-tight">{tipp.title}</h5>
                   </div>
-                  <span
-                    className="flex-none text-lg leading-none transition-transform duration-300"
+                  <div
                     style={{
-                      transform: open ? "rotate(45deg)" : "rotate(0deg)",
-                      color: open ? "#D64D1E" : "#6B6860",
+                      maxHeight: open ? "200px" : "0px",
+                      overflow: "hidden",
+                      transition: "max-height 0.3s ease",
                     }}
                   >
-                    +
-                  </span>
-                </div>
-                <div
-                  style={{
-                    maxHeight: open ? "200px" : "0px",
-                    overflow: "hidden",
-                    transition: "max-height 0.3s ease",
-                  }}
-                >
-                  <p className="pb-1 text-sm leading-relaxed text-[#2A2A28]">{tipp.body}</p>
-                </div>
-              </button>
+                    <p className="pb-1 text-sm leading-relaxed text-[#2A2A28]">{tipp.body}</p>
+                  </div>
+                </button>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
         </SectionReveal>
 
         <SectionReveal>
