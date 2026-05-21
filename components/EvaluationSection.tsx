@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import SectionReveal from "./SectionReveal";
 
 const effectOptions = [
@@ -51,6 +51,31 @@ type EvaluationSectionProps = {
   selectedEffect: string;
   selectedMorning: string;
 };
+
+function CountUp({ target, animated, suffix = "" }: { target: number; animated: boolean; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const started = useRef(false);
+
+  useEffect(() => {
+    if (!animated || started.current) return;
+    started.current = true;
+    const duration = 800;
+    const begin = Date.now();
+    let rafId: number;
+    function step() {
+      const elapsed = Date.now() - begin;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * target));
+      if (progress < 1) rafId = requestAnimationFrame(step);
+      else setCount(target);
+    }
+    rafId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafId);
+  }, [animated, target]);
+
+  return <>{animated ? count : 0}{suffix}</>;
+}
 
 function hi(text: string | number) {
   return <span className="italic text-[#D64D1E]">{text}</span>;
@@ -196,25 +221,38 @@ export default function EvaluationSection({
 
         <SectionReveal>
         <div className="mt-10 grid grid-cols-4 gap-px overflow-hidden rounded-2xl border border-[#D9D2C3] bg-[#D9D2C3]">
-          {stats.map((s, i) => (
-            <div
-              key={i}
-              className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#F5F1EA] p-7"
-            >
-              <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#6B6860]">
-                {s.label}
-              </div>
-              <div className="font-serif text-6xl leading-none tracking-tight">
-                {s.value}
-              </div>
+          <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#F5F1EA] p-7">
+            <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#6B6860]">
+              {stats[0].label}
             </div>
-          ))}
+            <div className="font-serif text-6xl leading-none tracking-tight">
+              <CountUp target={distractions} animated={animated} />
+            </div>
+          </div>
+          <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#F5F1EA] p-7">
+            <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#6B6860]">
+              {stats[1].label}
+            </div>
+            <div className="font-serif text-6xl leading-none tracking-tight">
+              <CountUp target={elapsed} animated={animated} suffix="s" />
+            </div>
+          </div>
+          <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#F5F1EA] p-7">
+            <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#6B6860]">
+              {stats[2].label}
+            </div>
+            <div className="font-serif text-6xl leading-none tracking-tight">
+              {comparisonLabel}
+            </div>
+          </div>
           <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#0F0F0E] p-7">
             <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#8C8A82]">
               Angeklickte Fun Facts
             </div>
             <div className="font-serif leading-none tracking-tight">
-              <span className="text-6xl text-[#D64D1E]">{distractions}</span>
+              <span className="text-6xl text-[#D64D1E]">
+                <CountUp target={distractions} animated={animated} />
+              </span>
               <span className="text-3xl text-[#6B6860]">/{totalFacts}</span>
             </div>
           </div>
