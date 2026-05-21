@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-12 py-14">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="flex flex-col gap-2">
-            <a href="#home" className="flex items-baseline gap-2">
+            <a href="#home" className="group flex items-baseline gap-2 transition-opacity duration-200 hover:opacity-70">
               <span className="h-2 w-2 rounded-sm bg-[#D64D1E]" />
               <span className="font-serif text-lg tracking-tight">
                 Aufmerksamkeit<span className="italic text-[#D64D1E]">.</span>
