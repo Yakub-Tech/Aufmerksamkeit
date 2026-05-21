@@ -5,7 +5,8 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AttentionTestSection from "@/components/AttentionTestSection";
 import EvaluationSection from "@/components/EvaluationSection";
-import LearningSection from "@/components/LearningSection";
+import TippsSection from "@/components/TippsSection";
+import CommunityBanner from "@/components/CommunityBanner";
 import CommunitySection from "@/components/CommunitySection";
 import Footer from "@/components/Footer";
 import ScrollGuide from "@/components/ScrollGuide";
@@ -53,8 +54,9 @@ export default function Home() {
         </div>
       </SectionReveal>
       <SectionReveal>
-        <LearningSection />
+        <TippsSection />
       </SectionReveal>
+      <CommunityBanner />
       <SectionReveal>
         <CommunitySection />
       </SectionReveal>
