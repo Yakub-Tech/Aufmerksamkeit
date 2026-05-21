@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import SectionReveal from "./SectionReveal";
 
 type Post = {
@@ -20,13 +21,14 @@ function Avatar({ name }: { name: string }) {
 }
 
 const inputClass =
-  "w-full rounded-xl border border-[#D9D2C3] bg-[#F5F1EA] p-3 text-sm text-[#0F0F0E] outline-none transition-all duration-150 focus:border-[#0F0F0E] focus:ring-1 focus:ring-[#D64D1E]";
+  "w-full rounded-xl border border-[#D9D2C3] bg-[#F5F1EA] p-3 text-sm text-[#0F0F0E] outline-none transition-all duration-150 focus:border-[#D64D1E] focus:ring-1 focus:ring-[#D64D1E]";
 
 export default function CommunitySection() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [name, setName] = useState("");
   const [age, setAge] = useState(18);
   const [text, setText] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     fetch("/api/comments")
@@ -41,19 +43,25 @@ export default function CommunitySection() {
     const trimmedText = text.trim();
     if (!trimmedName || !trimmedText) return;
 
+    setIsSubmitting(true);
+
     const res = await fetch("/api/comments", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: trimmedName, age, text: trimmedText }),
     });
 
-    if (!res.ok) return;
+    if (!res.ok) {
+      setIsSubmitting(false);
+      return;
+    }
 
     const newPost: Post = await res.json();
     setPosts((prev) => [newPost, ...prev]);
     setName("");
     setText("");
     setAge(18);
+    setIsSubmitting(false);
   }
 
   return (
@@ -111,9 +119,20 @@ export default function CommunitySection() {
             <div className="mt-4 flex justify-end">
               <button
                 type="submit"
-                className="rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F5F1EA] transition-colors duration-200 hover:bg-[#D64D1E]"
+                disabled={isSubmitting}
+                className="rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F5F1EA] transition-all duration-200 hover:bg-[#D64D1E] disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Beitrag absenden
+                {isSubmitting ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Wird gespeichert…
+                  </span>
+                ) : (
+                  "Beitrag absenden"
+                )}
               </button>
             </div>
           </form>
@@ -127,22 +146,28 @@ export default function CommunitySection() {
                   </p>
                 </div>
               ) : (
-                posts.map((post) => (
-                  <div
-                    key={post.id}
-                    className="rounded-2xl border border-[#D9D2C3] bg-[#F5F1EA] p-5"
-                  >
-                    <div className="flex items-center gap-3">
-                      <Avatar name={post.name} />
-                      <span className="font-mono text-[10px] uppercase tracking-widest text-[#D64D1E]">
-                        {post.name.toUpperCase()}, {post.age}
-                      </span>
-                    </div>
-                    <p className="mt-3 text-sm leading-relaxed text-[#2A2A28] break-words">
-                      {post.text}
-                    </p>
-                  </div>
-                ))
+                <AnimatePresence initial={false}>
+                  {posts.map((post) => (
+                    <motion.div
+                      key={post.id}
+                      layout
+                      initial={{ opacity: 0, y: -16 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      className="rounded-2xl border border-[#D9D2C3] bg-[#F5F1EA] p-5"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Avatar name={post.name} />
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-[#D64D1E]">
+                          {post.name.toUpperCase()}, {post.age}
+                        </span>
+                      </div>
+                      <p className="mt-3 text-sm leading-relaxed text-[#2A2A28] break-words">
+                        {post.text}
+                      </p>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
               )}
             </div>
             <div className="pointer-events-none absolute bottom-0 left-0 right-3 h-10 rounded-b-2xl bg-gradient-to-t from-[#F5F1EA] to-transparent" />
