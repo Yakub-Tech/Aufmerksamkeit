@@ -103,11 +103,11 @@ export default function HeroSection() {
             Sie alle wollen dasselbe: deine Zeit und deinen Fokus. Wie gut kannst du dich heute noch konzentrieren?
           </p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-8" style={fadeIn(500)}>
+          <div className="mt-6 flex flex-col items-start gap-3" style={fadeIn(500)}>
             <div className="animate-cta-pulse rounded-full">
-              <Button label="Jetzt loslegen" onClick={scrollToTest} />
+              <Button label="Jetzt loslegen" onClick={scrollToTest} size="lg" />
             </div>
-            <p className="font-mono text-[11px] uppercase tracking-widest text-[#6B6860]">
+            <p className="font-serif text-sm italic text-[#6B6860]">
               Bereits{" "}
               <span className="text-[#D64D1E]">
                 <Counter target={1247} />
