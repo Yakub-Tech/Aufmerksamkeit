@@ -48,8 +48,10 @@ export default function DistractionPopup({
         <button
           onClick={onClose}
           className={
-            "text-xl leading-none transition-colors " +
-            (dark ? "text-[#6B6860] hover:text-[#F5F1EA]" : "text-[#6B6860] hover:text-[#0F0F0E]")
+            "flex h-7 w-7 items-center justify-center rounded-full text-base transition-colors " +
+            (dark
+              ? "bg-[#2A2A28] text-[#EEE7DB] hover:bg-[#D64D1E] hover:text-white"
+              : "bg-[#D9D2C3] text-[#0F0F0E] hover:bg-[#0F0F0E] hover:text-[#F5F1EA]")
           }
           aria-label="Schließen"
         >
