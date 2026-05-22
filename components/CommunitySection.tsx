@@ -120,7 +120,7 @@ export default function CommunitySection() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F5F1EA] transition-all duration-200 hover:bg-[#D64D1E] disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F5F1EA] transition-all duration-200 hover:scale-[1.04] hover:bg-[#D64D1E] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">

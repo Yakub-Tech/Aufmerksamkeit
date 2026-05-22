@@ -72,10 +72,10 @@ export default function Quiz({
                   key={idx}
                   onClick={() => onPick(idx)}
                   className={
-                    "flex items-center gap-4 rounded-xl border px-5 py-4 text-left text-sm active:scale-[0.98] " +
+                    "flex items-center gap-4 rounded-xl border px-5 py-4 text-left text-sm transition-all duration-150 active:scale-[0.98] hover:scale-[1.02] " +
                     (active
-                      ? "border-[#D64D1E] bg-[#F9EEE6] transition-all duration-150"
-                      : "border-[#D9D2C3] bg-[#F5F1EA] transition-all duration-150 hover:border-[#D64D1E]")
+                      ? "border-[#D64D1E] bg-[#F9EEE6]"
+                      : "border-[#D9D2C3] bg-[#F5F1EA] hover:border-[#D64D1E]")
                   }
                 >
                   <span
@@ -96,14 +96,14 @@ export default function Quiz({
         <button
           onClick={onBack}
           disabled={current === 0}
-          className="rounded-full border border-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#0F0F0E] transition-colors hover:bg-[#0F0F0E] hover:text-[#F5F1EA] disabled:cursor-not-allowed disabled:opacity-30"
+          className="rounded-full border border-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#0F0F0E] transition-all hover:scale-[1.04] hover:bg-[#0F0F0E] hover:text-[#F5F1EA] disabled:cursor-not-allowed disabled:opacity-30"
         >
           Zurück
         </button>
         <button
           onClick={onNext}
           disabled={selected === null}
-          className="rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F5F1EA] transition-colors hover:bg-[#D64D1E] disabled:cursor-not-allowed disabled:opacity-30"
+          className="rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F5F1EA] transition-all hover:scale-[1.04] hover:bg-[#D64D1E] disabled:cursor-not-allowed disabled:opacity-30"
         >
           {last ? "Zur Auswertung" : "Weiter"}
         </button>
