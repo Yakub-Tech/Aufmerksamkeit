@@ -7,7 +7,7 @@ const menuItems = [
   { label: "FAQ", href: "#faq" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ locked = false }: { locked?: boolean }) {
   const [scrollPct, setScrollPct] = useState(0);
   const [scrolled, setScrolled] = useState(false);
 
@@ -38,10 +38,14 @@ export default function Navbar() {
             <li key={item.href}>
               <a
                 href={item.href}
-                className="group relative text-sm font-medium text-[#2A2A28] transition-colors duration-200 hover:text-[#D64D1E]"
+                onClick={locked ? (e) => e.preventDefault() : undefined}
+                aria-disabled={locked || undefined}
+                className={`group relative text-sm font-medium transition-colors duration-200 ${locked ? "cursor-not-allowed text-[#6B6860] opacity-50" : "text-[#2A2A28] hover:text-[#D64D1E]"}`}
               >
                 {item.label}
-                <span className="absolute -bottom-0.5 left-0 h-[1.5px] w-0 bg-[#D64D1E] transition-all duration-300 group-hover:w-full" />
+                {!locked && (
+                  <span className="absolute -bottom-0.5 left-0 h-[1.5px] w-0 bg-[#D64D1E] transition-all duration-300 group-hover:w-full" />
+                )}
               </a>
             </li>
           ))}

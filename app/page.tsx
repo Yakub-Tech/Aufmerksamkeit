@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AttentionTestSection from "@/components/AttentionTestSection";
@@ -23,12 +23,38 @@ export default function Home() {
     selectedMorning: "",
   });
   const [quizDone, setQuizDone] = useState(false);
+  const [scrollLocked, setScrollLocked] = useState(true);
+
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    if (scrollLocked) {
+      html.style.overflow = "hidden";
+      body.style.overflow = "hidden";
+    } else {
+      html.style.overflow = "";
+      body.style.overflow = "";
+    }
+    return () => {
+      html.style.overflow = "";
+      body.style.overflow = "";
+    };
+  }, [scrollLocked]);
+
+  function handleStart() {
+    setScrollLocked(false);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.getElementById("test")?.scrollIntoView({ behavior: "smooth" });
+      });
+    });
+  }
 
   return (
     <>
-      <Navbar />
+      <Navbar locked={scrollLocked} />
       <ScrollGuide />
-      <HeroSection />
+      <HeroSection onStart={handleStart} />
       <SectionReveal>
         <AttentionTestSection onResultChange={setResult} onQuizComplete={() => setQuizDone(true)} />
       </SectionReveal>

@@ -37,18 +37,13 @@ function Counter({ target, duration = 1500 }: { target: number; duration?: numbe
   return <>{count.toLocaleString("de-DE")}</>;
 }
 
-export default function HeroSection() {
+export default function HeroSection({ onStart }: { onStart: () => void }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const t = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(t);
   }, []);
-
-  function scrollToTest() {
-    const el = document.getElementById("test");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  }
 
   const fadeIn = (delay: number) => ({
     opacity: mounted ? 1 : 0,
@@ -105,7 +100,7 @@ export default function HeroSection() {
 
           <div className="mt-6 flex flex-col items-start gap-3" style={fadeIn(500)}>
             <div className="animate-cta-pulse rounded-full">
-              <Button label="Jetzt loslegen" onClick={scrollToTest} size="lg" />
+              <Button label="Jetzt loslegen" onClick={onStart} size="lg" />
             </div>
             <p className="font-serif text-sm italic text-[#6B6860]">
               Bereits{" "}
@@ -118,29 +113,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div
-        className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
-        style={fadeIn(800)}
-      >
-        <span className="font-mono text-[9px] uppercase tracking-widest text-[#6B6860]">
-          Scroll
-        </span>
-        <svg
-          width="16"
-          height="20"
-          viewBox="0 0 16 20"
-          fill="none"
-          className="animate-bounce text-[#6B6860]"
-        >
-          <path
-            d="M8 1v14M2 9l6 6 6-6"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
     </section>
   );
 }
