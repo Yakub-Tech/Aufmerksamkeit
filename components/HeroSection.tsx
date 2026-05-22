@@ -69,7 +69,6 @@ export default function HeroSection({ onStart }: { onStart: () => void }) {
           style={fadeIn(0)}
         >
           <span>Digitale Ablenkung und bewusster Umgang mit dem Smartphone</span>
-          <span>Band 01 — Fokus im Zeitalter der Ablenkung</span>
         </div>
 
         <div className="mt-8 max-w-2xl">
