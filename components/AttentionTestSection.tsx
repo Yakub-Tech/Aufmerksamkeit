@@ -264,7 +264,7 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
     setVisiblePopups([]);
     const timeouts: ReturnType<typeof setTimeout>[] = [];
     const q = ALL_QUESTIONS[current];
-    const isDark = current >= QUESTIONS.length;
+    const isDark = true;
     const delay1 = 4000 + Math.floor(Math.random() * 2000);
 
     const t1 = setTimeout(() => {
