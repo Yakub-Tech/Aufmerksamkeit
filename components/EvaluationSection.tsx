@@ -201,7 +201,6 @@ export default function EvaluationSection({
     : "~ Ø";
 
   const stats = [
-    { label: "Anzahl der Ablenkungen", value: String(distractions) },
     { label: "Gesamtzeit", value: elapsed + "s" },
     { label: "Ø im Vergleich zu anderen Nutzer:innen", value: comparisonLabel },
   ];
@@ -220,18 +219,10 @@ export default function EvaluationSection({
         </p>
 
         <SectionReveal>
-        <div className="mt-10 grid grid-cols-4 gap-px overflow-hidden rounded-2xl border border-[#D9D2C3] bg-[#D9D2C3]">
+        <div className="mt-10 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-[#D9D2C3] bg-[#D9D2C3]">
           <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#F5F1EA] p-7">
             <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#6B6860]">
               {stats[0].label}
-            </div>
-            <div className="font-serif text-6xl leading-none tracking-tight">
-              <CountUp target={distractions} animated={animated} />
-            </div>
-          </div>
-          <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#F5F1EA] p-7">
-            <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#6B6860]">
-              {stats[1].label}
             </div>
             <div className="font-serif text-6xl leading-none tracking-tight">
               <CountUp target={elapsed} animated={animated} suffix="s" />
@@ -239,7 +230,7 @@ export default function EvaluationSection({
           </div>
           <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#F5F1EA] p-7">
             <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#6B6860]">
-              {stats[2].label}
+              {stats[1].label}
             </div>
             <div className="font-serif text-6xl leading-none tracking-tight">
               {comparisonLabel}
@@ -247,7 +238,7 @@ export default function EvaluationSection({
           </div>
           <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#0F0F0E] p-7">
             <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#8C8A82]">
-              Angeklickte Fun Facts
+              Mal abgelenkt
             </div>
             <div className="font-serif leading-none tracking-tight">
               <span className="text-6xl text-[#D64D1E]">
