@@ -83,64 +83,30 @@ function hi(text: string | number) {
 
 function getEvalMain(distractions: number, elapsed: number, totalFacts: number) {
   const isHighDistractions = distractions > AVG_DISTRACTIONS;
-  const isLowTime = elapsed < AVG_TIME_SECONDS - 10;
   const isHighTime = elapsed > AVG_TIME_SECONDS + 15;
 
   if (distractions === 0) {
-    return (
-      <>
-        Du hast während des Quiz keinen einzigen Fun Fact angeklickt. Das
-        spricht dafür, dass du deine Aufmerksamkeit sehr gut bei der
-        eigentlichen Aufgabe halten konntest.
-      </>
-    );
+    return <>Kein einziger Fun Fact angeklickt. Sehr fokussiert.</>;
   }
   if (distractions <= 2 && !isHighTime) {
     return (
       <>
-        Du hast während des Quiz nur {hi(`${distractions} von ${totalFacts}`)}{" "}
-        Fun Facts angeklickt. Das spricht dafür, dass du deine Aufmerksamkeit
-        vergleichsweise gut bei der eigentlichen Aufgabe halten konntest.
-      </>
-    );
-  }
-  if (isHighDistractions && isLowTime) {
-    return (
-      <>
-        Du warst zügig unterwegs, hast dich aber {hi(`${distractions}-mal`)}{" "}
-        ablenken lassen. Ein gemischtes Bild: gutes Tempo, aber die Umgebung
-        hat öfter gezogen.
-      </>
-    );
-  }
-  if (distractions <= 2 && isHighTime) {
-    return (
-      <>
-        Du hast kaum Ablenkungen angeklickt, hast dir aber mehr Zeit gelassen
-        als der Durchschnitt. Eine konzentrierte, bedächtige Herangehensweise.
+        {hi(`${distractions} von ${totalFacts}`)} Fun Facts angeklickt. Du hast
+        dich gut auf die Aufgabe konzentriert.
       </>
     );
   }
   if (isHighDistractions) {
     return (
       <>
-        Du hast {hi(`${distractions} von ${totalFacts}`)} Fun Facts angeklickt.
-        Die Umgebung hat dich öfter abgelenkt als im Durchschnitt.
-      </>
-    );
-  }
-  if (isHighTime) {
-    return (
-      <>
-        Du hast dir mehr Zeit gelassen als der Durchschnitt. Das kann auf eine
-        bedächtigere, konzentriertere Vorgehensweise hinweisen.
+        {hi(`${distractions} von ${totalFacts}`)} Fun Facts angeklickt. Die
+        Umgebung hat dich öfter abgelenkt als der Durchschnitt.
       </>
     );
   }
   return (
     <>
-      Du hast während des Quiz {hi(`${distractions} von ${totalFacts}`)}{" "}
-      Fun Facts angeklickt.
+      {hi(`${distractions} von ${totalFacts}`)} Fun Facts angeklickt.
     </>
   );
 }
@@ -150,23 +116,21 @@ function getEvalSub(distractions: number, elapsed: number) {
 
   const distCompare =
     distractions < AVG_DISTRACTIONS
-      ? "das ist unter dem Durchschnitt. Ein gutes Zeichen."
+      ? "unter Ø"
       : distractions > AVG_DISTRACTIONS
-      ? "das liegt über dem Durchschnitt."
-      : "das entspricht dem Durchschnitt.";
+      ? "über Ø"
+      : "~ Ø";
 
   const timeNote =
-    timeDiff > 5 ? (
-      <> Du warst {hi(`${timeDiff} Sekunden`)} schneller als der Durchschnitt.</>
-    ) : timeDiff < -5 ? (
-      <> Du hast {hi(`${Math.abs(timeDiff)} Sekunden`)} länger gebraucht als der Durchschnitt.</>
-    ) : null;
+    timeDiff > 5
+      ? ` · ${timeDiff}s schneller als der Ø`
+      : timeDiff < -5
+      ? ` · ${Math.abs(timeDiff)}s langsamer als der Ø`
+      : "";
 
   return (
     <>
-      Deine Aufmerksamkeit wurde {hi(`${distractions}-mal`)} unterbrochen,{" "}
-      {distCompare}
-      {timeNote}
+      {hi(`${distractions}-mal`)} abgelenkt — {distCompare}{timeNote}
     </>
   );
 }
