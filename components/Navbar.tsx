@@ -8,15 +8,11 @@ const menuItems = [
 ];
 
 export default function Navbar({ locked = false }: { locked?: boolean }) {
-  const [scrollPct, setScrollPct] = useState(0);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     function onScroll() {
-      const doc = document.documentElement;
-      const total = doc.scrollHeight - doc.clientHeight;
-      setScrollPct(total > 0 ? (doc.scrollTop / total) * 100 : 0);
-      setScrolled(doc.scrollTop > 20);
+      setScrolled(document.documentElement.scrollTop > 20);
     }
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -52,10 +48,6 @@ export default function Navbar({ locked = false }: { locked?: boolean }) {
         </ul>
       </div>
 
-      <div
-        className="absolute bottom-0 left-0 h-[2px] bg-[#D64D1E] transition-all duration-100"
-        style={{ width: `${scrollPct}%` }}
-      />
     </nav>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import { useActiveSection } from "@/hooks/useActiveSection";
+import { useState, useEffect, useCallback } from "react";
 
 const SECTIONS = [
   { id: "home", label: "ERKENNEN" },
@@ -9,28 +9,62 @@ const SECTIONS = [
   { id: "community", label: "TEILEN" },
 ];
 
-const SECTION_IDS = SECTIONS.map((s) => s.id);
-
 export default function ScrollGuide() {
-  const activeId = useActiveSection(SECTION_IDS);
-  const activeIndex = SECTIONS.findIndex((s) => s.id === activeId);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [segmentFills, setSegmentFills] = useState<number[]>([0, 0, 0, 0]);
+
+  const updateProgress = useCallback(() => {
+    const positions = SECTIONS.map((s) => {
+      const el = document.getElementById(s.id);
+      if (!el) return 0;
+      return el.getBoundingClientRect().top + window.scrollY;
+    });
+
+    const viewportCenter = window.scrollY + window.innerHeight * 0.35;
+
+    let active = 0;
+    for (let i = SECTIONS.length - 1; i >= 0; i--) {
+      if (viewportCenter >= positions[i]) {
+        active = i;
+        break;
+      }
+    }
+    setActiveIndex(active);
+
+    const fills = positions.slice(1).map((endPos, i) => {
+      const startPos = positions[i];
+      const range = endPos - startPos;
+      if (range <= 0) return 0;
+      return Math.max(0, Math.min(1, (viewportCenter - startPos) / range));
+    });
+    setSegmentFills(fills);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    updateProgress();
+    return () => window.removeEventListener("scroll", updateProgress);
+  }, [updateProgress]);
 
   return (
     <div className="fixed right-5 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center xl:flex">
       {SECTIONS.map((section, i) => {
-        const isActive = activeId === section.id;
+        const isActive = i === activeIndex;
         const isPast = i < activeIndex;
+        const fillPct = i > 0 ? (segmentFills[i - 1] ?? 0) * 100 : 0;
 
         return (
           <div key={section.id} className="flex flex-col items-center">
             {i > 0 && (
               <div
-                className="w-px transition-colors duration-500"
-                style={{
-                  height: "32px",
-                  backgroundColor: isPast || isActive ? "#D64D1E" : "#D9D2C3",
-                }}
-              />
+                className="relative overflow-hidden"
+                style={{ width: "1px", height: "40px", backgroundColor: "#D9D2C3" }}
+              >
+                <div
+                  className="absolute top-0 left-0 w-full bg-[#D64D1E]"
+                  style={{ height: `${fillPct}%` }}
+                />
+              </div>
             )}
             <button
               onClick={() => {
@@ -43,8 +77,8 @@ export default function ScrollGuide() {
               <div
                 className="relative flex items-center justify-center rounded-full transition-all duration-300"
                 style={{
-                  width: isActive ? "12px" : "8px",
-                  height: isActive ? "12px" : "8px",
+                  width: isActive ? "16px" : "10px",
+                  height: isActive ? "16px" : "10px",
                   backgroundColor: isActive ? "#D64D1E" : isPast ? "#D64D1E" : "#D9D2C3",
                 }}
               >
@@ -53,10 +87,10 @@ export default function ScrollGuide() {
                 )}
               </div>
               <span
-                className="absolute right-5 whitespace-nowrap font-mono text-[9px] uppercase tracking-widest transition-all duration-200"
+                className="absolute right-6 whitespace-nowrap font-mono text-[9px] uppercase tracking-widest transition-all duration-200"
                 style={{
                   opacity: isActive ? 1 : 0,
-                  color: isActive ? "#D64D1E" : "#6B6860",
+                  color: "#D64D1E",
                   transform: isActive ? "translateX(0)" : "translateX(4px)",
                 }}
                 aria-hidden
@@ -67,7 +101,6 @@ export default function ScrollGuide() {
           </div>
         );
       })}
-
     </div>
   );
 }
