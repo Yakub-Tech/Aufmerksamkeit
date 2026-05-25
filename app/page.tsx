@@ -26,11 +26,13 @@ export default function Home() {
   const [scrollLocked, setScrollLocked] = useState(true);
 
   useEffect(() => {
+    history.scrollRestoration = "manual";
     const html = document.documentElement;
     const body = document.body;
     if (scrollLocked) {
       html.style.overflow = "hidden";
       body.style.overflow = "hidden";
+      window.scrollTo(0, 0);
     } else {
       html.style.overflow = "";
       body.style.overflow = "";
