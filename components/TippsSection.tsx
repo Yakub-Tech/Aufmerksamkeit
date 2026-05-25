@@ -75,7 +75,7 @@ export default function TippsSection() {
               <motion.div key={idx} variants={itemVariants}>
                 <button
                   onClick={() => toggleTip(idx)}
-                  className="flex w-full flex-col gap-3 bg-[#F5F1EA] p-6 text-left transition-all hover:scale-[1.01] hover:bg-[#EEE7DB]"
+                  className="flex w-full cursor-pointer flex-col gap-3 bg-[#F5F1EA] p-6 text-left transition-all hover:scale-[1.01] hover:bg-[#EEE7DB]"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex flex-col gap-1">

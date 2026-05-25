@@ -36,7 +36,7 @@ export default function Navbar({ locked = false }: { locked?: boolean }) {
                 href={item.href}
                 onClick={locked ? (e) => e.preventDefault() : undefined}
                 aria-disabled={locked || undefined}
-                className={`group relative text-sm font-medium transition-colors duration-200 ${locked ? "cursor-not-allowed text-[#6B6860] opacity-50" : "text-[#2A2A28] hover:text-[#D64D1E]"}`}
+                className={`group relative text-sm font-medium transition-colors duration-200 ${locked ? "cursor-not-allowed text-[#6B6860] opacity-50" : "cursor-pointer text-[#2A2A28] hover:text-[#D64D1E]"}`}
               >
                 {item.label}
                 {!locked && (

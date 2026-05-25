@@ -48,7 +48,7 @@ export default function DistractionPopup({
         <button
           onClick={onClose}
           className={
-            "flex h-7 w-7 items-center justify-center rounded-full text-base transition-all hover:scale-[1.1] " +
+            "flex h-7 w-7 cursor-pointer items-center justify-center rounded-full text-base transition-all hover:scale-[1.1] " +
             (dark
               ? "bg-[#2A2A28] text-[#EEE7DB] hover:bg-[#D64D1E] hover:text-white"
               : "bg-[#D9D2C3] text-[#0F0F0E] hover:bg-[#0F0F0E] hover:text-[#F5F1EA]")
@@ -74,7 +74,7 @@ export default function DistractionPopup({
           <button
             onClick={handleReveal}
             className={
-              "rounded-full px-5 py-2.5 text-sm font-medium transition-all hover:scale-[1.04] " +
+              "cursor-pointer rounded-full px-5 py-2.5 text-sm font-medium transition-all hover:scale-[1.04] " +
               (dark
                 ? "bg-[#D64D1E] text-white hover:bg-[#F9EEE6] hover:text-[#D64D1E]"
                 : "bg-[#0F0F0E] text-[#F5F1EA] hover:bg-[#D64D1E]")

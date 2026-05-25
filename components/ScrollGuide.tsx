@@ -71,7 +71,7 @@ export default function ScrollGuide() {
                 const el = document.getElementById(section.id);
                 if (el) el.scrollIntoView({ behavior: "smooth" });
               }}
-              className="group relative flex items-center justify-center"
+              className="group relative flex cursor-pointer items-center justify-center"
               aria-label={section.label}
             >
               <div

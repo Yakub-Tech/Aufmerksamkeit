@@ -164,7 +164,7 @@ export default function CommunitySection() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F5F1EA] transition-all duration-200 hover:scale-[1.04] hover:bg-[#D64D1E] disabled:cursor-not-allowed disabled:opacity-60"
+                className="cursor-pointer rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F5F1EA] transition-all duration-200 hover:scale-[1.04] hover:bg-[#D64D1E] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">
@@ -217,7 +217,7 @@ export default function CommunitySection() {
                           animate={wobbleId === post.id ? { rotate: [0, -14, 14, -9, 9, 0] } : { rotate: 0 }}
                           transition={{ duration: 0.45 }}
                           onClick={() => handleLike(post.id)}
-                          className={`flex items-center justify-center rounded-full p-1.5 transition-colors duration-150 ${
+                          className={`flex cursor-pointer items-center justify-center rounded-full p-1.5 transition-colors duration-150 ${
                             likedIds.includes(post.id)
                               ? "bg-[#3D7262] text-white"
                               : "bg-[#EEE7DB] text-[#6B6860] hover:bg-[#3D7262] hover:text-white"

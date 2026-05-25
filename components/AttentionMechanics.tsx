@@ -58,7 +58,7 @@ export default function AttentionMechanics({
             >
               <button
                 onClick={() => toggle(idx)}
-                className="flex w-full items-center justify-between px-4 py-4 text-left"
+                className="flex w-full cursor-pointer items-center justify-between px-4 py-4 text-left"
               >
                 <span className="font-serif text-base text-[#0F0F0E]">
                   {fact.title}
