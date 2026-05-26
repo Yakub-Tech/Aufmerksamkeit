@@ -39,10 +39,52 @@ function Counter({ target, duration = 1500 }: { target: number; duration?: numbe
 
 export default function HeroSection({ onStart }: { onStart: () => void }) {
   const [mounted, setMounted] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const phaseRef = useRef<"initial" | "scroll-bound">("initial");
 
   useEffect(() => {
     const t = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(t);
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.play().catch(() => {});
+
+    const onEnded = () => {
+      phaseRef.current = "scroll-bound";
+    };
+    video.addEventListener("ended", onEnded);
+
+    let rafId = 0;
+    let ticking = false;
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      rafId = requestAnimationFrame(() => {
+        ticking = false;
+        if (phaseRef.current !== "scroll-bound") return;
+        const section = sectionRef.current;
+        if (!section || !video.duration || isNaN(video.duration)) return;
+        const height = section.offsetHeight;
+        const progress = Math.min(Math.max(window.scrollY / height, 0), 1);
+        const target = (1 - progress) * video.duration;
+        if (!video.paused) video.pause();
+        video.currentTime = target;
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      video.removeEventListener("ended", onEnded);
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const fadeIn = (delay: number) => ({
@@ -53,14 +95,21 @@ export default function HeroSection({ onStart }: { onStart: () => void }) {
 
   return (
     <section
+      ref={sectionRef}
       id="home"
-      className="relative min-h-[calc(100vh-60px)]"
-      style={{
-        backgroundImage: "url('/images/hero.jpeg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      className="relative min-h-[calc(100vh-60px)] overflow-hidden"
     >
+      <video
+        ref={videoRef}
+        className="absolute inset-0 h-full w-full object-cover object-bottom"
+        muted
+        playsInline
+        preload="auto"
+        poster="/images/hero.jpeg"
+      >
+        <source src="/videos/generated_video_mp.mp4" type="video/mp4" />
+      </video>
+
       <div className="absolute inset-0 bg-gradient-to-r from-[#F5F1EA]/90 via-[#F5F1EA]/60 to-transparent" />
 
       <div className="relative mx-auto flex min-h-[calc(100vh-60px)] max-w-7xl flex-col justify-center px-12 py-16">
