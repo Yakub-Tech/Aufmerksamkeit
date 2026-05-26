@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Lenis from "lenis";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import AttentionTestSection from "@/components/AttentionTestSection";
@@ -24,6 +25,17 @@ export default function Home() {
   });
   const [quizDone, setQuizDone] = useState(false);
   const [scrollLocked, setScrollLocked] = useState(true);
+  const lenisRef = useRef<Lenis | null>(null);
+
+  useEffect(() => {
+    const lenis = new Lenis({ autoRaf: true });
+    lenisRef.current = lenis;
+    lenis.stop();
+    return () => {
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     history.scrollRestoration = "manual";
@@ -33,9 +45,11 @@ export default function Home() {
       html.style.overflow = "hidden";
       body.style.overflow = "hidden";
       window.scrollTo(0, 0);
+      lenisRef.current?.stop();
     } else {
       html.style.overflow = "";
       body.style.overflow = "";
+      lenisRef.current?.start();
     }
     return () => {
       html.style.overflow = "";
