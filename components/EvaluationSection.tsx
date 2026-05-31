@@ -147,12 +147,27 @@ export default function EvaluationSection({
   selectedMorning,
 }: EvaluationSectionProps) {
   const [animated, setAnimated] = useState(false);
+  const [barsVisible, setBarsVisible] = useState(false);
+  const statsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (answered !== totalQuestions) return;
     const id = requestAnimationFrame(() => setAnimated(true));
     return () => cancelAnimationFrame(id);
   }, [answered, totalQuestions]);
+
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setBarsVisible(true);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const isTestDone = answered === totalQuestions;
 
@@ -235,7 +250,7 @@ export default function EvaluationSection({
             Die Zahlen hinter dem <span className="italic">Gefühl</span>.
           </h2>
 
-          <div className="mt-10 grid grid-cols-3 gap-6">
+          <div ref={statsRef} className="mt-10 grid grid-cols-3 gap-6">
 
             <div className="rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB] p-6">
               <span className="font-mono text-[11px] uppercase tracking-widest text-[#D64D1E]">
@@ -256,7 +271,7 @@ export default function EvaluationSection({
                       <span className="block h-2 overflow-hidden rounded-full bg-[#D9D2C3]">
                         <span
                           className="block h-full rounded-full bg-[#0F0F0E]"
-                          style={{ width: animated ? `${barWidth}%` : "0%", transition: "width 0.8s ease-out" }}
+                          style={{ width: barsVisible ? `${barWidth}%` : "0%", transition: "width 2s ease-out" }}
                         />
                       </span>
                       <span className="text-right font-medium text-[#0F0F0E]">{row.avgLabel}</span>
@@ -274,7 +289,7 @@ export default function EvaluationSection({
                         <span className="block h-2 overflow-hidden rounded-full bg-[#D9D2C3]">
                           <span
                             className="block h-full rounded-full bg-[#D64D1E]"
-                            style={{ width: animated ? `${userBarWidth}%` : "0%", transition: "width 0.8s ease-out" }}
+                            style={{ width: barsVisible ? `${userBarWidth}%` : "0%", transition: "width 2s ease-out" }}
                           />
                         </span>
                         <span className="text-right font-medium text-[#D64D1E]">{hoursToLabel(hours)}</span>
@@ -285,9 +300,6 @@ export default function EvaluationSection({
 
                   return [originalRow];
                 })}
-              </div>
-              <div className="mt-5 font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
-                Quelle: Statista, 2024, DE
               </div>
             </div>
 
@@ -308,7 +320,7 @@ export default function EvaluationSection({
                       <span className="block h-2 overflow-hidden rounded-full bg-[#D9D2C3]">
                         <span
                           className={"block h-full rounded-full " + (isSelected ? "bg-[#D64D1E]" : "bg-[#0F0F0E]")}
-                          style={{ width: animated ? `${effect.value}%` : "0%", transition: "width 0.8s ease-out" }}
+                          style={{ width: barsVisible ? `${effect.value}%` : "0%", transition: "width 2s ease-out" }}
                         />
                       </span>
                       <span className={"text-right font-medium " + (isSelected ? "text-[#D64D1E]" : "text-[#0F0F0E]")}>
@@ -317,9 +329,6 @@ export default function EvaluationSection({
                     </div>
                   );
                 })}
-              </div>
-              <div className="mt-5 font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
-                Quelle: Statista, 2023, DE
               </div>
             </div>
 
@@ -340,7 +349,7 @@ export default function EvaluationSection({
                       <span className="block h-2 overflow-hidden rounded-full bg-[#D9D2C3]">
                         <span
                           className={"block h-full rounded-full " + (isSelected ? "bg-[#D64D1E]" : "bg-[#0F0F0E]")}
-                          style={{ width: animated ? `${m.value}%` : "0%", transition: "width 0.8s ease-out" }}
+                          style={{ width: barsVisible ? `${m.value}%` : "0%", transition: "width 2s ease-out" }}
                         />
                       </span>
                       <span className={"text-right font-medium " + (isSelected ? "text-[#D64D1E]" : "text-[#0F0F0E]")}>
@@ -349,9 +358,6 @@ export default function EvaluationSection({
                     </div>
                   );
                 })}
-              </div>
-              <div className="mt-5 font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
-                Quelle: Statista, 2024, DE
               </div>
             </div>
 
