@@ -149,27 +149,36 @@ export default function EvaluationSection({
   const [animated, setAnimated] = useState(false);
   const [barsVisible, setBarsVisible] = useState(false);
   const statsRef = useRef<HTMLDivElement>(null);
+  const isTestDone = answered === totalQuestions;
 
   useEffect(() => {
-    if (answered !== totalQuestions) return;
+    if (!isTestDone) return;
     const id = requestAnimationFrame(() => setAnimated(true));
     return () => cancelAnimationFrame(id);
-  }, [answered, totalQuestions]);
+  }, [isTestDone]);
 
   useEffect(() => {
     const el = statsRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) setBarsVisible(true);
+        if (entry.isIntersecting && isTestDone) setBarsVisible(true);
       },
       { threshold: 0.1 }
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [isTestDone]);
 
-  const isTestDone = answered === totalQuestions;
+  useEffect(() => {
+    if (!isTestDone) return;
+    const el = statsRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setBarsVisible(true);
+    }
+  }, [isTestDone]);
 
   const comparisonLabel = !isTestDone
     ? "—"
