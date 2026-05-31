@@ -5,11 +5,22 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useRive, useStateMachineInput } from "@rive-app/react-canvas";
 import SectionReveal from "./SectionReveal";
 
-// Sobald echte separate .riv-Dateien pro Geschlecht vorliegen, hier die Pfade tauschen
-const characterFiles: Record<string, string> = {
-  maennlich: "/rive/character_+_like.riv",
-  weiblich: "/rive/character_+_like.riv",
-  divers: "/rive/character_+_like.riv",
+const charDir = "/rive/characters";
+
+const augenFiles: Record<string, string> = {
+  maennlich: `${charDir}/Mann Augen.riv`,
+  weiblich: `${charDir}/Frau Augen.riv`,
+  divers: `${charDir}/Divers Augen.riv`,
+};
+const mundFiles: Record<string, string> = {
+  maennlich: `${charDir}/Mann Mund.riv`,
+  weiblich: `${charDir}/Frau Mund.riv`,
+  divers: `${charDir}/Divers Mund.riv`,
+};
+const likeFiles: Record<string, string> = {
+  maennlich: `${charDir}/Mann like (3 Animationen).riv`,
+  weiblich: `${charDir}/Frau like (3 Animationen).riv`,
+  divers: `${charDir}/Divers like (3 Animationen).riv`,
 };
 
 type Post = {
@@ -30,30 +41,56 @@ function Avatar({ name }: { name: string }) {
   );
 }
 
-function CharacterDisplay({ src, triggerEyes }: { src: string; triggerEyes?: boolean }) {
+// Vorschaucharakter im Formular - zeigt Augen oder Mund je nach Modus
+function CharacterDisplay({ src, isTyping }: { src: string; isTyping: boolean }) {
   const { rive, RiveComponent } = useRive({
-    src,
+    src: encodeURI(src),
     stateMachines: "State Machine 1",
     autoplay: true,
   });
   const eyesInput = useStateMachineInput(rive, "State Machine 1", "playEyes");
+  const typingInput = useStateMachineInput(rive, "State Machine 1", "isTyping");
 
+  // Augen-Animation beim ersten Laden auslösen (playEyes ist ein Trigger-Input)
   useEffect(() => {
-    if (triggerEyes) {
-      const t = setTimeout(() => eyesInput?.fire(), 100);
+    if (eyesInput) {
+      const t = setTimeout(() => { eyesInput.fire(); }, 150);
       return () => clearTimeout(t);
     }
-  }, [triggerEyes, eyesInput]);
+  }, [eyesInput]);
+
+  // Reden-Animation beim Tippen steuern
+  useEffect(() => {
+    if (typingInput) {
+      typingInput.value = isTyping;
+    }
+  }, [isTyping, typingInput]);
 
   return <RiveComponent />;
 }
 
-function PostCharacter({ src }: { src: string }) {
-  const { RiveComponent } = useRive({
-    src,
+// Avatar in geposteten Beiträgen - zeigt Like-Datei im Idle, beim Liken eine zufällige Animation
+function PostCharacter({ src, trigger }: { src: string; trigger: number }) {
+  const { rive, RiveComponent } = useRive({
+    src: encodeURI(src),
     stateMachines: "State Machine 1",
     autoplay: true,
   });
+  const expressionIndexInput = useStateMachineInput(rive, "State Machine 1", "expressionIndex");
+  const playExpressionInput = useStateMachineInput(rive, "State Machine 1", "playExpression");
+
+  // playExpression ist ein Trigger-Input, expressionIndex ein Number-Input
+  useEffect(() => {
+    if (trigger > 0 && expressionIndexInput && playExpressionInput) {
+      const idx = Math.floor(Math.random() * 3);
+      const t = setTimeout(() => {
+        expressionIndexInput.value = idx;
+        playExpressionInput.fire();
+      }, 100);
+      return () => clearTimeout(t);
+    }
+  }, [trigger, expressionIndexInput, playExpressionInput]);
+
   return (
     <div className="h-8 w-8 flex-none overflow-hidden rounded-full border border-[#D9D2C3] bg-[#F5F1EA]">
       <RiveComponent />
@@ -73,23 +110,22 @@ export default function CommunitySection() {
   const [genderError, setGenderError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [eyesTrigger, setEyesTrigger] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const typingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Drosselung damit die Augen-Animation beim Tippen nicht zu schnell feuert
-  const lastEyesFired = useRef(0);
-  function fireEyes() {
-    const now = Date.now();
-    if (now - lastEyesFired.current > 800) {
-      setEyesTrigger((v) => !v);
-      lastEyesFired.current = now;
-    }
+  function handleTyping() {
+    setTyping(true);
+    if (typingTimer.current) clearTimeout(typingTimer.current);
+    typingTimer.current = setTimeout(() => setTyping(false), 1200);
   }
 
   function chooseGender(value: string) {
     setGender(value);
     setGenderError(false);
-    setEyesTrigger((v) => !v);
+    // Der Wechsel des Geschlechts remountet den Charakter über den key, Augen starten neu
   }
+
+  const [likeTriggers, setLikeTriggers] = useState<Record<number, number>>({});
   const [likedIds, setLikedIds] = useState<number[]>(() => {
     if (typeof window === "undefined") return [];
     try {
@@ -166,6 +202,8 @@ export default function CommunitySection() {
       const updated = [...likedIds, id];
       setLikedIds(updated);
       localStorage.setItem("liked_comments", JSON.stringify(updated));
+      // Like-Animation auslösen
+      setLikeTriggers((prev) => ({ ...prev, [id]: (prev[id] ?? 0) + 1 }));
     }
 
     fetch("/api/comments")
@@ -207,9 +245,9 @@ export default function CommunitySection() {
               >
                 {gender && (
                   <CharacterDisplay
-                    key={gender}
-                    src={characterFiles[gender]}
-                    triggerEyes={eyesTrigger}
+                    key={`${gender}-${typing ? "mund" : "augen"}`}
+                    src={typing ? mundFiles[gender] : augenFiles[gender]}
+                    isTyping={typing}
                   />
                 )}
               </motion.div>
@@ -266,11 +304,10 @@ export default function CommunitySection() {
                 <span>40</span>
               </div>
             </div>
-            {/* fireEyes ist ein Platzhalter – ersetzt durch eine Reden-Animation, sobald die .riv-Datei diese enthält */}
             <textarea
               required
               value={text}
-              onChange={(e) => { setText(e.target.value); fireEyes(); }}
+              onChange={(e) => { setText(e.target.value); handleTyping(); }}
               placeholder="Was hat dir geholfen, weniger abgelenkt zu sein?"
               className={`min-h-[140px] resize-y ${inputClass}`}
             />
@@ -305,7 +342,7 @@ export default function CommunitySection() {
                 </div>
               ) : (
                 <AnimatePresence initial={false}>
-                  {posts.map((post, index) => (
+                  {posts.map((post) => (
                     <motion.div
                       key={post.id}
                       initial={{ opacity: 0, y: -16 }}
@@ -314,8 +351,8 @@ export default function CommunitySection() {
                       className="rounded-2xl border border-[#D9D2C3] bg-[#F5F1EA] p-5"
                     >
                       <div className="flex items-center gap-3">
-                        {post.gender
-                          ? <PostCharacter key={`char-${post.id}-${index}`} src={characterFiles[post.gender] ?? "/rive/character_+_like.riv"} />
+                        {post.gender && likeFiles[post.gender]
+                          ? <PostCharacter key={`char-${post.id}`} src={likeFiles[post.gender]} trigger={likeTriggers[post.id] ?? 0} />
                           : <Avatar name={post.name} />
                         }
                         <span className="font-mono text-[10px] uppercase tracking-widest text-[#D64D1E]">
