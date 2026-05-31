@@ -104,7 +104,7 @@ export default function HeroSection({ onStart }: { onStart: () => void }) {
         className="absolute inset-0 h-full w-full object-cover object-bottom"
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
         poster="/images/hero.jpeg"
       >
         <source src="/videos/generated_video_mp.mp4" type="video/mp4" />
