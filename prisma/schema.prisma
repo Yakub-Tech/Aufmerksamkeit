@@ -12,6 +12,7 @@ model Comment {
   name      String
   age       Int
   text      String
+  gender    String?
   likes     Int      @default(0)
   createdAt DateTime @default(now())
 }

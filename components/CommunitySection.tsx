@@ -1,14 +1,23 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useRive, useStateMachineInput } from "@rive-app/react-canvas";
 import SectionReveal from "./SectionReveal";
+
+// Sobald echte separate .riv-Dateien pro Geschlecht vorliegen, hier die Pfade tauschen
+const characterFiles: Record<string, string> = {
+  maennlich: "/rive/character_+_like.riv",
+  weiblich: "/rive/character_+_like.riv",
+  divers: "/rive/character_+_like.riv",
+};
 
 type Post = {
   id: number;
   name: string;
   age: number;
   text: string;
+  gender?: string;
   likes: number;
 };
 
@@ -21,6 +30,37 @@ function Avatar({ name }: { name: string }) {
   );
 }
 
+function CharacterDisplay({ src, triggerEyes }: { src: string; triggerEyes?: boolean }) {
+  const { rive, RiveComponent } = useRive({
+    src,
+    stateMachines: "State Machine 1",
+    autoplay: true,
+  });
+  const eyesInput = useStateMachineInput(rive, "State Machine 1", "playEyes");
+
+  useEffect(() => {
+    if (triggerEyes) {
+      const t = setTimeout(() => eyesInput?.fire(), 100);
+      return () => clearTimeout(t);
+    }
+  }, [triggerEyes, eyesInput]);
+
+  return <RiveComponent />;
+}
+
+function PostCharacter({ src }: { src: string }) {
+  const { RiveComponent } = useRive({
+    src,
+    stateMachines: "State Machine 1",
+    autoplay: true,
+  });
+  return (
+    <div className="h-8 w-8 flex-none overflow-hidden rounded-full border border-[#D9D2C3] bg-[#F5F1EA]">
+      <RiveComponent />
+    </div>
+  );
+}
+
 const inputClass =
   "w-full rounded-xl border border-[#D9D2C3] bg-[#F5F1EA] p-3 text-sm text-[#0F0F0E] outline-none transition-all duration-150 focus:border-[#D64D1E] focus:ring-1 focus:ring-[#D64D1E]";
 
@@ -29,7 +69,27 @@ export default function CommunitySection() {
   const [name, setName] = useState("");
   const [age, setAge] = useState(18);
   const [text, setText] = useState("");
+  const [gender, setGender] = useState("");
+  const [genderError, setGenderError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [eyesTrigger, setEyesTrigger] = useState(false);
+
+  // Drosselung damit die Augen-Animation beim Tippen nicht zu schnell feuert
+  const lastEyesFired = useRef(0);
+  function fireEyes() {
+    const now = Date.now();
+    if (now - lastEyesFired.current > 800) {
+      setEyesTrigger((v) => !v);
+      lastEyesFired.current = now;
+    }
+  }
+
+  function chooseGender(value: string) {
+    setGender(value);
+    setGenderError(false);
+    setEyesTrigger((v) => !v);
+  }
   const [likedIds, setLikedIds] = useState<number[]>(() => {
     if (typeof window === "undefined") return [];
     try {
@@ -61,6 +121,10 @@ export default function CommunitySection() {
     e.preventDefault();
     const trimmedName = name.trim();
     const trimmedText = text.trim();
+    if (!gender) {
+      setGenderError(true);
+      return;
+    }
     if (!trimmedName || !trimmedText) return;
 
     setIsSubmitting(true);
@@ -68,7 +132,7 @@ export default function CommunitySection() {
     const res = await fetch("/api/comments", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: trimmedName, age, text: trimmedText }),
+      body: JSON.stringify({ name: trimmedName, age, text: trimmedText, gender: gender || null }),
     });
 
     if (!res.ok) {
@@ -81,6 +145,8 @@ export default function CommunitySection() {
     setName("");
     setText("");
     setAge(18);
+    setGender("");
+    setGenderError(false);
     setIsSubmitting(false);
   }
 
@@ -123,9 +189,56 @@ export default function CommunitySection() {
         <SectionReveal>
         <div className="mt-10 grid grid-cols-[1fr_1.4fr] items-start gap-8">
           <form onSubmit={send} className="rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB] p-6">
-            <label className="mb-2 block font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
-              Dein Beitrag
-            </label>
+            <p className="mb-4 text-lg font-bold text-[#0F0F0E]">Dein Beitrag</p>
+
+            {/* Geschlechtsauswahl */}
+            <div className="mb-2 flex items-center justify-between">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">Geschlecht</p>
+              {genderError && (
+                <p className="font-mono text-[10px] text-[#D64D1E]">Bitte auswählen</p>
+              )}
+            </div>
+            <div className="mb-3 flex items-start gap-3">
+              <motion.div
+                initial={false}
+                animate={{ opacity: gender ? 1 : 0, scale: gender ? 1 : 0.9 }}
+                transition={{ duration: 0.3 }}
+                className="h-20 w-20 flex-none overflow-hidden rounded-xl border border-[#D9D2C3] bg-[#F5F1EA] pointer-events-none"
+              >
+                {gender && (
+                  <CharacterDisplay
+                    key={gender}
+                    src={characterFiles[gender]}
+                    triggerEyes={eyesTrigger}
+                  />
+                )}
+              </motion.div>
+              <div className="flex flex-1 flex-col gap-2">
+              {(["maennlich", "weiblich", "divers"] as const).map((val) => {
+                const labels: Record<string, string> = {
+                  maennlich: "Männlich",
+                  weiblich: "Weiblich",
+                  divers: "Divers",
+                };
+                const active = gender === val;
+                return (
+                  <button
+                    key={val}
+                    type="button"
+                    onClick={() => chooseGender(val)}
+                    className={`flex-1 rounded-xl border px-3 py-2 font-mono text-[10px] uppercase tracking-widest transition-colors duration-150 ${
+                      active
+                        ? "border-[#0F0F0E] bg-[#0F0F0E] text-[#F5F1EA] font-bold"
+                        : "border-[#D9D2C3] bg-[#F5F1EA] text-[#6B6860] hover:border-[#D64D1E] hover:text-[#D64D1E]"
+                    }`}
+                  >
+                    {labels[val]}
+                  </button>
+                );
+              })}
+              </div>
+            </div>
+
             <input
               type="text"
               required
@@ -153,10 +266,11 @@ export default function CommunitySection() {
                 <span>40</span>
               </div>
             </div>
+            {/* fireEyes ist ein Platzhalter – ersetzt durch eine Reden-Animation, sobald die .riv-Datei diese enthält */}
             <textarea
               required
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => { setText(e.target.value); fireEyes(); }}
               placeholder="Was hat dir geholfen, weniger abgelenkt zu sein?"
               className={`min-h-[140px] resize-y ${inputClass}`}
             />
@@ -191,17 +305,19 @@ export default function CommunitySection() {
                 </div>
               ) : (
                 <AnimatePresence initial={false}>
-                  {posts.map((post) => (
+                  {posts.map((post, index) => (
                     <motion.div
                       key={post.id}
-                      layout
                       initial={{ opacity: 0, y: -16 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
                       className="rounded-2xl border border-[#D9D2C3] bg-[#F5F1EA] p-5"
                     >
                       <div className="flex items-center gap-3">
-                        <Avatar name={post.name} />
+                        {post.gender
+                          ? <PostCharacter key={`char-${post.id}-${index}`} src={characterFiles[post.gender] ?? "/rive/character_+_like.riv"} />
+                          : <Avatar name={post.name} />
+                        }
                         <span className="font-mono text-[10px] uppercase tracking-widest text-[#D64D1E]">
                           {post.name.toUpperCase()}, {post.age}
                         </span>
