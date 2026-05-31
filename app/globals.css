@@ -42,7 +42,7 @@ input[type="range"] {
   appearance: none;
   width: 100%;
   height: 2px;
-  background: #D9D2C3;
+  background: #D7DAE4;
   border-radius: 2px;
   outline: none;
   cursor: pointer;
@@ -54,7 +54,7 @@ input[type="range"]::-webkit-slider-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #D64D1E;
+  background: #3F4A78;
   cursor: pointer;
 }
 
@@ -62,13 +62,13 @@ input[type="range"]::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #D64D1E;
+  background: #3F4A78;
   border: none;
   cursor: pointer;
 }
 
 input[type="range"]::-moz-range-track {
   height: 2px;
-  background: #D9D2C3;
+  background: #D7DAE4;
   border-radius: 2px;
 }

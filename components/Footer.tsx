@@ -1,13 +1,13 @@
 export default function Footer() {
   return (
-    <footer>
+    <footer className="bg-[#0D1425] text-[#F4F5F8]">
       <div className="mx-auto max-w-7xl px-12 py-14">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="flex flex-col gap-2">
             <a href="#home" className="group flex items-baseline gap-2 transition-opacity duration-200 hover:opacity-70">
-              <span className="h-2 w-2 rounded-sm bg-[#D64D1E]" />
+              <span className="h-2 w-2 rounded-sm bg-[#3F4A78]" />
               <span className="font-serif text-lg tracking-tight">
-                Aufmerksamkeit<span className="italic text-[#D64D1E]">.</span>
+                Aufmerksamkeit<span className="italic text-[#3F4A78]">.</span>
               </span>
             </a>
             <span className="text-sm text-[#6B6860]">
@@ -19,7 +19,7 @@ export default function Footer() {
           </span>
         </div>
 
-        <div className="mt-10 border-t border-[#D9D2C3] pt-8">
+        <div className="mt-10 border-t border-[#1A2440] pt-8">
           <div className="font-serif text-2xl tracking-tight">Projektinformationen</div>
 
           <div className="mt-5 grid grid-cols-4 gap-8">
@@ -27,7 +27,7 @@ export default function Footer() {
               <div className="font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
                 Entwicklung
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-[#2A2A28]">
+              <p className="mt-2 text-sm leading-relaxed text-[#EAECF2]">
                 Yakub Uyar<br />
                 Softwareentwicklung<br />
                 Aufmerksamkeit
@@ -37,7 +37,7 @@ export default function Footer() {
               <div className="font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
                 Entstehung
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-[#2A2A28]">
+              <p className="mt-2 text-sm leading-relaxed text-[#EAECF2]">
                 Eigenständig entwickelt.
               </p>
             </div>
@@ -45,7 +45,7 @@ export default function Footer() {
               <div className="font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
                 Kontakt
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-[#2A2A28]">
+              <p className="mt-2 text-sm leading-relaxed text-[#EAECF2]">
                 GitHub: Yakub-Tech
               </p>
             </div>
@@ -53,7 +53,7 @@ export default function Footer() {
               <div className="font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
                 Rive-Assets
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-[#2A2A28]">
+              <p className="mt-2 text-sm leading-relaxed text-[#EAECF2]">
                 Rive-Gestaltung: anonyme Mitwirkende.<br />
                 Integration und Zustandssteuerung: Yakub Uyar
               </p>

@@ -14,9 +14,9 @@ export default function ProgressIndicator({ currentStep, totalSteps }: ProgressI
           {currentStep} / {totalSteps} beantwortet
         </span>
       </div>
-      <div className="h-1 overflow-hidden rounded-full bg-[#D9D2C3]">
+      <div className="h-1 overflow-hidden rounded-full bg-[#D7DAE4]">
         <div
-          className="h-full rounded-full bg-[#D64D1E] transition-all duration-500"
+          className="h-full rounded-full bg-[#3F4A78] transition-all duration-500"
           style={{ width: `${percent}%` }}
         />
       </div>

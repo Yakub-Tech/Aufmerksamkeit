@@ -110,28 +110,28 @@ export default function HeroSection({ onStart }: { onStart: () => void }) {
         <source src="/videos/generated_video_mp.mp4" type="video/mp4" />
       </video>
 
-      <div className="absolute inset-0 bg-gradient-to-r from-[#F5F1EA]/90 via-[#F5F1EA]/60 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#0D1425]/88 via-[#0D1425]/55 to-transparent" />
 
       <div className="relative mx-auto flex min-h-[calc(100vh-60px)] max-w-7xl flex-col justify-center px-12 py-16">
         <div
-          className="flex flex-wrap justify-between gap-4 font-mono text-[11px] uppercase tracking-widest text-[#6B6860]"
+          className="flex flex-wrap justify-between gap-4 font-mono text-[11px] uppercase tracking-widest text-[#F4F5F8]/60"
           style={fadeIn(0)}
         >
           <span>Digitale Ablenkung und bewusster Umgang mit dem Smartphone</span>
         </div>
 
         <div className="mt-8 max-w-2xl">
-          <h1 className="font-serif text-[5.5rem] leading-[0.98] tracking-tight">
+          <h1 className="font-serif text-[5.5rem] leading-[0.98] tracking-tight text-[#F4F5F8]">
             {[
               { text: "Die", italic: false, delay: 150 },
-              { text: "Aufmerksamkeit", italic: true, delay: 230 },
+              { text: "Aufmerksamkeit", italic: true, color: "#E8553E", delay: 230 },
               { text: "ist die wichtigste", italic: false, delay: 310 },
               { text: "Ressource des Internets.", italic: false, delay: 390 },
             ].map((chunk, i) => (
               <span
                 key={i}
-                className={chunk.italic ? "italic text-[#D64D1E]" : ""}
-                style={fadeIn(chunk.delay)}
+                className={chunk.italic ? "italic" : ""}
+                style={{ ...fadeIn(chunk.delay), ...(chunk.color ? { color: chunk.color } : {}) }}
               >
                 {chunk.text}{" "}
               </span>
@@ -139,20 +139,20 @@ export default function HeroSection({ onStart }: { onStart: () => void }) {
           </h1>
 
           <p
-            className="mt-6 max-w-xl text-lg leading-relaxed text-[#2A2A28]"
+            className="mt-6 max-w-xl text-lg leading-relaxed text-[#EAECF2]"
             style={fadeIn(350)}
           >
             Social Media, Dark Patterns, Dauer-Scrolling <br />
-            Sie alle wollen dasselbe: deine Zeit und deinen Fokus. <br></br>Wie gut kannst du dich heute noch konzentrieren?
+            Sie alle wollen dasselbe: deine Zeit und deinen Fokus. <br />Wie gut kannst du dich heute noch konzentrieren?
           </p>
 
           <div className="mt-6 flex flex-col items-start gap-3" style={fadeIn(500)}>
             <div className="animate-cta-pulse rounded-full">
               <Button label="Jetzt loslegen" onClick={onStart} size="lg" />
             </div>
-            <p className="font-serif text-sm italic text-[#6B6860]">
+            <p className="font-serif text-sm italic text-[#F4F5F8]/60">
               Bereits{" "}
-              <span className="text-[#D64D1E]">
+              <span className="text-[#E8553E]">
                 <Counter target={1247} />
               </span>{" "}
               Personen haben ihren Fokus getestet

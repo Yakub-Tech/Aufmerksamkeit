@@ -35,8 +35,8 @@ type Post = {
 function Avatar({ name }: { name: string }) {
   const initial = name.trim().charAt(0).toUpperCase() || "?";
   return (
-    <div className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-[#0F0F0E]">
-      <span className="font-mono text-xs font-medium text-[#F5F1EA]">{initial}</span>
+    <div className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-[#2E9E8A]">
+      <span className="font-mono text-xs font-medium text-white">{initial}</span>
     </div>
   );
 }
@@ -92,14 +92,14 @@ function PostCharacter({ src, trigger }: { src: string; trigger: number }) {
   }, [trigger, expressionIndexInput, playExpressionInput]);
 
   return (
-    <div className="h-8 w-8 flex-none overflow-hidden rounded-full border border-[#D9D2C3] bg-[#F5F1EA]">
+    <div className="h-8 w-8 flex-none overflow-hidden rounded-full border border-[#2A3550] bg-[#0D1425]">
       <RiveComponent />
     </div>
   );
 }
 
 const inputClass =
-  "w-full rounded-xl border border-[#D9D2C3] bg-[#F5F1EA] p-3 text-sm text-[#0F0F0E] outline-none transition-all duration-150 focus:border-[#D64D1E] focus:ring-1 focus:ring-[#D64D1E]";
+  "w-full rounded-xl border border-[#2A3550] bg-[#0D1425] p-3 text-sm text-[#F4F5F8] outline-none transition-all duration-150 focus:border-[#2E9E8A] focus:ring-1 focus:ring-[#2E9E8A] placeholder:text-[#6B6860]";
 
 export default function CommunitySection() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -213,27 +213,27 @@ export default function CommunitySection() {
   }
 
   return (
-    <section id="community">
+    <section id="community" className="bg-[#0D1425] text-[#F4F5F8]">
       <div className="mx-auto max-w-7xl px-12 py-24">
         <SectionReveal>
         <h2 className="font-serif text-6xl leading-tight tracking-tight">
-          Teile deinen <span className="italic text-[#D64D1E]">Hack</span>.
+          Teile deinen <span className="italic text-[#2E9E8A]">Hack</span>.
         </h2>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#2A2A28]">
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#EAECF2]/80">
           Was hilft dir, fokussiert zu bleiben? Schreib einen kurzen Erfahrungsbericht, er erscheint sofort oben in der Liste.
         </p>
         </SectionReveal>
 
         <SectionReveal>
         <div className="mt-10 grid grid-cols-[1fr_1.4fr] items-start gap-8">
-          <form onSubmit={send} className="rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB] p-6">
-            <p className="mb-4 text-lg font-bold text-[#0F0F0E]">Dein Beitrag</p>
+          <form onSubmit={send} className="rounded-2xl border border-[#2E9E8A] bg-[#1A2440] p-6">
+            <p className="mb-4 text-lg font-bold text-[#F4F5F8]">Dein Beitrag</p>
 
             {/* Geschlechtsauswahl */}
             <div className="mb-2 flex items-center justify-between">
               <p className="font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">Geschlecht</p>
               {genderError && (
-                <p className="font-mono text-[10px] text-[#D64D1E]">Bitte auswählen</p>
+                <p className="font-mono text-[10px] text-[#2E9E8A]">Bitte auswählen</p>
               )}
             </div>
             <div className="mb-3 flex items-start gap-3">
@@ -241,7 +241,7 @@ export default function CommunitySection() {
                 initial={false}
                 animate={{ opacity: gender ? 1 : 0, scale: gender ? 1 : 0.9 }}
                 transition={{ duration: 0.3 }}
-                className="h-20 w-20 flex-none overflow-hidden rounded-xl border border-[#D9D2C3] bg-[#F5F1EA] pointer-events-none"
+                className="h-20 w-20 flex-none overflow-hidden rounded-xl border border-[#2A3550] bg-[#0D1425] pointer-events-none"
               >
                 {gender && (
                   <CharacterDisplay
@@ -266,8 +266,8 @@ export default function CommunitySection() {
                     onClick={() => chooseGender(val)}
                     className={`flex-1 rounded-xl border px-3 py-2 font-mono text-[10px] uppercase tracking-widest transition-colors duration-150 ${
                       active
-                        ? "border-[#0F0F0E] bg-[#0F0F0E] text-[#F5F1EA] font-bold"
-                        : "border-[#D9D2C3] bg-[#F5F1EA] text-[#6B6860] hover:border-[#D64D1E] hover:text-[#D64D1E]"
+                        ? "border-[#2E9E8A] bg-[#2E9E8A] text-white font-bold"
+                        : "border-[#2A3550] bg-[#0D1425] text-[#6B6860] hover:border-[#2E9E8A] hover:text-[#2E9E8A]"
                     }`}
                   >
                     {labels[val]}
@@ -285,10 +285,10 @@ export default function CommunitySection() {
               placeholder="Dein Name"
               className={`mb-3 ${inputClass}`}
             />
-            <div className="mb-3 rounded-xl border border-[#D9D2C3] bg-[#F5F1EA] px-3 py-3">
+            <div className="mb-3 rounded-xl border border-[#2A3550] bg-[#0D1425] px-3 py-3">
               <div className="mb-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
                 <span>Alter</span>
-                <span className="text-[#D64D1E]">Alter: {age}</span>
+                <span className="text-[#2E9E8A]">Alter: {age}</span>
               </div>
               <input
                 type="range"
@@ -297,7 +297,7 @@ export default function CommunitySection() {
                 value={age}
                 onChange={(e) => setAge(Number(e.target.value))}
                 aria-label="Alter"
-                className="h-1 w-full cursor-pointer appearance-none rounded-full bg-[#D9D2C3] accent-[#D64D1E] outline-none [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-[#0F0F0E] [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-0 [&::-webkit-slider-thumb]:bg-[#0F0F0E]"
+                className="h-1 w-full cursor-pointer appearance-none rounded-full bg-[#D7DAE4] accent-[#2E9E8A] outline-none [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-[#0F0F0E] [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-0 [&::-webkit-slider-thumb]:bg-[#0F0F0E]"
               />
               <div className="mt-1 flex justify-between font-mono text-[9px] uppercase tracking-widest text-[#6B6860]">
                 <span>14</span>
@@ -315,7 +315,7 @@ export default function CommunitySection() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="cursor-pointer rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F5F1EA] transition-all duration-200 hover:scale-[1.04] hover:bg-[#D64D1E] disabled:cursor-not-allowed disabled:opacity-60"
+                className="cursor-pointer rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F4F5F8] transition-all duration-200 hover:scale-[1.04] hover:bg-[#2E9E8A] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">
@@ -335,7 +335,7 @@ export default function CommunitySection() {
           <div className="relative">
             <div className="flex h-[540px] flex-col gap-4 overflow-y-auto pr-3">
               {posts.length === 0 ? (
-                <div className="flex h-full items-center justify-center rounded-2xl border border-[#D9D2C3] bg-[#F5F1EA] p-8">
+                <div className="flex h-full items-center justify-center rounded-2xl border border-[#1A2440] bg-[#1A2440] p-8">
                   <p className="font-serif italic text-[#6B6860]">
                     Noch keine Beiträge. Sei der Erste.
                   </p>
@@ -348,18 +348,18 @@ export default function CommunitySection() {
                       initial={{ opacity: 0, y: -16 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
-                      className="rounded-2xl border border-[#D9D2C3] bg-[#F5F1EA] p-5"
+                      className="rounded-2xl border-2 border-[#2E9E8A] bg-[#1A2440] p-5"
                     >
                       <div className="flex items-center gap-3">
                         {post.gender && likeFiles[post.gender]
                           ? <PostCharacter key={`char-${post.id}`} src={likeFiles[post.gender]} trigger={likeTriggers[post.id] ?? 0} />
                           : <Avatar name={post.name} />
                         }
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-[#D64D1E]">
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-[#2E9E8A]">
                           {post.name.toUpperCase()}, {post.age}
                         </span>
                       </div>
-                      <p className="mt-3 text-sm leading-relaxed text-[#2A2A28] break-words">
+                      <p className="mt-3 text-sm leading-relaxed text-[#EAECF2] break-words">
                         {post.text}
                       </p>
                       <div className="mt-3 flex items-center justify-end gap-2">
@@ -373,7 +373,7 @@ export default function CommunitySection() {
                           className={`flex cursor-pointer items-center justify-center rounded-full p-1.5 transition-colors duration-150 ${
                             likedIds.includes(post.id)
                               ? "bg-[#3D7262] text-white"
-                              : "bg-[#EEE7DB] text-[#6B6860] hover:bg-[#3D7262] hover:text-white"
+                              : "bg-[#2A3550] text-[#6B6860] hover:bg-[#3D7262] hover:text-white"
                           }`}
                         >
                           <svg
@@ -396,7 +396,7 @@ export default function CommunitySection() {
                 </AnimatePresence>
               )}
             </div>
-            <div className="pointer-events-none absolute bottom-0 left-0 right-3 h-10 rounded-b-2xl bg-gradient-to-t from-[#F5F1EA] to-transparent" />
+            <div className="pointer-events-none absolute bottom-0 left-0 right-3 h-10 rounded-b-2xl bg-gradient-to-t from-[#0D1425] to-transparent" />
           </div>
         </div>
         </SectionReveal>

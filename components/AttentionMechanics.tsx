@@ -36,7 +36,7 @@ export default function AttentionMechanics({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-baseline justify-between">
-        <span className="font-mono text-[11px] uppercase tracking-widest text-[#D64D1E]">
+        <span className="font-mono text-[11px] uppercase tracking-widest text-[#3F4A78]">
           Ablenkungen
         </span>
         <span className="font-mono text-[11px] uppercase tracking-widest text-[#6B6860]">
@@ -44,7 +44,7 @@ export default function AttentionMechanics({
         </span>
       </div>
 
-      <div className="rounded-xl border border-dashed border-[#D9D2C3] bg-[#F5F1EA] p-4 text-xs leading-relaxed text-[#6B6860]">
+      <div className="rounded-xl border border-dashed border-[#D7DAE4] bg-[#F4F5F8] p-4 text-xs leading-relaxed text-[#6B6860]">
         Diese Karten sind absichtlich hier. Sie zählen deine Ablenkungen, nicht dein Wissen.
       </div>
 
@@ -54,7 +54,7 @@ export default function AttentionMechanics({
           return (
             <div
               key={idx}
-              className="overflow-hidden rounded-xl border border-[#D9D2C3] bg-[#F5F1EA]"
+              className="overflow-hidden rounded-xl border border-[#D7DAE4] bg-[#F4F5F8]"
             >
               <button
                 onClick={() => toggle(idx)}
@@ -67,7 +67,7 @@ export default function AttentionMechanics({
                   className={
                     "flex h-6 w-6 items-center justify-center rounded-full border text-sm transition-colors " +
                     (open
-                      ? "border-[#D64D1E] bg-[#D64D1E] text-[#F5F1EA]"
+                      ? "border-[#3F4A78] bg-[#3F4A78] text-[#F4F5F8]"
                       : "border-[#0F0F0E] text-[#0F0F0E]")
                   }
                 >
@@ -75,7 +75,7 @@ export default function AttentionMechanics({
                 </span>
               </button>
               {open && (
-                <div className="border-t border-[#D9D2C3] px-4 py-3 text-xs leading-relaxed text-[#2A2A28]">
+                <div className="border-t border-[#D7DAE4] px-4 py-3 text-xs leading-relaxed text-[#2A2A28]">
                   {fact.body}
                 </div>
               )}

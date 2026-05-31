@@ -78,7 +78,7 @@ function CountUp({ target, animated, suffix = "" }: { target: number; animated: 
 }
 
 function hi(text: string | number) {
-  return <span className="italic text-[#D64D1E]">{text}</span>;
+  return <span className="italic text-[#E8553E]">{text}</span>;
 }
 
 function getEvalMain(distractions: number, elapsed: number, totalFacts: number) {
@@ -188,48 +188,43 @@ export default function EvaluationSection({
     ? "über Ø"
     : "~ Ø";
 
-  const stats = [
-    { label: "Gesamtzeit", value: elapsed + "s" },
-    { label: "Ø im Vergleich zu anderen Nutzer:innen", value: comparisonLabel },
-  ];
-
   const userBarWidth = Math.min(Math.round((hours / MAX_AVG_HOURS) * 100), 100);
 
   return (
-    <section id="auswertung">
+    <section id="auswertung" className="bg-[#0D1425] text-[#F4F5F8]">
       <div className="mx-auto max-w-7xl px-12 py-24">
         <h2 className="font-serif text-6xl leading-tight tracking-tight">
-          Deine <span className="italic text-[#D64D1E]">Auswertung</span>
+          Deine <span className="italic text-[#E8553E]">Auswertung</span>
         </h2>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#2A2A28]">
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#EAECF2]/80">
           Ein schlichtes Aufmerksamkeitsprofil, kein medizinischer Befund. Die
           Werte basieren ausschließlich auf deinem Verhalten in diesem Test.
         </p>
 
         <SectionReveal>
-        <div className="mt-10 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-[#D9D2C3] bg-[#D9D2C3]">
-          <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#F5F1EA] p-7">
+        <div className="mt-10 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-[#1A2440] bg-[#1A2440]">
+          <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#1A2440] p-7">
             <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#6B6860]">
-              {stats[0].label}
+              Gesamtzeit
             </div>
-            <div className="font-serif text-6xl leading-none tracking-tight">
+            <div className="font-serif text-6xl leading-none tracking-tight text-[#F4F5F8]">
               <CountUp target={elapsed} animated={animated} suffix="s" />
             </div>
           </div>
-          <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#F5F1EA] p-7">
+          <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#1A2440] p-7">
             <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#6B6860]">
-              {stats[1].label}
+              Ø im Vergleich zu anderen
             </div>
-            <div className="font-serif text-6xl leading-none tracking-tight">
+            <div className="font-serif text-6xl leading-none tracking-tight text-[#F0A500]">
               {comparisonLabel}
             </div>
           </div>
-          <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#0F0F0E] p-7">
-            <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#8C8A82]">
+          <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#0A1020] p-7">
+            <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#6B6860]">
               Mal abgelenkt
             </div>
             <div className="font-serif leading-none tracking-tight">
-              <span className="text-6xl text-[#D64D1E]">
+              <span className="text-6xl text-[#E8553E]">
                 <CountUp target={distractions} animated={animated} />
               </span>
               <span className="text-3xl text-[#6B6860]">/{totalFacts}</span>
@@ -239,13 +234,13 @@ export default function EvaluationSection({
         </SectionReveal>
 
         <SectionReveal>
-        <div className="mt-8 rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB] p-10">
-          <p className="font-serif text-2xl leading-snug tracking-tight">
+        <div className="mt-8 rounded-2xl border border-[#1A2440] bg-[#1A2440] p-10">
+          <p className="font-serif text-2xl leading-snug tracking-tight text-[#F4F5F8]">
             {isTestDone
               ? getEvalMain(distractions, elapsed, totalFacts)
               : "Starte zuerst den Test. Die Werte aktualisieren sich live."}
           </p>
-          <p className="mt-3 text-sm leading-relaxed text-[#6B6860]">
+          <p className="mt-3 text-sm leading-relaxed text-[#8C8A82]">
             {isTestDone
               ? getEvalSub(distractions, elapsed)
               : "Je weniger Fun Facts du anklickst, desto fokussierter warst du. Je mehr, desto stärker hat dich die Umgebung gezogen."}
@@ -255,17 +250,17 @@ export default function EvaluationSection({
 
         <SectionReveal>
         <div className="mt-20">
-          <h2 className="font-serif text-5xl leading-tight tracking-tight">
+          <h2 className="font-serif text-5xl leading-tight tracking-tight text-[#F4F5F8]">
             Die Zahlen hinter dem <span className="italic">Gefühl</span>.
           </h2>
 
           <div ref={statsRef} className="mt-10 grid grid-cols-3 gap-6">
 
-            <div className="rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB] p-6">
-              <span className="font-mono text-[11px] uppercase tracking-widest text-[#D64D1E]">
+            <div className="rounded-2xl border border-[#1A2440] bg-[#1A2440] p-6">
+              <span className="font-mono text-[11px] uppercase tracking-widest text-[#F0A500]">
                 Nutzungszeit
               </span>
-              <div className="mt-5 flex flex-col gap-2.5 rounded-xl bg-[#F5F1EA] p-4">
+              <div className="mt-5 flex flex-col gap-2.5 rounded-xl bg-[#0D1425] p-4">
                 {usageRows.flatMap((row) => {
                   const barWidth = Math.round((row.avgHours / MAX_AVG_HOURS) * 100);
                   const isUserAge = selectedAge !== "" && row.age === selectedAge;
@@ -273,17 +268,17 @@ export default function EvaluationSection({
                   const originalRow = (
                     <div
                       key={row.age}
-                      className="grid items-center gap-3 text-xs text-[#2A2A28]"
+                      className="grid items-center gap-3 text-xs text-[#EAECF2]"
                       style={{ gridTemplateColumns: "60px 1fr 55px" }}
                     >
                       <span>{row.age}</span>
-                      <span className="block h-2 overflow-hidden rounded-full bg-[#D9D2C3]">
+                      <span className="block h-2 overflow-hidden rounded-full bg-[#2A3550]">
                         <span
-                          className="block h-full rounded-full bg-[#0F0F0E]"
+                          className="block h-full rounded-full bg-[#3F4A78]"
                           style={{ width: barsVisible ? `${barWidth}%` : "0%", transition: "width 2s ease-out" }}
                         />
                       </span>
-                      <span className="text-right font-medium text-[#0F0F0E]">{row.avgLabel}</span>
+                      <span className="text-right font-medium text-[#EAECF2]">{row.avgLabel}</span>
                     </div>
                   );
 
@@ -294,14 +289,14 @@ export default function EvaluationSection({
                         className="grid items-center gap-3 text-xs"
                         style={{ gridTemplateColumns: "60px 1fr 55px" }}
                       >
-                        <span className="font-semibold text-[#D64D1E]">DU</span>
-                        <span className="block h-2 overflow-hidden rounded-full bg-[#D9D2C3]">
+                        <span className="font-semibold text-[#E8553E]">DU</span>
+                        <span className="block h-2 overflow-hidden rounded-full bg-[#2A3550]">
                           <span
-                            className="block h-full rounded-full bg-[#D64D1E]"
+                            className="block h-full rounded-full bg-[#E8553E]"
                             style={{ width: barsVisible ? `${userBarWidth}%` : "0%", transition: "width 2s ease-out" }}
                           />
                         </span>
-                        <span className="text-right font-medium text-[#D64D1E]">{hoursToLabel(hours)}</span>
+                        <span className="text-right font-medium text-[#E8553E]">{hoursToLabel(hours)}</span>
                       </div>
                     );
                     return [originalRow, duRow];
@@ -312,27 +307,27 @@ export default function EvaluationSection({
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB] p-6">
-              <span className="font-mono text-[11px] uppercase tracking-widest text-[#D64D1E]">
+            <div className="rounded-2xl border border-[#1A2440] bg-[#1A2440] p-6">
+              <span className="font-mono text-[11px] uppercase tracking-widest text-[#F0A500]">
                 Auswirkungen
               </span>
-              <div className="mt-5 flex flex-col gap-2.5 rounded-xl bg-[#F5F1EA] p-4">
+              <div className="mt-5 flex flex-col gap-2.5 rounded-xl bg-[#0D1425] p-4">
                 {effectOptions.map((effect) => {
                   const isSelected = selectedEffect !== "" && effect.key === selectedEffect;
                   return (
                     <div
                       key={effect.key}
-                      className="grid items-center gap-3 text-xs text-[#2A2A28]"
+                      className="grid items-center gap-3 text-xs text-[#EAECF2]"
                       style={{ gridTemplateColumns: "110px 1fr 35px" }}
                     >
-                      <span className={isSelected ? "font-semibold text-[#D64D1E]" : ""}>{effect.label}</span>
-                      <span className="block h-2 overflow-hidden rounded-full bg-[#D9D2C3]">
+                      <span className={isSelected ? "font-semibold text-[#E8553E]" : ""}>{effect.label}</span>
+                      <span className="block h-2 overflow-hidden rounded-full bg-[#2A3550]">
                         <span
-                          className={"block h-full rounded-full " + (isSelected ? "bg-[#D64D1E]" : "bg-[#0F0F0E]")}
+                          className={"block h-full rounded-full " + (isSelected ? "bg-[#E8553E]" : "bg-[#3F4A78]")}
                           style={{ width: barsVisible ? `${effect.value}%` : "0%", transition: "width 2s ease-out" }}
                         />
                       </span>
-                      <span className={"text-right font-medium " + (isSelected ? "text-[#D64D1E]" : "text-[#0F0F0E]")}>
+                      <span className={"text-right font-medium " + (isSelected ? "text-[#E8553E]" : "text-[#EAECF2]")}>
                         {effect.value}%
                       </span>
                     </div>
@@ -341,27 +336,27 @@ export default function EvaluationSection({
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB] p-6">
-              <span className="font-mono text-[11px] uppercase tracking-widest text-[#D64D1E]">
+            <div className="rounded-2xl border border-[#1A2440] bg-[#1A2440] p-6">
+              <span className="font-mono text-[11px] uppercase tracking-widest text-[#F0A500]">
                 Morgencheck
               </span>
-              <div className="mt-5 flex flex-col gap-2.5 rounded-xl bg-[#F5F1EA] p-4">
+              <div className="mt-5 flex flex-col gap-2.5 rounded-xl bg-[#0D1425] p-4">
                 {morningOptions.map((m) => {
                   const isSelected = selectedMorning !== "" && m.key === selectedMorning;
                   return (
                     <div
                       key={m.key}
-                      className="grid items-center gap-3 text-xs text-[#2A2A28]"
+                      className="grid items-center gap-3 text-xs text-[#EAECF2]"
                       style={{ gridTemplateColumns: "130px 1fr 35px" }}
                     >
-                      <span className={isSelected ? "font-semibold text-[#D64D1E]" : ""}>{m.label}</span>
-                      <span className="block h-2 overflow-hidden rounded-full bg-[#D9D2C3]">
+                      <span className={isSelected ? "font-semibold text-[#E8553E]" : ""}>{m.label}</span>
+                      <span className="block h-2 overflow-hidden rounded-full bg-[#2A3550]">
                         <span
-                          className={"block h-full rounded-full " + (isSelected ? "bg-[#D64D1E]" : "bg-[#0F0F0E]")}
+                          className={"block h-full rounded-full " + (isSelected ? "bg-[#E8553E]" : "bg-[#3F4A78]")}
                           style={{ width: barsVisible ? `${m.value}%` : "0%", transition: "width 2s ease-out" }}
                         />
                       </span>
-                      <span className={"text-right font-medium " + (isSelected ? "text-[#D64D1E]" : "text-[#0F0F0E]")}>
+                      <span className={"text-right font-medium " + (isSelected ? "text-[#E8553E]" : "text-[#EAECF2]")}>
                         {m.value}%
                       </span>
                     </div>

@@ -53,6 +53,14 @@ const STEPS = [
   },
 ];
 
+const STEP_COLORS = [
+  { accent: "#E8553E", light: "#FEF0ED" },
+  { accent: "#F0A500", light: "#FEF8E7" },
+  { accent: "#2E9E8A", light: "#E8F5F3" },
+  { accent: "#3F4A78", light: "#E8EBF3" },
+  { accent: "#7C4DFF", light: "#F0EBFF" },
+];
+
 function fireInput(input: any, delay: number) {
   const t = setTimeout(() => {
     if (input) input.value = true;
@@ -105,14 +113,14 @@ export default function TippsSection() {
   }
 
   return (
-    <section id="tipps">
+    <section id="tipps" className="bg-[#0D1425] text-[#F4F5F8]">
       <div className="mx-auto max-w-7xl px-12 py-10">
         <h2 className="font-serif text-5xl leading-tight tracking-tight">
           Weniger Ablenkung.
           <br />
-          <span className="italic text-[#D64D1E]">Mehr du.</span>
+          <span className="italic text-[#2E9E8A]">Mehr du.</span>
         </h2>
-        <p className="mt-3 max-w-md text-sm text-[#6B6860]">
+        <p className="mt-3 max-w-md text-sm text-[#EAECF2]/70">
           Folge den Schritten und gewinne die Kontrolle über deine Aufmerksamkeit zurück.
         </p>
 
@@ -126,19 +134,35 @@ export default function TippsSection() {
               variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
             >
               {STEPS.map((step, idx) => {
+                const color = STEP_COLORS[idx];
                 const isActive = idx === activeStep;
                 const isDone = idx < activeStep;
                 const isLocked = idx > activeStep;
                 return (
                   <motion.div key={idx} variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0, transition: { duration: 0.4 } } }}>
-                    <div className={`flex items-center gap-3 rounded-2xl border p-3 transition-all duration-500 ${isActive ? "border-[#D64D1E] bg-[#F9EEE6]" : isDone ? "border-[#D9D2C3] bg-[#EEE7DB]" : "border-[#D9D2C3] bg-[#EEE7DB] opacity-40"}`}>
-                      <div className="h-10 w-10 flex-none overflow-hidden rounded-xl border border-[#D9D2C3] bg-[#F9EEE6]">
+                    <div
+                      className={`flex items-center gap-3 rounded-2xl border p-3 transition-all duration-500 ${isLocked ? "opacity-40" : ""}`}
+                      style={{
+                        borderColor: isActive ? color.accent : "#2A3550",
+                        backgroundColor: isActive ? "#D4D8E2" : "#1A2440",
+                      }}
+                    >
+                      <div
+                        className="h-10 w-10 flex-none overflow-hidden rounded-xl border"
+                        style={
+                          isActive || isDone
+                            ? { borderColor: color.accent, backgroundColor: isActive ? "#BFC4D3" : "#1A2440" }
+                            : { borderColor: "#2A3550", backgroundColor: "#1A2440" }
+                        }
+                      >
                         <IconRive src={step.iconSrc} trigger={step.iconTrigger} play={isActive || isDone} />
                       </div>
                       <div className="min-w-0 flex-1">
-                        <span className="font-mono text-[10px] tracking-widest text-[#D64D1E]">Tipp {idx + 1}</span>
-                        <p className="font-serif text-xl leading-tight">{step.title}</p>
-                        <p className="text-sm text-[#6B6860]">{step.subtitle}</p>
+                        <span className="font-mono text-[10px] tracking-widest" style={{ color: color.accent }}>
+                          Tipp {idx + 1}
+                        </span>
+                        <p className="font-serif text-xl leading-tight" style={{ color: isActive ? "#1A2440" : "#F4F5F8" }}>{step.title}</p>
+                        <p className="text-sm" style={{ color: isActive ? "#4B5563" : "#6B6860" }}>{step.subtitle}</p>
                       </div>
                       {!isLocked && <ReglerRive used={usedSteps[idx]} onActivate={() => handleRegler(idx)} />}
                     </div>

@@ -2,11 +2,11 @@
 import { useState, useEffect, useCallback } from "react";
 
 const SECTIONS = [
-  { id: "home", label: "ERKENNEN" },
-  { id: "test", label: "TESTEN" },
-  { id: "auswertung", label: "AUSWERTEN" },
-  { id: "tipps", label: "HANDELN" },
-  { id: "community", label: "TEILEN" },
+  { id: "home", label: "ERKENNEN", color: "#3F4A78" },
+  { id: "test", label: "TESTEN", color: "#E8553E" },
+  { id: "auswertung", label: "AUSWERTEN", color: "#F0A500" },
+  { id: "tipps", label: "HANDELN", color: "#2E9E8A" },
+  { id: "community", label: "TEILEN", color: "#7C4DFF" },
 ];
 
 export default function ScrollGuide() {
@@ -52,17 +52,18 @@ export default function ScrollGuide() {
         const isActive = i === activeIndex;
         const isPast = i < activeIndex;
         const fillPct = i > 0 ? (segmentFills[i - 1] ?? 0) * 100 : 0;
+        const prevColor = i > 0 ? SECTIONS[i - 1].color : section.color;
 
         return (
           <div key={section.id} className="flex flex-col items-center">
             {i > 0 && (
               <div
                 className="relative overflow-hidden"
-                style={{ width: "1px", height: "40px", backgroundColor: "#D9D2C3" }}
+                style={{ width: "1px", height: "40px", backgroundColor: "#D7DAE4" }}
               >
                 <div
-                  className="absolute top-0 left-0 w-full bg-[#D64D1E]"
-                  style={{ height: `${fillPct}%` }}
+                  className="absolute top-0 left-0 w-full transition-all duration-300"
+                  style={{ height: `${fillPct}%`, backgroundColor: prevColor }}
                 />
               </div>
             )}
@@ -79,18 +80,21 @@ export default function ScrollGuide() {
                 style={{
                   width: isActive ? "16px" : "10px",
                   height: isActive ? "16px" : "10px",
-                  backgroundColor: isActive ? "#D64D1E" : isPast ? "#D64D1E" : "#D9D2C3",
+                  backgroundColor: isActive || isPast ? section.color : "#D7DAE4",
                 }}
               >
                 {isActive && (
-                  <span className="absolute inset-0 animate-ping rounded-full bg-[#D64D1E] opacity-40" />
+                  <span
+                    className="absolute inset-0 animate-ping rounded-full opacity-40"
+                    style={{ backgroundColor: section.color }}
+                  />
                 )}
               </div>
               <span
                 className="absolute right-6 whitespace-nowrap font-mono text-[9px] uppercase tracking-widest transition-all duration-200"
                 style={{
                   opacity: isActive ? 1 : 0,
-                  color: "#D64D1E",
+                  color: section.color,
                   transform: isActive ? "translateX(0)" : "translateX(4px)",
                 }}
                 aria-hidden

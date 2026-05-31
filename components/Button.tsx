@@ -22,11 +22,11 @@ export default function Button({ label, onClick, size = "md" }: ButtonProps) {
   return (
     <button
       onClick={handleClick}
-      className={`group inline-flex cursor-pointer items-center rounded-full bg-[#0F0F0E] font-medium text-[#F5F1EA] transition-all duration-200 hover:scale-[1.04] hover:bg-[#D64D1E] active:scale-[0.97] ${padding}`}
+      className={`group inline-flex cursor-pointer items-center rounded-full bg-[#0F0F0E] font-medium text-[#F4F5F8] transition-all duration-200 hover:scale-[1.04] hover:bg-[#E8553E] active:scale-[0.97] ${padding}`}
     >
       {label}
       <span
-        className={`inline-flex h-7 items-center justify-center overflow-hidden rounded-full bg-[#F5F1EA] text-[#0F0F0E] transition-all duration-300 ${
+        className={`inline-flex h-7 items-center justify-center overflow-hidden rounded-full bg-[#F4F5F8] text-[#0F0F0E] transition-all duration-300 ${
           flying
             ? "ml-3 w-7 translate-x-8 opacity-0"
             : "ml-0 w-0 -translate-x-2 opacity-0 group-hover:ml-3 group-hover:w-7 group-hover:translate-x-0 group-hover:opacity-100"

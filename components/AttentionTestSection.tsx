@@ -356,13 +356,13 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
   const question = ALL_QUESTIONS[current];
 
   return (
-    <section id="test" className="scroll-mt-[60px]">
+    <section id="test" className="scroll-mt-[60px] bg-[#0D1425] text-[#F4F5F8]">
       <div className="mx-auto max-w-7xl px-12 py-10">
         <h2 className="font-serif text-5xl leading-tight tracking-tight">
           Bist du bereit, deine{" "}
-          <span className="italic text-[#D64D1E]">Aufmerksamkeit</span> auf die Probe zu stellen?
+          <span className="italic text-[#E8553E]">Aufmerksamkeit</span> auf die Probe zu stellen?
         </h2>
-        <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#2A2A28]">
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#EAECF2]/80">
           Teste, wie gut du dich auf eine Aufgabe konzentrieren kannst, während dich digitale Ablenkungen unterbrechen. Das dauert nur wenige Minuten.
         </p>
 

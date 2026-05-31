@@ -1,22 +1,22 @@
-Design Notizen
+# Design-Notizen
 
 
-Hier schreibe ich auf wie meine Seite aussehen soll. An das halte ich
-mich dann beim Programmieren.
+Hier halte ich fest, wie die Seite aussehen soll. Diese Notizen dienen mir
+als Orientierung beim Programmieren.
 
 
 Logo:
 
 Ich habe kein richtiges Bildlogo sondern nur den Schriftzug
 "Aufmerksamkeit." in der Serif Schrift. Davor kommt ein kleines
-orangenes Quadrat (8 mal 8 Pixel, leicht abgerundet). Der Punkt am
-Ende ist kursiv und auch in dem Orange.
+blaues Quadrat (8 mal 8 Pixel, leicht abgerundet). Der Punkt am
+Ende ist kursiv und auch in dem Blau.
 In der Navbar ist der Schriftzug 20 Pixel gross, im Footer 18 Pixel.
 Schutzraum: rundherum mindestens so viel Platz wie das grosse A hoch
 ist. Kleiner als 16 Pixel Schrift soll das Logo nie werden.
 
 Favicon ist 32 mal 32 Pixel. Ich mache es als ico und nochmal als png
-in 32 und 16. Da kommt aber nur das orangene Quadrat rein, ohne
+in 32 und 16. Da kommt aber nur das blaue Quadrat rein, ohne
 Schriftzug, weil das in 32 Pixel sowieso nicht lesbar wäre. Liegt unter
 app/favicon.ico.
 
@@ -47,21 +47,21 @@ Buchstabenabstand (uppercase tracking-widest in Tailwind).
 
 Farben:
 
-Hintergrund ist ein helles Beige, nicht ganz weiss: #F5F1EA.
-Etwas dunkleres Beige für Karten und so: #EEE7DB.
-Rahmen sind in #D9D2C3.
-Als Akzentfarbe nehme ich das Orange #D64D1E. Damit mache ich das
+Hintergrund ist ein kühles Hellgrau, nicht ganz weiss: #F4F5F8.
+Etwas dunklerer Ton für Karten und so: #EAECF2.
+Rahmen sind in #D7DAE4.
+Als Akzentfarbe nehme ich das Blau #3F4A78. Damit mache ich das
 Wort Aufmerksamkeit bunt und ein paar andere Sachen die auffallen
-sollen. Es gibt noch einen ganz hellen Tint davon (#F9EEE6) für
+sollen. Es gibt noch einen ganz hellen Tint davon (#E8EBF3) für
 Hover und ausgewählte Optionen.
 
 Text ist fast schwarz: #0F0F0E. Etwas weicher: #2A2A28. Für kleine
 Infos die nicht so wichtig sind nehme ich grau, also #6B6860, und
 auf dunklem Hintergrund #8C8A82. Wenn Text auf einem schwarzen Block
-liegt nehme ich das Background-Beige #F5F1EA.
+liegt nehme ich den Background-Ton #F4F5F8.
 
 Functional Colors für später falls ich so etwas wie Erfolgs- oder
-Fehlermeldungen brauchen:
+Fehlermeldungen brauche:
 - Success (gut gelaufen): #3F7A4E
 - Warning (Achtung): #C9852A
 - Danger (Fehler): #B83A2A
@@ -70,26 +70,26 @@ Fehlermeldungen brauchen:
 
 Bilder:
 
-Fotos benutze ich aktuell gar nicht im Wireframe. Wenn ich später doch
-welche brauchen sollen die warm wirken, eher gedämpft, mit viel
+Fotos benutze ich im Wireframe zunächst nicht. Wenn ich später doch
+welche brauche, sollen die warm wirken, eher gedämpft, mit viel
 Tageslicht. Motive eher Hände, Bildschirme, Alltagsszenen mit Geräten.
 Ich würde die von Unsplash holen (unsplash.com) oder Pexels
 (pexels.com).
 
 Illustrationen kommen im Wireframe auch nicht vor. Falls doch, wären
-die flach und im Linien-Stil, nur Schwarz und das Orange, kein 3D und
+die flach und im Linien-Stil, nur Schwarz und das Blau, kein 3D und
 keine Verläufe. Quellen wären eigene SVGs oder unDraw (undraw.co).
 
 Da wo später ein Bild hin soll mache ich aktuell einen Kasten in
-Surface-Beige mit dem dünnen Rahmen drum und schreiben "Bild hier"
+Surface-Beige mit dem dünnen Rahmen drum und schreibe "Bild hier"
 oder "Abbildung hier" rein.
 
 
 Icons:
 
 Stil ist Outline, also nur Linien, keine ausgefüllten. Strichstärke 2.
-Ich habe gar kein Icon Paket installiert sondern machen die Icons
-einfach als SVG direkt im Code. Falls ich doch mal mehr brauche
+Ich habe kein Icon-Paket installiert, sondern erstelle die Icons
+als SVG direkt im Code. Falls ich doch mehr brauche,
 würde ich Lucide (lucide.dev) nehmen oder Google Material Symbols
 Outlined (fonts.google.com/icons).
 
@@ -101,15 +101,15 @@ Aktuell habe ich im Wireframe nur ganz wenige Icons:
 - Das Hamburger Menü in der Navbar (sind nur 3 CSS Striche)
 - Plus und Minus zum Aufklappen, das mache ich aber als normale
   Textzeichen + und -, nicht als SVG
-- Das kleine orangene Quadrat vor dem Logo
+- Das kleine blaue Quadrat vor dem Logo
 
 
 Bildformate und technische Sachen:
 
 JPEG nehme ich für Fotos. PNG für Screenshots oder wenn ich
-Transparenz brauchen. SVG für Logo, Icons und Illustrationen. WebP
+Transparenz brauche. SVG für Logo, Icons und Illustrationen. WebP
 ist das Standardformat das next/image automatisch ausliefert wenn ich
-die <Image> Komponente benutzen.
+die <Image>-Komponente benutze.
 
 Bildgrössen je nach Einsatz:
 - Hintergrundbilder gross, also 1920 mal 1080
@@ -119,12 +119,12 @@ Bildgrössen je nach Einsatz:
 - Favicon 32 mal 32
 
 Retina: next/image macht das automatisch und liefert schon srcset mit
-1x und 2x. Wenn ich doch mal ein normales <img> verwenden schreiben
-ich das selber rein, also srcset="bild.jpg 1x, bild@2x.jpg 2x".
+1x und 2x. Wenn ich doch mal ein normales <img> verwende, schreibe
+ich das selbst dazu, also srcset="bild.jpg 1x, bild@2x.jpg 2x".
 
 Alt Text: jedes Bild das Inhalt zeigt bekommt ein alt Attribut. Wenn
 ein Bild rein deko ist lasse ich alt leer (alt=""). Ich schreibe
-nicht "Bild von..." sondern beschreiben direkt was zu sehen ist.
+nicht "Bild von..." sondern beschreibe direkt, was zu sehen ist.
 
 
 Grid:
@@ -140,7 +140,7 @@ und 96 auf dem Computer.
 Buttons:
 
 Die sollen rund sein also nicht eckig. Schwarz mit weisser Schrift.
-Beim Drüberhovern wird der Hintergrund orange. Rechts neben dem Text
+Beim Drüberhovern wird der Hintergrund blau. Rechts neben dem Text
 kommt noch ein kleiner Pfeil. Den Pfeil mache ich einfach als SVG
 direkt im Code, also kein extra Paket installieren. Padding ist 16
 Pixel oben und unten und 24 links und rechts.
@@ -148,17 +148,17 @@ Pixel oben und unten und 24 links und rechts.
 
 Navigation oben:
 
-Bleibt beim Scrollen oben kleben, Hintergrund ist das Beige mit etwas
+Bleibt beim Scrollen oben kleben, Hintergrund ist der helle Ton mit etwas
 Durchsichtigkeit und einem leichten Blur dahinter. Unten eine dünne
 Trennlinie in der Rahmenfarbe. Die Links sind nur Text, beim Drüber-
-hovern wird die Schriftfarbe orange.
+hovern wird die Schriftfarbe blau.
 
 
 Karten (Card Komponente):
 
-Nichts übertriebenes. Einfach ein dünner Rand drum (#D9D2C3),
-abgerundete Ecken (16 Pixel), Hintergrund entweder das normale Beige
-oder das etwas dunklere. Kein Schatten und auch keine bunte Fläche.
+Nichts übertriebenes. Einfach ein dünner Rand drum (#D7DAE4),
+abgerundete Ecken (16 Pixel), Hintergrund entweder der normale Hellton
+oder der etwas dunklere. Kein Schatten und auch keine bunte Fläche.
 
 
 
