@@ -143,7 +143,7 @@ export default function HeroSection({ onStart }: { onStart: () => void }) {
             style={fadeIn(350)}
           >
             Social Media, Dark Patterns, Dauer-Scrolling <br />
-            Sie alle wollen dasselbe: deine Zeit und deinen Fokus. Wie gut kannst du dich heute noch konzentrieren?
+            Sie alle wollen dasselbe: deine Zeit und deinen Fokus. <br></br>Wie gut kannst du dich heute noch konzentrieren?
           </p>
 
           <div className="mt-6 flex flex-col items-start gap-3" style={fadeIn(500)}>
