@@ -41,6 +41,21 @@ html {
   animation: cta-pulse 1.8s ease-in-out infinite;
 }
 
+@keyframes cta-glow {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.cta-glow-layer {
+  animation: cta-glow 3s ease-in-out infinite;
+  background: rgba(232, 85, 62, 0.55);
+  filter: blur(16px);
+}
+
+.animate-cta-glow {
+  animation: cta-pulse 1.8s ease-in-out infinite;
+}
+
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;

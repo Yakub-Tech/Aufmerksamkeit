@@ -147,8 +147,11 @@ export default function HeroSection({ onStart }: { onStart: () => void }) {
           </p>
 
           <div className="mt-6 flex flex-col items-start gap-3" style={fadeIn(500)}>
-            <div className="animate-cta-pulse rounded-full">
-              <Button label="Jetzt loslegen" onClick={onStart} size="lg" />
+            <div className="relative">
+              <div className="cta-glow-layer absolute inset-0 rounded-full" />
+              <div className="animate-cta-glow rounded-full border border-[#E8553E]/60">
+                <Button label="Jetzt loslegen" onClick={onStart} size="lg" />
+              </div>
             </div>
             <p className="font-serif text-sm italic text-[#F4F5F8]/60">
               Bereits{" "}
