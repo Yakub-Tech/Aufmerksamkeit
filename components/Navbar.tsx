@@ -19,7 +19,7 @@ export default function Navbar({ locked = false }: { locked?: boolean }) {
   }, []);
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-[#D7DAE4]/60 bg-[#F4F5F8]/80 backdrop-blur-md">
+    <nav className={`nav-glass sticky top-0 z-50 border-b border-[#D7DAE4]/50 bg-gradient-to-b backdrop-blur-xl backdrop-saturate-150 transition-colors duration-300 ${scrolled ? "from-[#F4F5F8]/50 to-[#F4F5F8]/35" : "from-[#F4F5F8]/40 to-[#F4F5F8]/25"}`}>
       <div className={`mx-auto flex max-w-7xl items-center justify-between px-12 transition-all duration-300 ${scrolled ? "py-2.5" : "py-4"}`}>
         <a href="#home" className="flex items-baseline gap-2">
           <span className="h-2 w-2 rounded-sm bg-[#3F4A78]" />
