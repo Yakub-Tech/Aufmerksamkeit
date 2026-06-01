@@ -31,7 +31,7 @@ export default function DistractionPopup({
 
   return (
     <motion.div
-      className="absolute z-10 w-80 animate-wobble rounded-2xl border border-[#1A2440] bg-[#0D1425]"
+      className="absolute z-10 w-80 animate-wobble rounded-2xl border border-[#D9D2C3] bg-[#EEE7DB]"
       style={style}
       initial={{ opacity: 0, x: isFromLeft ? -24 : 24 }}
       animate={{ opacity: 1, x: 0 }}
@@ -44,7 +44,7 @@ export default function DistractionPopup({
         </span>
         <button
           onClick={onClose}
-          className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-[#1A2440] text-base text-[#EAECF2] transition-all hover:scale-[1.1] hover:bg-[#E8553E] hover:text-white"
+          className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-[#D9D2C3] text-base text-[#0F0F0E] transition-all hover:scale-[1.1] hover:bg-[#E8553E] hover:text-white"
           aria-label="Schließen"
         >
           ×
@@ -52,14 +52,14 @@ export default function DistractionPopup({
       </div>
 
       <div className="px-5 py-3">
-        <p className="font-serif text-lg leading-snug text-[#F4F5F8]">
+        <p className="font-serif text-lg leading-snug text-[#0F0F0E]">
           {question}
         </p>
       </div>
 
       <div className="px-5 pb-5">
         {revealed ? (
-          <p className="text-sm leading-relaxed text-[#EAECF2]/80">
+          <p className="text-sm leading-relaxed text-[#2A2A28]">
             {answer}
           </p>
         ) : (
