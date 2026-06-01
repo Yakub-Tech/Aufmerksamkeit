@@ -153,10 +153,10 @@ export default function HeroSection({ onStart }: { onStart: () => void }) {
                 <Button label="Jetzt loslegen" onClick={onStart} size="lg" />
               </div>
             </div>
-            <p className="font-serif text-sm italic text-[#F4F5F8]/60">
+            <p className="font-serif text-base italic text-[#F4F5F8]/60">
               Bereits{" "}
               <span className="text-[#E8553E]">
-                <Counter target={1247} />
+                <Counter target={1247} duration={5000} />
               </span>{" "}
               Personen haben ihren Fokus getestet
             </p>
