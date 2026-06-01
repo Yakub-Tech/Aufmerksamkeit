@@ -35,7 +35,7 @@ type Post = {
 function Avatar({ name }: { name: string }) {
   const initial = name.trim().charAt(0).toUpperCase() || "?";
   return (
-    <div className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-[#2E9E8A]">
+    <div className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-[#7C4DFF]">
       <span className="font-mono text-xs font-medium text-white">{initial}</span>
     </div>
   );
@@ -99,7 +99,7 @@ function PostCharacter({ src, trigger }: { src: string; trigger: number }) {
 }
 
 const inputClass =
-  "w-full rounded-xl border border-[#2A3550] bg-[#0D1425] p-3 text-sm text-[#F4F5F8] outline-none transition-all duration-150 focus:border-[#2E9E8A] focus:ring-1 focus:ring-[#2E9E8A] placeholder:text-[#6B6860]";
+  "w-full rounded-xl border border-[#2A3550] bg-[#0D1425] p-3 text-sm text-[#F4F5F8] outline-none transition-all duration-150 focus:border-[#7C4DFF] focus:ring-1 focus:ring-[#7C4DFF] placeholder:text-[#6B6860]";
 
 export default function CommunitySection() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -217,7 +217,7 @@ export default function CommunitySection() {
       <div className="mx-auto max-w-7xl px-12 py-24">
         <SectionReveal>
         <h2 className="font-serif text-6xl leading-tight tracking-tight">
-          Teile deinen <span className="italic text-[#2E9E8A]">Hack</span>.
+          Teile deinen <span className="italic text-[#7C4DFF]">Hack</span>.
         </h2>
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#EAECF2]/80">
           Was hilft dir, fokussiert zu bleiben? Schreib einen kurzen Erfahrungsbericht, er erscheint sofort oben in der Liste.
@@ -226,14 +226,14 @@ export default function CommunitySection() {
 
         <SectionReveal>
         <div className="mt-10 grid grid-cols-[1fr_1.4fr] items-start gap-8">
-          <form onSubmit={send} className="rounded-2xl border border-[#2E9E8A] bg-[#1A2440] p-6">
+          <form onSubmit={send} className="rounded-2xl border border-[#7C4DFF] bg-[#1A2440] p-6">
             <p className="mb-4 text-lg font-bold text-[#F4F5F8]">Dein Beitrag</p>
 
             {/* Geschlechtsauswahl */}
             <div className="mb-2 flex items-center justify-between">
               <p className="font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">Geschlecht</p>
               {genderError && (
-                <p className="font-mono text-[10px] text-[#2E9E8A]">Bitte auswählen</p>
+                <p className="font-mono text-[10px] text-[#7C4DFF]">Bitte auswählen</p>
               )}
             </div>
             <div className="mb-3 flex items-start gap-3">
@@ -266,8 +266,8 @@ export default function CommunitySection() {
                     onClick={() => chooseGender(val)}
                     className={`flex-1 rounded-xl border px-3 py-2 font-mono text-[10px] uppercase tracking-widest transition-colors duration-150 ${
                       active
-                        ? "border-[#2E9E8A] bg-[#2E9E8A] text-white font-bold"
-                        : "border-[#2A3550] bg-[#0D1425] text-[#6B6860] hover:border-[#2E9E8A] hover:text-[#2E9E8A]"
+                        ? "border-[#7C4DFF] bg-[#7C4DFF] text-white font-bold"
+                        : "border-[#2A3550] bg-[#0D1425] text-[#6B6860] hover:border-[#7C4DFF] hover:text-[#7C4DFF]"
                     }`}
                   >
                     {labels[val]}
@@ -288,7 +288,7 @@ export default function CommunitySection() {
             <div className="mb-3 rounded-xl border border-[#2A3550] bg-[#0D1425] px-3 py-3">
               <div className="mb-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
                 <span>Alter</span>
-                <span className="text-[#2E9E8A]">Alter: {age}</span>
+                <span className="text-[#7C4DFF]">Alter: {age}</span>
               </div>
               <input
                 type="range"
@@ -297,7 +297,7 @@ export default function CommunitySection() {
                 value={age}
                 onChange={(e) => setAge(Number(e.target.value))}
                 aria-label="Alter"
-                className="h-1 w-full cursor-pointer appearance-none rounded-full bg-[#D7DAE4] accent-[#2E9E8A] outline-none [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-[#0F0F0E] [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-0 [&::-webkit-slider-thumb]:bg-[#0F0F0E]"
+                className="h-1 w-full cursor-pointer appearance-none rounded-full bg-[#D7DAE4] accent-[#7C4DFF] outline-none [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-[#0F0F0E] [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-0 [&::-webkit-slider-thumb]:bg-[#0F0F0E]"
               />
               <div className="mt-1 flex justify-between font-mono text-[9px] uppercase tracking-widest text-[#6B6860]">
                 <span>14</span>
@@ -315,7 +315,7 @@ export default function CommunitySection() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="cursor-pointer rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F4F5F8] transition-all duration-200 hover:scale-[1.04] hover:bg-[#2E9E8A] disabled:cursor-not-allowed disabled:opacity-60"
+                className="cursor-pointer rounded-full bg-[#0F0F0E] px-6 py-3 text-sm font-medium text-[#F4F5F8] transition-all duration-200 hover:scale-[1.04] hover:bg-[#7C4DFF] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">
@@ -348,14 +348,14 @@ export default function CommunitySection() {
                       initial={{ opacity: 0, y: -16 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
-                      className="rounded-2xl border-2 border-[#2E9E8A] bg-[#1A2440] p-5"
+                      className="rounded-2xl border-2 border-[#7C4DFF] bg-[#1A2440] p-5"
                     >
                       <div className="flex items-center gap-3">
                         {post.gender && likeFiles[post.gender]
                           ? <PostCharacter key={`char-${post.id}`} src={likeFiles[post.gender]} trigger={likeTriggers[post.id] ?? 0} />
                           : <Avatar name={post.name} />
                         }
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-[#2E9E8A]">
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-[#7C4DFF]">
                           {post.name.toUpperCase()}, {post.age}
                         </span>
                       </div>
@@ -372,8 +372,8 @@ export default function CommunitySection() {
                           onClick={() => handleLike(post.id)}
                           className={`flex cursor-pointer items-center justify-center rounded-full p-1.5 transition-colors duration-150 ${
                             likedIds.includes(post.id)
-                              ? "bg-[#3D7262] text-white"
-                              : "bg-[#2A3550] text-[#6B6860] hover:bg-[#3D7262] hover:text-white"
+                              ? "bg-[#5B35CC] text-white"
+                              : "bg-[#2A3550] text-[#6B6860] hover:bg-[#5B35CC] hover:text-white"
                           }`}
                         >
                           <svg
