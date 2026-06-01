@@ -333,7 +333,7 @@ export default function CommunitySection() {
           </form>
 
           <div className="relative">
-            <div className="flex h-[540px] flex-col gap-4 overflow-y-auto pr-3">
+            <div data-lenis-prevent className="flex h-[540px] flex-col gap-4 overflow-y-auto pr-3">
               {posts.length === 0 ? (
                 <div className="flex h-full items-center justify-center rounded-2xl border border-[#1A2440] bg-[#1A2440] p-8">
                   <p className="font-serif italic text-[#6B6860]">
@@ -396,7 +396,7 @@ export default function CommunitySection() {
                 </AnimatePresence>
               )}
             </div>
-            <div className="pointer-events-none absolute bottom-0 left-0 right-3 h-10 rounded-b-2xl bg-gradient-to-t from-[#0D1425] to-transparent" />
+            <div className="pointer-events-none absolute bottom-0 left-0 right-3 h-10 bg-gradient-to-t from-[#0D1425] to-transparent" />
           </div>
         </div>
         </SectionReveal>
