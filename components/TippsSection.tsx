@@ -82,7 +82,7 @@ function ReglerRive({ used, onActivate }: { used: boolean; onActivate: () => voi
     <button
       onClick={() => { if (!used) { fireInput(input, 0); onActivate(); } }}
       disabled={used}
-      className={`h-8 w-14 flex-none ${used ? "cursor-default opacity-70" : "cursor-pointer"}`}
+      className={`h-16 w-28 flex-none ${used ? "cursor-default opacity-70" : "cursor-pointer"}`}
     >
       <RiveComponent />
     </button>
