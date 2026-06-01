@@ -2,10 +2,10 @@
 import { useState, useEffect, useCallback } from "react";
 
 const SECTIONS = [
-  { id: "home", label: "ERKENNEN", color: "#3F4A78" },
+  { id: "home", label: "ERKENNEN", color: "#2E9E8A" },
   { id: "test", label: "TESTEN", color: "#E8553E" },
   { id: "auswertung", label: "AUSWERTEN", color: "#F0A500" },
-  { id: "tipps", label: "HANDELN", color: "#2E9E8A" },
+  { id: "tipps", label: "HANDELN", color: "#D6336C" },
   { id: "community", label: "TEILEN", color: "#7C4DFF" },
 ];
 
@@ -62,7 +62,7 @@ export default function ScrollGuide() {
                 style={{ width: "1px", height: "40px", backgroundColor: "#D7DAE4" }}
               >
                 <div
-                  className="absolute top-0 left-0 w-full transition-all duration-300"
+                  className="absolute top-0 left-0 w-full"
                   style={{ height: `${fillPct}%`, backgroundColor: prevColor }}
                 />
               </div>

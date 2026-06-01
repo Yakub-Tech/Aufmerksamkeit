@@ -118,7 +118,7 @@ export default function TippsSection() {
         <h2 className="font-serif text-5xl leading-tight tracking-tight">
           Weniger Ablenkung.
           <br />
-          <span className="italic text-[#2E9E8A]">Mehr du.</span>
+          <span className="italic text-[#D6336C]">Mehr du.</span>
         </h2>
         <p className="mt-3 max-w-md text-sm text-[#EAECF2]/70">
           Folge den Schritten und gewinne die Kontrolle über deine Aufmerksamkeit zurück.
