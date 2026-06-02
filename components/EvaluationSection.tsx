@@ -37,8 +37,6 @@ function hoursToLabel(h: number): string {
   return `${hh}h ${mm}m`;
 }
 
-const AVG_TIME_SECONDS = 45;
-const AVG_DISTRACTIONS = 4;
 
 type EvaluationSectionProps = {
   answered: number;
@@ -81,9 +79,15 @@ function hi(text: string | number) {
   return <span className="italic text-[#E8553E]">{text}</span>;
 }
 
-function getEvalMain(distractions: number, elapsed: number, totalFacts: number) {
-  const isHighDistractions = distractions > AVG_DISTRACTIONS;
-  const isHighTime = elapsed > AVG_TIME_SECONDS + 15;
+function getEvalMain(
+  distractions: number,
+  elapsed: number,
+  totalFacts: number,
+  avgDistractions: number,
+  avgTime: number,
+) {
+  const isHighDistractions = distractions > avgDistractions;
+  const isHighTime = elapsed > avgTime + 15;
 
   if (distractions === 0) {
     return <>Kein einziger Fun Fact angeklickt. Sehr fokussiert.</>;
@@ -111,13 +115,13 @@ function getEvalMain(distractions: number, elapsed: number, totalFacts: number) 
   );
 }
 
-function getEvalSub(distractions: number, elapsed: number) {
-  const timeDiff = AVG_TIME_SECONDS - elapsed;
+function getEvalSub(distractions: number, elapsed: number, avgDistractions: number, avgTime: number) {
+  const timeDiff = avgTime - elapsed;
 
   const distCompare =
-    distractions < AVG_DISTRACTIONS
+    distractions < avgDistractions
       ? "unter Ø"
-      : distractions > AVG_DISTRACTIONS
+      : distractions > avgDistractions
       ? "über Ø"
       : "~ Ø";
 
@@ -130,7 +134,7 @@ function getEvalSub(distractions: number, elapsed: number) {
 
   return (
     <>
-      {hi(`${distractions}-mal`)} abgelenkt — {distCompare}{timeNote}
+      {hi(`${distractions}-mal`)} abgelenkt — {distCompare} (Ø: {avgDistractions}×){timeNote}
     </>
   );
 }
@@ -148,6 +152,8 @@ export default function EvaluationSection({
 }: EvaluationSectionProps) {
   const [animated, setAnimated] = useState(false);
   const [barsVisible, setBarsVisible] = useState(false);
+  const [avgTime, setAvgTime] = useState(0);
+  const [avgDistractions, setAvgDistractions] = useState(0);
   const statsRef = useRef<HTMLDivElement>(null);
   const isTestDone = answered === totalQuestions;
 
@@ -155,6 +161,17 @@ export default function EvaluationSection({
     if (!isTestDone) return;
     const id = requestAnimationFrame(() => setAnimated(true));
     return () => cancelAnimationFrame(id);
+  }, [isTestDone]);
+
+  useEffect(() => {
+    if (!isTestDone) return;
+    fetch("/api/test-count")
+      .then((res) => res.json())
+      .then((data) => {
+        setAvgTime(data.avgElapsed);
+        setAvgDistractions(data.avgDistractions);
+      })
+      .catch(() => {});
   }, [isTestDone]);
 
   useEffect(() => {
@@ -182,9 +199,9 @@ export default function EvaluationSection({
 
   const comparisonLabel = !isTestDone
     ? "—"
-    : distractions < AVG_DISTRACTIONS
+    : distractions < avgDistractions
     ? "unter Ø"
-    : distractions > AVG_DISTRACTIONS
+    : distractions > avgDistractions
     ? "über Ø"
     : "~ Ø";
 
@@ -215,8 +232,15 @@ export default function EvaluationSection({
             <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#6B6860]">
               Ø im Vergleich zu anderen
             </div>
-            <div className="font-serif text-6xl leading-none tracking-tight text-[#F0A500]">
-              {comparisonLabel}
+            <div>
+              <div className="font-serif text-6xl leading-none tracking-tight text-[#F0A500]">
+                {comparisonLabel}
+              </div>
+              {isTestDone && (
+                <div className="mt-2 font-mono text-[11px] text-[#6B6860]">
+                  Ø {avgDistractions}× abgelenkt · {avgTime}s
+                </div>
+              )}
             </div>
           </div>
           <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#0A1020] p-7">
@@ -237,12 +261,12 @@ export default function EvaluationSection({
         <div className="mt-8 rounded-2xl border border-[#1A2440] bg-[#1A2440] p-10">
           <p className="font-serif text-2xl leading-snug tracking-tight text-[#F4F5F8]">
             {isTestDone
-              ? getEvalMain(distractions, elapsed, totalFacts)
+              ? getEvalMain(distractions, elapsed, totalFacts, avgDistractions, avgTime)
               : "Starte zuerst den Test. Die Werte aktualisieren sich live."}
           </p>
           <p className="mt-3 text-sm leading-relaxed text-[#8C8A82]">
             {isTestDone
-              ? getEvalSub(distractions, elapsed)
+              ? getEvalSub(distractions, elapsed, avgDistractions, avgTime)
               : "Je weniger Fun Facts du anklickst, desto fokussierter warst du. Je mehr, desto stärker hat dich die Umgebung gezogen."}
           </p>
         </div>

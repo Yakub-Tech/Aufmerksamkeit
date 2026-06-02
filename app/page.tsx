@@ -74,9 +74,13 @@ export default function Home() {
       <SectionReveal>
         <AttentionTestSection
           onResultChange={setResult}
-          onQuizComplete={() => {
+          onQuizComplete={(elapsed, distractions) => {
             setQuizDone(true);
-            fetch("/api/test-count", { method: "POST" }).catch(() => {});
+            fetch("/api/test-count", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ elapsed, distractions }),
+            }).catch(() => {});
           }}
         />
       </SectionReveal>

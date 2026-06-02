@@ -17,7 +17,7 @@ type TestResult = {
 
 type AttentionTestSectionProps = {
   onResultChange: (r: TestResult) => void;
-  onQuizComplete: () => void;
+  onQuizComplete: (elapsed: number, distractions: number) => void;
 };
 
 type PopupStyle = {
@@ -335,7 +335,7 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
       setCurrent(current + 1);
     } else {
       setRunning(false);
-      onQuizComplete();
+      onQuizComplete(elapsed, opened.length);
       const el = document.getElementById("auswertung");
       if (el) el.scrollIntoView({ behavior: "smooth" });
     }

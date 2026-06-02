@@ -21,3 +21,10 @@ model TestStat {
   id    Int @id @default(1)
   count Int @default(0)
 }
+
+model TestResult {
+  id           Int      @id @default(autoincrement())
+  elapsed      Int
+  distractions Int
+  createdAt    DateTime @default(now())
+}
