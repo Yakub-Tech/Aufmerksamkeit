@@ -39,6 +39,14 @@ function Counter({ target, duration = 1500 }: { target: number; duration?: numbe
 
 export default function HeroSection({ onStart }: { onStart: () => void }) {
   const [mounted, setMounted] = useState(false);
+  const [testCount, setTestCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch("/api/test-count")
+      .then((res) => res.json())
+      .then((data) => setTestCount(data.count))
+      .catch(() => setTestCount(0));
+  }, []);
   const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const phaseRef = useRef<"initial" | "scroll-bound">("initial");
@@ -156,7 +164,11 @@ export default function HeroSection({ onStart }: { onStart: () => void }) {
             <p className="font-serif text-base italic text-[#F4F5F8]/60">
               Bereits{" "}
               <span className="text-[#E8553E]">
-                <Counter target={1247} duration={5000} />
+                {testCount !== null ? (
+                  <Counter target={testCount} duration={2000} />
+                ) : (
+                  "…"
+                )}
               </span>{" "}
               Personen haben ihren Fokus getestet
             </p>

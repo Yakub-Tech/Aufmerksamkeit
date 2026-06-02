@@ -72,7 +72,13 @@ export default function Home() {
       <ScrollGuide />
       <HeroSection onStart={handleStart} />
       <SectionReveal>
-        <AttentionTestSection onResultChange={setResult} onQuizComplete={() => setQuizDone(true)} />
+        <AttentionTestSection
+          onResultChange={setResult}
+          onQuizComplete={() => {
+            setQuizDone(true);
+            fetch("/api/test-count", { method: "POST" }).catch(() => {});
+          }}
+        />
       </SectionReveal>
       <SectionReveal>
         <div

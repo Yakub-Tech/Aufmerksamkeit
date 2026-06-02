@@ -16,3 +16,8 @@ model Comment {
   likes     Int      @default(0)
   createdAt DateTime @default(now())
 }
+
+model TestStat {
+  id    Int @id @default(1)
+  count Int @default(0)
+}
