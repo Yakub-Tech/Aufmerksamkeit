@@ -82,49 +82,95 @@ function hi(text: string | number) {
 function getEvalMain(
   distractions: number,
   elapsed: number,
-  totalFacts: number,
   avgDistractions: number,
   avgTime: number,
 ) {
-  const isHighDistractions = distractions > avgDistractions;
-  const isHighTime = elapsed > avgTime + 15;
-
-  if (distractions === 0) {
-    return <>Kein einziger Fun Fact angeklickt. Sehr fokussiert.</>;
+  if (avgTime === 0) {
+    return <>Starte zuerst den Test. Die Werte aktualisieren sich live.</>;
   }
-  if (distractions <= 2 && !isHighTime) {
+
+  const timeDiff = avgTime - elapsed;
+  const faster = timeDiff > 5;
+  const slower = timeDiff < -5;
+  const lessDistracted = distractions < avgDistractions;
+  const moreDistracted = distractions > avgDistractions;
+
+  if (lessDistracted && faster) {
     return (
       <>
-        {hi(`${distractions} von ${totalFacts}`)} Fun Facts angeklickt. Du hast
-        dich gut auf die Aufgabe konzentriert.
+        Du bist eine Person, die fokussiert bleibt, auch wenn es ringsum blinkt.{" "}
+        {hi("Ruhiger und schneller")} als die meisten.
       </>
     );
   }
-  if (isHighDistractions) {
+  if (lessDistracted && slower) {
     return (
       <>
-        {hi(`${distractions} von ${totalFacts}`)} Fun Facts angeklickt. Die
-        Umgebung hat dich öfter abgelenkt als der Durchschnitt.
+        Du bist eine Person, die sich {hi("Zeit nimmt")} und sich dabei kaum ablenken
+        lässt. Gründlich statt hektisch – das hat seinen eigenen Wert.
+      </>
+    );
+  }
+  if (lessDistracted) {
+    return (
+      <>
+        Du bist eine Person, die Ablenkungen {hi("gut aussitzt")}. Wenig gestört,
+        solides Tempo. Das zeigt echte Konzentrationsfähigkeit.
+      </>
+    );
+  }
+  if (moreDistracted && faster) {
+    return (
+      <>
+        Du bist eine Person, die {hi("neugierig hinschaut")} und trotzdem zügig
+        durchkommt. Diese Offenheit ist eine Stärke.
+      </>
+    );
+  }
+  if (moreDistracted && slower) {
+    return (
+      <>
+        Du bist eine Person, die {hi("viel um sich herum wahrnimmt")}. Mit ein
+        paar ruhigeren Momenten würdest du diese Neugier noch gezielter einsetzen.
+      </>
+    );
+  }
+  if (moreDistracted) {
+    return (
+      <>
+        Du bist eine Person, die auf vieles reagiert. Beim Tempo bist du trotzdem{" "}
+        {hi("im Rahmen")} geblieben – das zählt.
+      </>
+    );
+  }
+  if (faster) {
+    return (
+      <>
+        Du bist eine Person, die {hi("schnell und strukturiert")} arbeitet. Ablenkungen
+        im Normbereich, Tempo überdurchschnittlich.
+      </>
+    );
+  }
+  if (slower) {
+    return (
+      <>
+        Du bist eine Person, die sich {hi("nicht hetzen lässt")}. Deine Ablenkungen
+        halten sich im Normbereich – du gehst einfach deinen eigenen Weg.
       </>
     );
   }
   return (
     <>
-      {hi(`${distractions} von ${totalFacts}`)} Fun Facts angeklickt.
+      Du bist eine Person, die {hi("im Gleichgewicht")} liegt. Weder zu viel Tempo
+      noch zu viele Ablenkungen. Das ist ein gutes Zeichen.
     </>
   );
 }
 
 function getEvalSub(distractions: number, elapsed: number, avgDistractions: number, avgTime: number) {
+  if (avgTime === 0) return null;
+
   const timeDiff = avgTime - elapsed;
-
-  const distCompare =
-    distractions < avgDistractions
-      ? "unter Ø"
-      : distractions > avgDistractions
-      ? "über Ø"
-      : "~ Ø";
-
   const timeNote =
     timeDiff > 5
       ? ` · ${timeDiff}s schneller als der Ø`
@@ -134,7 +180,7 @@ function getEvalSub(distractions: number, elapsed: number, avgDistractions: numb
 
   return (
     <>
-      {hi(`${distractions}-mal`)} abgelenkt — {distCompare} (Ø: {avgDistractions}×){timeNote}
+      {hi(`${distractions}×`)} abgelenkt (Ø {avgDistractions}×){timeNote}
     </>
   );
 }
@@ -197,13 +243,21 @@ export default function EvaluationSection({
     }
   }, [isTestDone]);
 
-  const comparisonLabel = !isTestDone
-    ? "—"
-    : distractions < avgDistractions
-    ? "unter Ø"
-    : distractions > avgDistractions
-    ? "über Ø"
-    : "~ Ø";
+  const timeDiff = isTestDone && avgTime > 0 ? avgTime - elapsed : null;
+  const timeLabel =
+    timeDiff === null
+      ? null
+      : timeDiff > 5
+      ? "SCHNELLER ALS Ø"
+      : timeDiff < -5
+      ? "LANGSAMER ALS Ø"
+      : "ETWA IM Ø";
+  const timeBigValue =
+    timeDiff === null
+      ? "—"
+      : Math.abs(timeDiff) > 5
+      ? `${Math.abs(timeDiff)}s`
+      : "Ø";
 
   const userBarWidth = Math.min(Math.round((hours / MAX_AVG_HOURS) * 100), 100);
 
@@ -230,15 +284,20 @@ export default function EvaluationSection({
           </div>
           <div className="flex min-h-[180px] flex-col justify-between gap-4 bg-[#1A2440] p-7">
             <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#6B6860]">
-              Ø im Vergleich zu anderen
+              Tempo im Vergleich
             </div>
             <div>
+              {timeLabel && (
+                <div className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#F0A500]">
+                  {timeLabel}
+                </div>
+              )}
               <div className="font-serif text-6xl leading-none tracking-tight text-[#F0A500]">
-                {comparisonLabel}
+                {timeBigValue}
               </div>
-              {isTestDone && (
+              {isTestDone && avgTime > 0 && (
                 <div className="mt-2 font-mono text-[11px] text-[#6B6860]">
-                  Ø {avgDistractions}× abgelenkt · {avgTime}s
+                  Ø {avgTime}s
                 </div>
               )}
             </div>
@@ -247,11 +306,18 @@ export default function EvaluationSection({
             <div className="font-mono text-[10px] uppercase leading-relaxed tracking-widest text-[#6B6860]">
               Mal abgelenkt
             </div>
-            <div className="font-serif leading-none tracking-tight">
-              <span className="text-6xl text-[#E8553E]">
-                <CountUp target={distractions} animated={animated} />
-              </span>
-              <span className="text-3xl text-[#6B6860]">/{totalFacts}</span>
+            <div>
+              <div className="font-serif leading-none tracking-tight">
+                <span className="text-6xl text-[#E8553E]">
+                  <CountUp target={distractions} animated={animated} />
+                </span>
+                <span className="text-3xl text-[#6B6860]">/{totalFacts}</span>
+              </div>
+              {isTestDone && avgDistractions > 0 && (
+                <div className="mt-2 font-mono text-[11px] text-[#F0A500]">
+                  Ø {avgDistractions}× im Schnitt
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -261,7 +327,7 @@ export default function EvaluationSection({
         <div className="mt-8 rounded-2xl border border-[#1A2440] bg-[#1A2440] p-10">
           <p className="font-serif text-2xl leading-snug tracking-tight text-[#F4F5F8]">
             {isTestDone
-              ? getEvalMain(distractions, elapsed, totalFacts, avgDistractions, avgTime)
+              ? getEvalMain(distractions, elapsed, avgDistractions, avgTime)
               : "Starte zuerst den Test. Die Werte aktualisieren sich live."}
           </p>
           <p className="mt-3 text-sm leading-relaxed text-[#8C8A82]">
