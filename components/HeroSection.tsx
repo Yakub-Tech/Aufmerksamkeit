@@ -4,12 +4,8 @@ import Button from "./Button";
 
 function Counter({ target, duration = 1500 }: { target: number; duration?: number }) {
   const [count, setCount] = useState(0);
-  const started = useRef(false);
 
   useEffect(() => {
-    if (started.current) return;
-    started.current = true;
-
     let rafId: number;
 
     const delay = setTimeout(() => {
