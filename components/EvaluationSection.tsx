@@ -167,23 +167,6 @@ function getEvalMain(
   );
 }
 
-function getEvalSub(distractions: number, elapsed: number, avgDistractions: number, avgTime: number) {
-  if (avgTime === 0) return null;
-
-  const timeDiff = avgTime - elapsed;
-  const timeNote =
-    timeDiff > 5
-      ? ` · ${timeDiff}s schneller als der Ø`
-      : timeDiff < -5
-      ? ` · ${Math.abs(timeDiff)}s langsamer als der Ø`
-      : "";
-
-  return (
-    <>
-      {hi(`${distractions}×`)} abgelenkt (Ø {avgDistractions}×){timeNote}
-    </>
-  );
-}
 
 export default function EvaluationSection({
   answered,
@@ -258,6 +241,14 @@ export default function EvaluationSection({
       : Math.abs(timeDiff) > 5
       ? `${Math.abs(timeDiff)}s`
       : "Ø";
+  const tempoColor =
+    timeDiff === null
+      ? "#F0A500"
+      : timeDiff > 5
+      ? "#4ADE80"
+      : timeDiff < -5
+      ? "#F87171"
+      : "#F0A500";
 
   const userBarWidth = Math.min(Math.round((hours / MAX_AVG_HOURS) * 100), 100);
 
@@ -288,11 +279,11 @@ export default function EvaluationSection({
             </div>
             <div>
               {timeLabel && (
-                <div className="mb-1 font-mono text-[10px] uppercase tracking-widest text-[#F0A500]">
+                <div className="mb-1 font-mono text-[10px] uppercase tracking-widest" style={{ color: tempoColor }}>
                   {timeLabel}
                 </div>
               )}
-              <div className="font-serif text-6xl leading-none tracking-tight text-[#F0A500]">
+              <div className="font-serif text-6xl leading-none tracking-tight" style={{ color: tempoColor }}>
                 {timeBigValue}
               </div>
               {isTestDone && avgTime > 0 && (
@@ -329,11 +320,6 @@ export default function EvaluationSection({
             {isTestDone
               ? getEvalMain(distractions, elapsed, avgDistractions, avgTime)
               : "Starte zuerst den Test. Die Werte aktualisieren sich live."}
-          </p>
-          <p className="mt-3 text-sm leading-relaxed text-[#8C8A82]">
-            {isTestDone
-              ? getEvalSub(distractions, elapsed, avgDistractions, avgTime)
-              : "Je weniger Fun Facts du anklickst, desto fokussierter warst du. Je mehr, desto stärker hat dich die Umgebung gezogen."}
           </p>
         </div>
         </SectionReveal>
