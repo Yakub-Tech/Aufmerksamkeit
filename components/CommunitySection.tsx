@@ -112,11 +112,29 @@ export default function CommunitySection() {
 
   const [typing, setTyping] = useState(false);
   const typingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const soundRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    const audio = new Audio("/sounds/text_sound.mp3");
+    audio.volume = 0.4;
+    audio.loop = true;
+    soundRef.current = audio;
+  }, []);
 
   function handleTyping() {
     setTyping(true);
     if (typingTimer.current) clearTimeout(typingTimer.current);
-    typingTimer.current = setTimeout(() => setTyping(false), 1200);
+    typingTimer.current = setTimeout(() => {
+      setTyping(false);
+      if (soundRef.current) {
+        soundRef.current.pause();
+        soundRef.current.currentTime = 0;
+      }
+    }, 400);
+
+    if (soundRef.current && soundRef.current.paused) {
+      soundRef.current.play().catch(() => {});
+    }
   }
 
   function chooseGender(value: string) {
@@ -306,10 +324,11 @@ export default function CommunitySection() {
             </div>
             <textarea
               required
+              disabled={!gender}
               value={text}
               onChange={(e) => { setText(e.target.value); handleTyping(); }}
               placeholder="Was hat dir geholfen, weniger abgelenkt zu sein?"
-              className={`min-h-[140px] resize-y ${inputClass}`}
+              className={`min-h-[140px] resize-y ${inputClass} disabled:cursor-not-allowed disabled:opacity-50`}
             />
             <div className="mt-4 flex justify-end">
               <button
