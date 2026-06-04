@@ -11,7 +11,6 @@ import CommunityBanner from "@/components/CommunityBanner";
 import CommunitySection from "@/components/CommunitySection";
 import Footer from "@/components/Footer";
 import ScrollGuide from "@/components/ScrollGuide";
-import SectionReveal from "@/components/SectionReveal";
 
 export default function Home() {
   const [result, setResult] = useState({
@@ -71,8 +70,7 @@ export default function Home() {
       <Navbar locked={scrollLocked} />
       <ScrollGuide />
       <HeroSection onStart={handleStart} />
-      <SectionReveal>
-        <AttentionTestSection
+      <AttentionTestSection
           onResultChange={setResult}
           onQuizComplete={(elapsed, distractions) => {
             setQuizDone(true);
@@ -83,15 +81,13 @@ export default function Home() {
             }).catch(() => {});
           }}
         />
-      </SectionReveal>
-      <SectionReveal>
-        <div
-          style={{
-            filter: quizDone ? "blur(0)" : "blur(8px)",
-            transition: "filter 1s ease",
-            pointerEvents: quizDone ? "auto" : "none",
-          }}
-        >
+      <div
+        style={{
+          filter: quizDone ? "blur(0)" : "blur(8px)",
+          transition: "filter 1s ease",
+          pointerEvents: quizDone ? "auto" : "none",
+        }}
+      >
         <EvaluationSection
           answered={result.answered}
           distractions={result.distractions}
@@ -103,18 +99,11 @@ export default function Home() {
           selectedEffect={result.selectedEffect}
           selectedMorning={result.selectedMorning}
         />
-        </div>
-      </SectionReveal>
-      <SectionReveal>
-        <TippsSection />
-      </SectionReveal>
+      </div>
+      <TippsSection />
       <CommunityBanner />
-      <SectionReveal>
-        <CommunitySection />
-      </SectionReveal>
-      <SectionReveal>
-        <Footer />
-      </SectionReveal>
+      <CommunitySection />
+      <Footer />
     </>
   );
 }

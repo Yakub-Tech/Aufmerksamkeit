@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import Quiz from "./Quiz";
 import DistractionPopup from "./DistractionPopup";
+import SectionReveal from "./SectionReveal";
 
 type TestResult = {
   answered: number;
@@ -357,6 +358,7 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
 
   return (
     <section id="test" className="scroll-mt-[60px] bg-[#0D1425] text-[#F4F5F8]">
+      <SectionReveal>
       <div className="mx-auto max-w-7xl px-12 py-10">
         <h2 className="font-serif text-5xl leading-tight tracking-tight">
           Bist du bereit, deine{" "}
@@ -393,6 +395,7 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
           </AnimatePresence>
         </div>
       </div>
+      </SectionReveal>
     </section>
   );
 }

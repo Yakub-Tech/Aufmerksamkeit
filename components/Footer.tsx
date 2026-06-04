@@ -1,6 +1,9 @@
+import SectionReveal from "./SectionReveal";
+
 export default function Footer() {
   return (
     <footer className="bg-[#0D1425] text-[#F4F5F8]">
+      <SectionReveal>
       <div className="mx-auto max-w-7xl px-12 py-14">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="flex flex-col gap-2">
@@ -61,6 +64,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
+      </SectionReveal>
     </footer>
   );
 }
