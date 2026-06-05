@@ -32,7 +32,6 @@ type Post = {
   likes: number;
 };
 
-// Vorschaucharakter im Formular - zeigt Augen oder Mund je nach Modus
 function CharacterDisplay({ src, isTyping }: { src: string; isTyping: boolean }) {
   const { rive, RiveComponent } = useRive({
     src: encodeURI(src),
@@ -42,7 +41,6 @@ function CharacterDisplay({ src, isTyping }: { src: string; isTyping: boolean })
   const eyesInput = useStateMachineInput(rive, "State Machine 1", "playEyes");
   const typingInput = useStateMachineInput(rive, "State Machine 1", "isTyping");
 
-  // Augen-Animation beim ersten Laden auslösen (playEyes ist ein Trigger-Input)
   useEffect(() => {
     if (eyesInput) {
       const t = setTimeout(() => { eyesInput.fire(); }, 150);
@@ -50,7 +48,6 @@ function CharacterDisplay({ src, isTyping }: { src: string; isTyping: boolean })
     }
   }, [eyesInput]);
 
-  // Reden-Animation beim Tippen steuern
   useEffect(() => {
     if (typingInput) {
       typingInput.value = isTyping;
@@ -60,7 +57,6 @@ function CharacterDisplay({ src, isTyping }: { src: string; isTyping: boolean })
   return <RiveComponent />;
 }
 
-// Avatar in geposteten Beiträgen - zeigt Like-Datei im Idle, beim Liken eine zufällige Animation
 function PostCharacter({ src, trigger }: { src: string; trigger: number }) {
   const { rive, RiveComponent } = useRive({
     src: encodeURI(src),
@@ -70,7 +66,6 @@ function PostCharacter({ src, trigger }: { src: string; trigger: number }) {
   const expressionIndexInput = useStateMachineInput(rive, "State Machine 1", "expressionIndex");
   const playExpressionInput = useStateMachineInput(rive, "State Machine 1", "playExpression");
 
-  // playExpression ist ein Trigger-Input, expressionIndex ein Number-Input
   useEffect(() => {
     if (trigger > 0 && expressionIndexInput && playExpressionInput) {
       const idx = Math.floor(Math.random() * 3);
@@ -139,7 +134,6 @@ export default function CommunitySection() {
   function chooseGender(value: string) {
     setGender(value);
     setGenderError(false);
-    // Der Wechsel des Geschlechts remountet den Charakter über den key, Augen starten neu
   }
 
   const [likeTriggers, setLikeTriggers] = useState<Record<number, number>>({});
@@ -219,7 +213,6 @@ export default function CommunitySection() {
       const updated = [...likedIds, id];
       setLikedIds(updated);
       localStorage.setItem("liked_comments", JSON.stringify(updated));
-      // Like-Animation auslösen
       setLikeTriggers((prev) => ({ ...prev, [id]: (prev[id] ?? 0) + 1 }));
     }
 
@@ -228,6 +221,8 @@ export default function CommunitySection() {
       .then((data) => setPosts(data))
       .catch(() => {});
   }
+
+  const domPosts = [...posts].sort((a, b) => a.id - b.id);
 
   return (
     <section id="community" className="bg-[#0D1425] text-[#F4F5F8]">
@@ -258,7 +253,6 @@ export default function CommunitySection() {
               </button>
             </div>
 
-            {/* Geschlechtsauswahl */}
             <div className="mb-2 flex items-center justify-between">
               <p className="font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">Geschlecht</p>
               {genderError && (
@@ -372,9 +366,10 @@ export default function CommunitySection() {
                 </div>
               ) : (
                 <AnimatePresence initial={false}>
-                  {posts.map((post) => (
+                  {domPosts.map((post) => (
                     <motion.div
                       key={post.id}
+                      style={{ order: posts.findIndex((p) => p.id === post.id) }}
                       initial={{ opacity: 0, y: -16 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
