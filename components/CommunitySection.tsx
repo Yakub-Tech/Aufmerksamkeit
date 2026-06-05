@@ -32,15 +32,6 @@ type Post = {
   likes: number;
 };
 
-function Avatar({ name }: { name: string }) {
-  const initial = name.trim().charAt(0).toUpperCase() || "?";
-  return (
-    <div className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-[#7C4DFF]">
-      <span className="font-mono text-xs font-medium text-white">{initial}</span>
-    </div>
-  );
-}
-
 // Vorschaucharakter im Formular - zeigt Augen oder Mund je nach Modus
 function CharacterDisplay({ src, isTyping }: { src: string; isTyping: boolean }) {
   const { rive, RiveComponent } = useRive({
@@ -92,7 +83,7 @@ function PostCharacter({ src, trigger }: { src: string; trigger: number }) {
   }, [trigger, expressionIndexInput, playExpressionInput]);
 
   return (
-    <div className="h-8 w-8 flex-none overflow-hidden rounded-full border border-[#2A3550] bg-[#0D1425]">
+    <div className="h-12 w-12 flex-none overflow-hidden rounded-full border border-[#2A3550] bg-[#0D1425]">
       <RiveComponent />
     </div>
   );
@@ -390,10 +381,9 @@ export default function CommunitySection() {
                       className="rounded-2xl border-2 border-[#7C4DFF] bg-[#1A2440] p-5"
                     >
                       <div className="flex items-center gap-3">
-                        {post.gender && likeFiles[post.gender]
-                          ? <PostCharacter key={`char-${post.id}`} src={likeFiles[post.gender]} trigger={likeTriggers[post.id] ?? 0} />
-                          : <Avatar name={post.name} />
-                        }
+                        {post.gender && likeFiles[post.gender] && (
+                          <PostCharacter key={`char-${post.id}`} src={likeFiles[post.gender]} trigger={likeTriggers[post.id] ?? 0} />
+                        )}
                         <span className="font-mono text-[10px] uppercase tracking-widest text-[#7C4DFF]">
                           {post.name.toUpperCase()}, {post.age}
                         </span>
