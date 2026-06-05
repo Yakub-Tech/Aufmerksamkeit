@@ -30,6 +30,39 @@ const seedData = [
   { elapsed: 285, distractions: 5 },
 ];
 
+const commentData = [
+  {
+    name: "Lena",
+    age: 24,
+    gender: "weiblich",
+    text: "Ich lege mein Handy beim Lernen in einen anderen Raum. Klingt simpel, aber seitdem schaue ich viel seltener nach.",
+  },
+  {
+    name: "Jonas",
+    age: 27,
+    gender: "maennlich",
+    text: "Graustufenmodus war für mich ein echter Gamechanger. Ohne die bunten Farben ziehen mich Apps kaum noch an.",
+  },
+  {
+    name: "Mara",
+    age: 21,
+    gender: "divers",
+    text: "Ich arbeite mit 25-Minuten-Blöcken und mache danach kurz Pause. Der feste Rhythmus hilft mir, dranzubleiben.",
+  },
+  {
+    name: "Tim",
+    age: 30,
+    gender: "maennlich",
+    text: "Push-Benachrichtigungen habe ich bis auf Anrufe komplett aus. Mein Kopf ist dadurch deutlich ruhiger geworden.",
+  },
+  {
+    name: "Sophie",
+    age: 19,
+    gender: "weiblich",
+    text: "Mein Homescreen hat jetzt nur noch die Apps, die ich wirklich brauche. Alles andere ist in einem Ordner versteckt.",
+  },
+];
+
 async function main() {
   const existing = await prisma.testResult.count();
   if (existing > 0) {
@@ -46,6 +79,11 @@ async function main() {
   });
 
   console.log(`Seed abgeschlossen: ${seedData.length} Testeinträge angelegt.`);
+
+  const existingComments = await prisma.comment.count();
+  if (existingComments === 0) {
+    await prisma.comment.createMany({ data: commentData });
+  }
 }
 
 main()
