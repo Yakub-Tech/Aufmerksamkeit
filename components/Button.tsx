@@ -22,7 +22,7 @@ export default function Button({ label, onClick, size = "md" }: ButtonProps) {
   return (
     <button
       onClick={handleClick}
-      className={`group inline-flex cursor-pointer items-center rounded-full bg-[#0F0F0E] font-medium text-[#F4F5F8] transition-all duration-200 hover:scale-[1.04] hover:bg-[#E8553E] active:scale-[0.97] ${padding}`}
+      className={`group inline-flex cursor-pointer items-center rounded-full bg-[#0F0F0E] font-medium text-[#F4F5F8] transition-all duration-200 hover:scale-[1.04] hover:bg-[#2E9E8A] active:scale-[0.97] ${padding}`}
     >
       {label}
       <span

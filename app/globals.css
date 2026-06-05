@@ -48,7 +48,7 @@ html {
 
 .cta-glow-layer {
   animation: cta-glow 3s ease-in-out infinite;
-  background: rgba(232, 85, 62, 0.55);
+  background: rgba(46, 158, 138, 0.55);
   filter: blur(16px);
 }
 
