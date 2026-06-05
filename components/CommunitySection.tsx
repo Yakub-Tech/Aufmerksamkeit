@@ -111,6 +111,7 @@ export default function CommunitySection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [typing, setTyping] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const typingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const soundRef = useRef<HTMLAudioElement | null>(null);
 
@@ -120,6 +121,13 @@ export default function CommunitySection() {
     audio.loop = true;
     soundRef.current = audio;
   }, []);
+
+  useEffect(() => {
+    if (!soundEnabled && soundRef.current) {
+      soundRef.current.pause();
+      soundRef.current.currentTime = 0;
+    }
+  }, [soundEnabled]);
 
   function handleTyping() {
     setTyping(true);
@@ -132,7 +140,7 @@ export default function CommunitySection() {
       }
     }, 400);
 
-    if (soundRef.current && soundRef.current.paused) {
+    if (soundEnabled && soundRef.current && soundRef.current.paused) {
       soundRef.current.play().catch(() => {});
     }
   }
@@ -245,7 +253,19 @@ export default function CommunitySection() {
         <SectionReveal>
         <div className="mt-10 grid grid-cols-[1fr_1.4fr] items-start gap-8">
           <form onSubmit={send} className="rounded-2xl border border-[#7C4DFF] bg-[#1A2440] p-6">
-            <p className="mb-4 text-lg font-bold text-[#F4F5F8]">Dein Beitrag</p>
+            <div className="mb-4 flex items-center justify-between">
+              <p className="text-lg font-bold text-[#F4F5F8]">Dein Beitrag</p>
+              <button
+                type="button"
+                onClick={() => setSoundEnabled((prev) => !prev)}
+                className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-[#6B6860] transition-colors hover:text-[#F4F5F8]"
+              >
+                <span className={`relative inline-flex h-4 w-7 items-center rounded-full border transition-colors ${soundEnabled ? "border-[#7C4DFF] bg-[#7C4DFF]/30" : "border-[#2A3550] bg-transparent"}`}>
+                  <span className={`absolute h-2.5 w-2.5 rounded-full transition-all ${soundEnabled ? "left-[14px] bg-[#7C4DFF]" : "left-[2px] bg-[#6B6860]"}`} />
+                </span>
+                Sound
+              </button>
+            </div>
 
             {/* Geschlechtsauswahl */}
             <div className="mb-2 flex items-center justify-between">
