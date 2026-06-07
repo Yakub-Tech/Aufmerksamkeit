@@ -30,6 +30,7 @@ type Post = {
   text: string;
   gender?: string;
   likes: number;
+  likedByMe: boolean;
 };
 
 function CharacterDisplay({ src, isTyping }: { src: string; isTyping: boolean }) {
@@ -137,14 +138,6 @@ export default function CommunitySection() {
   }
 
   const [likeTriggers, setLikeTriggers] = useState<Record<number, number>>({});
-  const [likedIds, setLikedIds] = useState<number[]>(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      return JSON.parse(localStorage.getItem("liked_comments") || "[]");
-    } catch {
-      return [];
-    }
-  });
   const [wobbleId, setWobbleId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -198,21 +191,23 @@ export default function CommunitySection() {
   }
 
   async function handleLike(id: number) {
-    const isLiked = likedIds.includes(id);
+    const isLiked = posts.find((p) => p.id === id)?.likedByMe ?? false;
 
     setWobbleId(id);
     setTimeout(() => setWobbleId(null), 450);
 
+    setPosts((prev) =>
+      prev.map((p) =>
+        p.id === id
+          ? { ...p, likedByMe: !isLiked, likes: p.likes + (isLiked ? -1 : 1) }
+          : p
+      )
+    );
+
     if (isLiked) {
       await fetch(`/api/comments/${id}/like`, { method: "DELETE" });
-      const updated = likedIds.filter((i) => i !== id);
-      setLikedIds(updated);
-      localStorage.setItem("liked_comments", JSON.stringify(updated));
     } else {
       await fetch(`/api/comments/${id}/like`, { method: "POST" });
-      const updated = [...likedIds, id];
-      setLikedIds(updated);
-      localStorage.setItem("liked_comments", JSON.stringify(updated));
       setLikeTriggers((prev) => ({ ...prev, [id]: (prev[id] ?? 0) + 1 }));
     }
 
@@ -395,7 +390,7 @@ export default function CommunitySection() {
                           transition={{ duration: 0.45 }}
                           onClick={() => handleLike(post.id)}
                           className={`flex cursor-pointer items-center justify-center rounded-full p-1.5 transition-colors duration-150 ${
-                            likedIds.includes(post.id)
+                            post.likedByMe
                               ? "bg-[#5B35CC] text-white"
                               : "bg-[#2A3550] text-[#6B6860] hover:bg-[#5B35CC] hover:text-white"
                           }`}
@@ -404,7 +399,7 @@ export default function CommunitySection() {
                             width="13"
                             height="13"
                             viewBox="0 0 24 24"
-                            fill={likedIds.includes(post.id) ? "currentColor" : "none"}
+                            fill={post.likedByMe ? "currentColor" : "none"}
                             stroke="currentColor"
                             strokeWidth="2"
                             strokeLinecap="round"

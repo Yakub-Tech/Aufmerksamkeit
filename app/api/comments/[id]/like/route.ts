@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getOrCreateSessionId, setSessionCookie } from "@/lib/session";
 
 export async function POST(
   _request: NextRequest,
@@ -11,12 +12,19 @@ export async function POST(
     return NextResponse.json({ error: "Ungültige ID" }, { status: 400 });
   }
 
-  const comment = await prisma.comment.update({
-    where: { id: commentId },
-    data: { likes: { increment: 1 } },
+  const { sessionId, isNew } = await getOrCreateSessionId();
+
+  await prisma.commentLike.upsert({
+    where: { sessionId_commentId: { sessionId, commentId } },
+    update: {},
+    create: { sessionId, commentId },
   });
 
-  return NextResponse.json(comment);
+  const likes = await prisma.commentLike.count({ where: { commentId } });
+
+  const res = NextResponse.json({ id: commentId, likes, likedByMe: true });
+  if (isNew) setSessionCookie(res, sessionId);
+  return res;
 }
 
 export async function DELETE(
@@ -29,15 +37,13 @@ export async function DELETE(
     return NextResponse.json({ error: "Ungültige ID" }, { status: 400 });
   }
 
-  const current = await prisma.comment.findUnique({ where: { id: commentId } });
-  if (!current) {
-    return NextResponse.json({ error: "Nicht gefunden" }, { status: 404 });
-  }
+  const { sessionId, isNew } = await getOrCreateSessionId();
 
-  const comment = await prisma.comment.update({
-    where: { id: commentId },
-    data: { likes: Math.max(0, current.likes - 1) },
-  });
+  await prisma.commentLike.deleteMany({ where: { sessionId, commentId } });
 
-  return NextResponse.json(comment);
+  const likes = await prisma.commentLike.count({ where: { commentId } });
+
+  const res = NextResponse.json({ id: commentId, likes, likedByMe: false });
+  if (isNew) setSessionCookie(res, sessionId);
+  return res;
 }

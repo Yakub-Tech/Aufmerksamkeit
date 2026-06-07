@@ -13,8 +13,18 @@ model Comment {
   age       Int
   text      String
   gender    String?
-  likes     Int      @default(0)
   createdAt DateTime @default(now())
+  likedBy   CommentLike[]
+}
+
+model CommentLike {
+  id        Int      @id @default(autoincrement())
+  sessionId String
+  commentId Int
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([sessionId, commentId])
 }
 
 model TestStat {

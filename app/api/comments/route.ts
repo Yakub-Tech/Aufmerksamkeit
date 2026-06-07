@@ -1,20 +1,39 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getOrCreateSessionId, setSessionCookie } from "@/lib/session";
 
 export async function GET() {
+  const { sessionId, isNew } = await getOrCreateSessionId();
+
   const comments = await prisma.comment.findMany({
     orderBy: { createdAt: "desc" },
+    include: {
+      _count: { select: { likedBy: true } },
+      likedBy: { where: { sessionId }, select: { id: true } },
+    },
   });
 
-  const maxLikes = Math.max(...comments.map((c) => c.likes));
+  const result = comments.map((c) => ({
+    id: c.id,
+    name: c.name,
+    age: c.age,
+    text: c.text,
+    gender: c.gender,
+    createdAt: c.createdAt,
+    likes: c._count.likedBy,
+    likedByMe: c.likedBy.length > 0,
+  }));
 
+  const maxLikes = Math.max(0, ...result.map((c) => c.likes));
   if (maxLikes > 0) {
-    const topIndex = comments.findIndex((c) => c.likes === maxLikes);
-    const [top] = comments.splice(topIndex, 1);
-    comments.unshift(top);
+    const topIndex = result.findIndex((c) => c.likes === maxLikes);
+    const [top] = result.splice(topIndex, 1);
+    result.unshift(top);
   }
 
-  return NextResponse.json(comments);
+  const res = NextResponse.json(result);
+  if (isNew) setSessionCookie(res, sessionId);
+  return res;
 }
 
 export async function POST(request: Request) {
@@ -34,5 +53,5 @@ export async function POST(request: Request) {
     data: { name, age, text, gender },
   });
 
-  return NextResponse.json(comment, { status: 201 });
+  return NextResponse.json({ ...comment, likes: 0, likedByMe: false }, { status: 201 });
 }
