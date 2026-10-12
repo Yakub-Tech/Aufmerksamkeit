@@ -327,8 +327,9 @@ export default function EvaluationSection({
         <SectionReveal>
         <div className="mt-20">
           <h2 className="font-serif text-5xl leading-tight tracking-tight text-[#F4F5F8]">
-            Die Zahlen hinter dem <span className="italic">Gefühl</span>.
+            Vergleichswerte zur <span className="italic">Veranschaulichung</span>.
           </h2>
+          <p className="mt-4 text-sm text-[#EAECF2]/70">Illustrative Vergleichswerte, keine repräsentative Studie. Testdurchschnitte enthalten gegebenenfalls fiktive Beispieldaten.</p>
 
           <div ref={statsRef} className="mt-10 grid grid-cols-3 gap-6">
 

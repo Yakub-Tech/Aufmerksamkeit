@@ -42,8 +42,11 @@ export default function ScrollGuide() {
 
   useEffect(() => {
     window.addEventListener("scroll", updateProgress, { passive: true });
-    updateProgress();
-    return () => window.removeEventListener("scroll", updateProgress);
+    const frame = requestAnimationFrame(updateProgress);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", updateProgress);
+    };
   }, [updateProgress]);
 
   return (

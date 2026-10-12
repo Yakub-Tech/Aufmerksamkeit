@@ -21,7 +21,7 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Aufmerksamkeit",
-  description: "Interaktive Webanwendung zur Aufmerksamkeitsökonomie.",
+  description: "Interaktive Webanwendung zur Aufmerksamkeitsökonomie. Entwickelt von Yakub Uyar.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

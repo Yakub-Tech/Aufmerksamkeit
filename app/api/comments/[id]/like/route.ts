@@ -7,12 +7,16 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const commentId = parseInt(id);
-  if (isNaN(commentId)) {
+  const commentId = Number(id);
+  if (!/^\d+$/.test(id) || !Number.isInteger(commentId) || commentId < 1 || commentId > 2147483647) {
     return NextResponse.json({ error: "Ungültige ID" }, { status: 400 });
   }
 
   const { sessionId, isNew } = await getOrCreateSessionId();
+
+  if (!await prisma.comment.findUnique({ where: { id: commentId }, select: { id: true } })) {
+    return NextResponse.json({ error: "Beitrag nicht gefunden" }, { status: 404 });
+  }
 
   await prisma.commentLike.upsert({
     where: { sessionId_commentId: { sessionId, commentId } },
@@ -32,8 +36,8 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const commentId = parseInt(id);
-  if (isNaN(commentId)) {
+  const commentId = Number(id);
+  if (!/^\d+$/.test(id) || !Number.isInteger(commentId) || commentId < 1 || commentId > 2147483647) {
     return NextResponse.json({ error: "Ungültige ID" }, { status: 400 });
   }
 

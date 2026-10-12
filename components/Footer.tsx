@@ -55,54 +55,18 @@ export default function Footer() {
               </span>
             </a>
             <span className="text-sm text-[#6B6860]">
-              Interaktive Webanwendung zur Aufmerksamkeitsökonomie.
+              Entwickelt von Yakub Uyar.
             </span>
           </div>
           <span className="font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
-            Statistiken: Statista
+            Aufmerksamkeit und digitale Gewohnheiten
           </span>
         </div>
 
-        <div className="mt-10 border-t border-[#1A2440] pt-8">
-          <div className="font-serif text-2xl tracking-tight">Projektinformationen</div>
-
-          <div className="mt-5 grid grid-cols-4 gap-8">
-            <div>
-              <div className="font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
-                Entwicklung
-              </div>
-              <p className="mt-2 text-sm leading-relaxed text-[#EAECF2]">
-                Yakub Uyar<br />
-                Softwareentwicklung<br />
-                Aufmerksamkeit
-              </p>
-            </div>
-            <div>
-              <div className="font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
-                Entstehung
-              </div>
-              <p className="mt-2 text-sm leading-relaxed text-[#EAECF2]">
-                Eigenständig entwickelt.
-              </p>
-            </div>
-            <div>
-              <div className="font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
-                Kontakt
-              </div>
-              <p className="mt-2 text-sm leading-relaxed text-[#EAECF2]">
-                GitHub: Yakub-Tech
-              </p>
-            </div>
-            <div>
-              <div className="font-mono text-[10px] uppercase tracking-widest text-[#6B6860]">
-                Rive-Assets
-              </div>
-              <p className="mt-2 text-sm leading-relaxed text-[#EAECF2]">
-                Rive-Gestaltung: anonyme Mitwirkende.<br />
-                Integration und Zustandssteuerung: Yakub Uyar
-              </p>
-            </div>
-          </div>
+        <div className="mt-10 border-t border-[#1A2440] pt-8 text-sm leading-relaxed text-[#EAECF2]">
+          <p>Konzeption und Softwareentwicklung: Yakub Uyar. Rive-Gestaltung: anonymer Beitrag.</p>
+          <p className="mt-3">Diese Anwendung veranschaulicht Aufmerksamkeit und Ablenkung. Der Test ist kein wissenschaftliches oder medizinisches Diagnoseverfahren.</p>
+          <a className="mt-3 inline-block underline" href="https://github.com/Yakub-Tech/Aufmerksamkeit">Quellcode, Dokumentation und Lizenz auf GitHub</a>
         </div>
       </div>
       </SectionReveal>

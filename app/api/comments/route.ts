@@ -37,16 +37,16 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const body = await request.json();
-  const name = String(body.name ?? "").trim();
-  const text = String(body.text ?? "").trim();
-  const age = Number(body.age);
+  const body = await request.json().catch(() => null);
+  const name = typeof body?.name === "string" ? body.name.trim() : "";
+  const text = typeof body?.text === "string" ? body.text.trim() : "";
+  const age = body?.age;
 
   const allowedGenders = ["maennlich", "weiblich", "divers"];
-  const gender = allowedGenders.includes(body.gender) ? body.gender : null;
+  const gender = allowedGenders.includes(body?.gender) ? body.gender : null;
 
-  if (!name || !text || !age) {
-    return NextResponse.json({ error: "Bitte alle felder ausfüllen." }, { status: 400 });
+  if (!name || name.length > 80 || !text || text.length > 2000 || !Number.isInteger(age) || age < 1 || age > 120) {
+    return NextResponse.json({ error: "Name (max. 80 Zeichen), Text (max. 2000 Zeichen) und gültiges Alter (1–120) erforderlich." }, { status: 400 });
   }
 
   const comment = await prisma.comment.create({

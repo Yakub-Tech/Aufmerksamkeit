@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { useRive, useStateMachineInput } from "@rive-app/react-canvas";
 import SectionReveal from "./SectionReveal";
+import { assetUrl } from "@/lib/asset-url";
 
 const STEPS = [
   {
@@ -61,7 +62,7 @@ const STEP_COLORS = [
   { accent: "#7C4DFF", light: "#F0EBFF" },
 ];
 
-function fireInput(input: any, delay: number) {
+function fireInput(input: ReturnType<typeof useStateMachineInput>, delay: number) {
   const t = setTimeout(() => {
     if (input) input.value = true;
   }, delay);
@@ -69,19 +70,20 @@ function fireInput(input: any, delay: number) {
 }
 
 function IconRive({ src, trigger, play }: { src: string; trigger: string; play: boolean }) {
-  const { rive, RiveComponent } = useRive({ src: encodeURI(src), stateMachines: "State Machine 1", autoplay: true });
+  const { rive, RiveComponent } = useRive({ src: assetUrl(src), stateMachines: "State Machine 1", autoplay: true });
   const input = useStateMachineInput(rive, "State Machine 1", trigger);
   useEffect(() => { if (play && input) return fireInput(input, 100); }, [play, input]);
   return <RiveComponent />;
 }
 
 function ReglerRive({ used, onActivate }: { used: boolean; onActivate: () => void }) {
-  const { rive, RiveComponent } = useRive({ src: encodeURI("/rive/button + icons/enable_button.riv"), stateMachines: "State Machine 1", autoplay: true });
+  const { rive, RiveComponent } = useRive({ src: assetUrl("/rive/button + icons/enable_button.riv"), stateMachines: "State Machine 1", autoplay: true });
   const input = useStateMachineInput(rive, "State Machine 1", "enableButton");
   return (
     <button
       onClick={() => { if (!used) { fireInput(input, 0); onActivate(); } }}
       disabled={used}
+      aria-label="Tipp aktivieren"
       className={`h-16 w-28 flex-none ${used ? "cursor-default opacity-70" : "cursor-pointer"}`}
     >
       <RiveComponent />
@@ -90,11 +92,11 @@ function ReglerRive({ used, onActivate }: { used: boolean; onActivate: () => voi
 }
 
 function PhoneScreen({ src, autoTrigger, handyTrigger, isVisible, isActive }: { src: string; autoTrigger: string | null; handyTrigger: string | null; isVisible: boolean; isActive: boolean }) {
-  const { rive, RiveComponent } = useRive({ src: encodeURI(src), stateMachines: "State Machine 1", autoplay: true });
+  const { rive, RiveComponent } = useRive({ src: assetUrl(src), stateMachines: "State Machine 1", autoplay: true });
   const autoInput = useStateMachineInput(rive, "State Machine 1", autoTrigger ?? "");
   const mainInput = useStateMachineInput(rive, "State Machine 1", handyTrigger ?? "");
-  useEffect(() => { if (isVisible && autoTrigger && autoInput) return fireInput(autoInput, 500); }, [isVisible, autoInput]);
-  useEffect(() => { if (isActive && handyTrigger && mainInput) return fireInput(mainInput, 800); }, [isActive, mainInput]);
+  useEffect(() => { if (isVisible && autoTrigger && autoInput) return fireInput(autoInput, 500); }, [isVisible, autoInput, autoTrigger]);
+  useEffect(() => { if (isActive && handyTrigger && mainInput) return fireInput(mainInput, 800); }, [isActive, mainInput, handyTrigger]);
   return <RiveComponent />;
 }
 

@@ -51,6 +51,8 @@ function CharacterDisplay({ src, isTyping }: { src: string; isTyping: boolean })
 
   useEffect(() => {
     if (typingInput) {
+      // Rive inputs are imperative animation controls, not React state.
+      // eslint-disable-next-line react-hooks/immutability
       typingInput.value = isTyping;
     }
   }, [isTyping, typingInput]);

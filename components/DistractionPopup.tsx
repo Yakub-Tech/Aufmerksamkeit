@@ -18,7 +18,6 @@ export default function DistractionPopup({
   style,
   onReveal,
   onClose,
-  dark = false,
 }: DistractionPopupProps) {
   const [revealed, setRevealed] = useState(false);
 

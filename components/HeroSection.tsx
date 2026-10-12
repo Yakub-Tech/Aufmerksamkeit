@@ -158,7 +158,6 @@ export default function HeroSection({ onStart }: { onStart: () => void }) {
               </div>
             </div>
             <p className="font-serif text-base italic text-[#F4F5F8]/60">
-              Bereits{" "}
               <span className="text-[#E8553E]">
                 {testCount !== null ? (
                   <Counter target={testCount} duration={2000} />
@@ -166,7 +165,7 @@ export default function HeroSection({ onStart }: { onStart: () => void }) {
                   "…"
                 )}
               </span>{" "}
-              Personen haben ihren Fokus getestet
+              gespeicherte Testläufe, einschließlich Beispieldaten
             </p>
           </div>
         </div>

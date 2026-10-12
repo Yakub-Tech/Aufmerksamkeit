@@ -21,19 +21,21 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => ({}));
-  const elapsed = Math.max(0, Number(body.elapsed) || 0);
-  const distractions = Math.max(0, Number(body.distractions) || 0);
+  const body = await request.json().catch(() => null);
+  const elapsed = body?.elapsed;
+  const distractions = body?.distractions;
+  if (!Number.isInteger(elapsed) || elapsed < 0 || elapsed > 86400 || !Number.isInteger(distractions) || distractions < 0 || distractions > 24) {
+    return NextResponse.json({ error: "Ungültiges Testergebnis." }, { status: 400 });
+  }
 
-  await prisma.testResult.create({
-    data: { elapsed, distractions },
-  });
-
-  const stat = await prisma.testStat.upsert({
-    where: { id: 1 },
-    update: { count: { increment: 1 } },
-    create: { id: 1, count: 1 },
-  });
+  const [, stat] = await prisma.$transaction([
+    prisma.testResult.create({ data: { elapsed, distractions } }),
+    prisma.testStat.upsert({
+      where: { id: 1 },
+      update: { count: { increment: 1 } },
+      create: { id: 1, count: 1 },
+    }),
+  ]);
 
   return NextResponse.json({ count: stat.count });
 }

@@ -262,7 +262,6 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
   }, [running]);
 
   useEffect(() => {
-    setVisiblePopups([]);
     const timeouts: ReturnType<typeof setTimeout>[] = [];
     const q = ALL_QUESTIONS[current];
     const isDark = true;
@@ -301,7 +300,6 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
 
     return () => {
       timeouts.forEach(clearTimeout);
-      setVisiblePopups([]);
     };
   }, [current]);
 
@@ -333,6 +331,7 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
 
   function goNext() {
     if (current < TOTAL - 1) {
+      setVisiblePopups([]);
       setCurrent(current + 1);
     } else {
       setRunning(false);
@@ -343,7 +342,10 @@ export default function AttentionTestSection({ onResultChange, onQuizComplete }:
   }
 
   function goBack() {
-    if (current > 0) setCurrent(current - 1);
+    if (current > 0) {
+      setVisiblePopups([]);
+      setCurrent(current - 1);
+    }
   }
 
   function openFact(id: string) {

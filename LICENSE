@@ -1,0 +1,141 @@
+Aufmerksamkeit-Lizenz: kostenlose Nutzung, kein Softwareverkauf
+Version 1.0
+Copyright (c) 2026 Yakub Uyar
+
+DEUTSCH
+
+1. Geltungsbereich
+
+Diese Lizenz gilt für den eigenen Quellcode und die eigene Dokumentation
+von Yakub Uyar im Projekt Aufmerksamkeit. Bestandteile Dritter, insbesondere
+Bibliotheken und die anonym beigetragenen Rive-Dateien, behalten ihre
+eigenen Rechte und Bedingungen. Diese Lizenz ersetzt oder beschränkt keine
+Rechte Dritter. Herkunftshinweise stehen in docs/ATTRIBUTION.md.
+
+2. Erlaubte Nutzung und kostenlose Weitergabe
+
+Sie dürfen die erfassten Bestandteile kostenlos ansehen, herunterladen,
+ausführen, kopieren und für Ihren eigenen Einsatz anpassen. Vereine und
+Unternehmen dürfen die Software für ihre eigene Arbeit einsetzen. Umsätze
+mit ihrer eigenen Tätigkeit, Waren oder Leistungen sind erlaubt, soweit
+nicht die Software oder der Zugang dazu selbst kostenpflichtig angeboten wird.
+
+Sie dürfen die erfassten Bestandteile und angepasste Versionen kostenlos
+weitergeben, wenn Sie den Quellcode der weitergegebenen Version, diese Lizenz
+und bestehende Urheber- und Herkunftshinweise mitliefern. Änderungen müssen
+als solche kenntlich sein. Für übernommene und angepasste Bestandteile dieser
+Lizenz bleiben diese Bedingungen erhalten. Zusätzliche Einschränkungen der
+hier erlaubten kostenlosen Nutzung sind nicht gestattet.
+
+3. Kein Softwareverkauf und kein kostenpflichtiger Softwaredienst
+
+Ohne vorherige ausdrückliche Erlaubnis von Yakub Uyar dürfen Sie die von
+dieser Lizenz erfasste Software oder darauf basierende Versionen weder
+verkaufen noch gegen Entgelt lizenzieren oder weitergeben. Sie dürfen sie
+nicht als kostenpflichtigen Softwaredienst anbieten oder für ihren Download,
+Zugang oder ihre Nutzung eine Vergütung verlangen. Dies gilt auch für
+angepasste Versionen und die Einbindung der erfassten Bestandteile in
+kostenpflichtige Softwareangebote.
+
+Die Verwendung als Hilfsmittel für die eigene Tätigkeit gemäß Abschnitt 2
+bleibt erlaubt. Zwingende gesetzliche Rechte und Rechte aus Lizenzen Dritter
+werden durch diese Verbote nicht eingeschränkt.
+
+4. Betreiberverantwortung, Gewährleistung und Haftung
+
+Die Nutzung erfolgt auf eigene Verantwortung. Die Software wird kostenlos
+im vorhandenen Zustand bereitgestellt. Es werden keine Wartung, Unterstützung
+oder Gewährleistung zugesagt, soweit gesetzlich zulässig.
+
+Vor realer Nutzung müssen Betreiber Code und Anwendung auf Eignung,
+Funktionsfähigkeit, Sicherheit, Datenschutz und die einschlägigen gesetzlichen
+Anforderungen prüfen. Sie verantworten Einrichtung, Betrieb, Zugriffsrechte,
+Datensicherung und die Überprüfung der Wiederherstellung. Eine Eignung oder
+Rechtskonformität für einen bestimmten Zweck wird nicht zugesichert.
+
+Eine Haftung für Schäden durch Nutzung oder Nichtnutzbarkeit wird nur im
+rechtlich zulässigen Umfang ausgeschlossen. Unberührt bleibt insbesondere
+die Haftung für Vorsatz, grobe Fahrlässigkeit, Verletzung von Leben, Körper
+oder Gesundheit, zwingende Produkthaftung und jede weitere gesetzlich nicht
+ausschließbare Haftung. Auch sonstige zwingende gesetzliche Ansprüche bleiben
+unberührt. Diese Lizenz verspricht keine vollständige Haftungsfreiheit.
+
+5. Weitere Rechte und Sprachfassungen
+
+Weitere Nutzungsrechte werden nicht eingeräumt. Gesetzlich zwingende Rechte,
+insbesondere zwingend erlaubte Sicherung, Untersuchung und Interoperabilität
+von Computerprogrammen, bleiben unberührt. Abweichende Erlaubnisse bedürfen
+einer ausdrücklichen Vereinbarung mit Yakub Uyar.
+
+Deutsch und Englisch geben dieselben Bedingungen wieder. Bei Abweichungen
+ist die deutsche Fassung maßgeblich, soweit rechtlich zulässig.
+
+
+ENGLISH
+
+Aufmerksamkeit License: free use, no software sale
+Version 1.0
+Copyright (c) 2026 Yakub Uyar
+
+1. Scope
+
+This license applies to Yakub Uyar's original source code and documentation
+in the Aufmerksamkeit project. Third-party components, particularly libraries
+and the anonymously contributed Rive files, retain their own rights and terms.
+This license does not replace or restrict third-party rights. Attribution
+notes are provided in docs/ATTRIBUTION.md.
+
+2. Permitted use and free redistribution
+
+You may view, download, run, copy and adapt the covered components for your
+own use free of charge. Associations and businesses may use the software for
+their own work. Revenue from their own activities, goods or services is
+permitted, provided the software or access to it is not itself offered for a fee.
+
+You may redistribute the covered components and modified versions free of
+charge if you include the source code of the distributed version, this license
+and existing copyright and attribution notices. Changes must be identified.
+These terms remain applicable to reused and modified components covered by
+this license. Additional restrictions on the free use permitted here are
+not allowed.
+
+3. No software sale and no paid software service
+
+Without prior express permission from Yakub Uyar, you may not sell software
+covered by this license or versions based on it, license it for a fee or
+distribute it for a fee. You may not offer it as a paid software service or
+charge for downloading, accessing or using it. This also applies to modified
+versions and inclusion of the covered components in paid software offerings.
+
+Use as a tool for your own activities under section 2 remains permitted.
+These prohibitions do not restrict mandatory statutory rights or rights
+provided by third-party licenses.
+
+4. Operator responsibility, warranty and liability
+
+Use is at your own risk. The software is provided free of charge in its
+existing condition. No maintenance, support or warranty is promised to the
+extent permitted by law.
+
+Before real use, operators must review the code and application for suitability,
+correct operation, security, privacy and applicable legal requirements.
+They are responsible for setup, operation, access permissions, backups and
+verification of restoration. No suitability or legal compliance for a
+particular purpose is warranted.
+
+Liability for damage arising from use or inability to use the software is
+excluded only to the extent legally permissible. Liability for intentional
+misconduct, gross negligence, injury to life, body or health, mandatory product
+liability and any other liability that cannot legally be excluded remains
+unaffected. Other mandatory statutory claims also remain unaffected.
+This license does not promise complete immunity from liability.
+
+5. Other rights and language versions
+
+No further usage rights are granted. Mandatory statutory rights, particularly
+mandatory permissions concerning backup, examination and interoperability
+of computer programs, remain unaffected. Any exceptions require an express
+agreement with Yakub Uyar.
+
+German and English express the same terms. In case of differences, the German
+version prevails to the extent legally permissible.

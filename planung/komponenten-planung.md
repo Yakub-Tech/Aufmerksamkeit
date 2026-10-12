@@ -1,5 +1,7 @@
 # Komponentenplanung
 
+Historischer früher Entwurf von Yakub Uyar. Die Liste enthält auch Ideen und Schnittstellen, die später geändert oder nicht umgesetzt wurden. Insbesondere wurde später ein Backend mit persistenter Speicherung ergänzt. Den heutigen Funktionsumfang beschreibt die [README](../README.md).
+
 
 Hier halte ich fest, welche Komponenten ich für die Seite plane
 und was jede davon machen soll. Die Liste dient mir als Orientierung beim Bauen.

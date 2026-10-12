@@ -1,5 +1,7 @@
 # Design-Notizen
 
+Historischer früher Entwurf von Yakub Uyar. Farben, Komponenten und Medienideen beschreiben den damaligen Plan und können vom heutigen Stand abweichen. Die aktuelle Umsetzung und die Herkunft der Materialien stehen in der [README](../README.md) und den [Urheberhinweisen](../docs/ATTRIBUTION.md).
+
 
 Hier halte ich fest, wie die Seite aussehen soll. Diese Notizen dienen mir
 als Orientierung beim Programmieren.

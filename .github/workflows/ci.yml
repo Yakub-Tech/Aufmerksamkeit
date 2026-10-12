@@ -1,0 +1,53 @@
+name: Prüfungen
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: aufmerksamkeit_app
+          POSTGRES_PASSWORD: local-test-password
+          POSTGRES_DB: aufmerksamkeit
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U aufmerksamkeit_app -d aufmerksamkeit"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://aufmerksamkeit_app:local-test-password@localhost:5432/aufmerksamkeit
+      NEXT_TELEMETRY_DISABLED: "1"
+      TEST_BASE_URL: http://localhost:3000
+      SESSION_COOKIE_SECURE: "false"
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npx prisma generate
+      - run: npm run prisma:migrate
+      - run: npm run prisma:seed
+      - run: npm run lint
+      - run: npm audit --omit=dev
+      - run: npm run build
+      - name: API-Integration
+        run: |
+          npm start -- --hostname 127.0.0.1 > /tmp/aufmerksamkeit-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent http://localhost:3000/api/test-count > /dev/null; then break; fi
+            sleep 1
+          done
+          npm test
